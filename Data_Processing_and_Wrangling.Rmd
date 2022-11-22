@@ -18,7 +18,9 @@ When you click the **Knit** button a document will be generated that includes bo
 ```{r}
 getwd()
 
-Coweeta <- read.csv("/home/guest/EDAFinalProject/Zungailia_Davidson_McClaugherty/1040_Hourly_CR10_1_2080.csv")
+Coweeta <- read.csv("./home/guest/EDAFinalProject/Zungailia_Davidson_McClaugherty/1040_Hourly_CR10_1_2080.csv")
+
+Coweeta2 <- read.csv("./Data/Raw/1040_Hourly_CR10_1_2080.csv")
 
 ```
 
