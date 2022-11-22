@@ -16,7 +16,11 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 ```{r}
+#Check working directory
 getwd()
+
+#Load necessary packages
+library(dplyr)
 
 Coweeta <- read.csv("./home/guest/EDAFinalProject/Zungailia_Davidson_McClaugherty/1040_Hourly_CR10_1_2080.csv")
 
@@ -24,6 +28,17 @@ Coweeta2 <- read.csv("./Data/Raw/1040_Hourly_CR10_1_2080.csv")
 
 ```
 
+```{r}
+#Check dimensions
+dim(Coweeta2)
+
+#Check column names
+colnames(Coweeta2)
+
+#Select columns:
+Coweeta_wrangled <- Coweeta2 %>% select(site, Year, YearDay, stemp05, stemp20, atemp100, smois30, smois60)
+
+```
 
 
 ```{r pressure, echo=FALSE}
