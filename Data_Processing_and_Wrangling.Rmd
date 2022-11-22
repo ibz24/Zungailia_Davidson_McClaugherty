@@ -22,8 +22,7 @@ getwd()
 #Load necessary packages
 library(dplyr)
 
-Coweeta <- read.csv("./home/guest/EDAFinalProject/Zungailia_Davidson_McClaugherty/1040_Hourly_CR10_1_2080.csv")
-
+#reading in dataframe
 Coweeta2 <- read.csv("./Data/Raw/1040_Hourly_CR10_1_2080.csv")
 
 ```
