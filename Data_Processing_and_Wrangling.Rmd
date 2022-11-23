@@ -22,6 +22,7 @@ getwd()
 #Load necessary packages
 library(dplyr)
 library(lubridate)
+library(tidyverse)
 
 #reading in dataframe
 Coweeta <- read.csv("./Data/Raw/1040_Hourly_CR10_1_2080.csv")
@@ -43,10 +44,15 @@ Coweeta_wrangled <- Coweeta %>% select(site, Year, YearDay, smois30, smois60)
 ```{r}
 #Addressing the date
 class(Coweeta_wrangled$YearDay)
+class(Coweeta_wrangled$Year)
 
 yday()
 
-Coweeta_wrangled$YearDay <- as.Date(0, origin = "2000-01-21")
+
+Dates <- as.Date(Coweeta_wrangled$YearDay, origin = as.Date('2001-01-21'))
+datesdf<- as_data_frame(Dates)
+
+
 
 ```
 
