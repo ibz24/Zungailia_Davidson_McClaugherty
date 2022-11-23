@@ -21,21 +21,32 @@ getwd()
 
 #Load necessary packages
 library(dplyr)
+library(lubridate)
 
 #reading in dataframe
-Coweeta2 <- read.csv("./Data/Raw/1040_Hourly_CR10_1_2080.csv")
+Coweeta <- read.csv("./Data/Raw/1040_Hourly_CR10_1_2080.csv")
 
 ```
 
 ```{r}
 #Check dimensions
-dim(Coweeta2)
+dim(Coweeta)
 
 #Check column names
-colnames(Coweeta2)
+colnames(Coweeta)
 
 #Select columns:
-Coweeta_wrangled <- Coweeta2 %>% select(site, Year, YearDay, stemp05, stemp20, atemp100, smois30, smois60)
+Coweeta_wrangled <- Coweeta %>% select(site, Year, YearDay, smois30, smois60)
+```
+
+
+```{r}
+#Addressing the date
+class(Coweeta_wrangled$YearDay)
+
+yday()
+
+Coweeta_wrangled$YearDay <- as.Date(0, origin = "2000-01-21")
 
 ```
 
