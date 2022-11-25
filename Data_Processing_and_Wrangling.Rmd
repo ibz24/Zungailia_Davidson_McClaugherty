@@ -46,13 +46,8 @@ Coweeta_wrangled <- Coweeta %>% select(site, Year, YearDay, smois30, smois60)
 class(Coweeta_wrangled$YearDay)
 class(Coweeta_wrangled$Year)
 
-yday()
-
-
-Dates <- as.Date(Coweeta_wrangled$YearDay, origin = as.Date('2001-01-21'))
-datesdf<- as_data_frame(Dates)
-
-
+Coweeta_wrangled2 <- Coweeta_wrangled %>% 
+  mutate(Date = as.Date(paste0(Year,"-",YearDay),format = "%Y-%j"))
 
 ```
 
