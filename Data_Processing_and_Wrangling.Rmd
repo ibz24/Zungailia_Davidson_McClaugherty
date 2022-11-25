@@ -3,6 +3,8 @@ title: "Untitled"
 author: "Megan McClaugherty"
 date: "2022-11-21"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -40,7 +42,6 @@ colnames(Coweeta)
 Coweeta_wrangled <- Coweeta %>% select(site, Year, YearDay, smois30, smois60)
 ```
 
-
 ```{r}
 #Addressing the date
 class(Coweeta_wrangled$YearDay)
@@ -51,6 +52,51 @@ Coweeta_wrangled2 <- Coweeta_wrangled %>%
 
 ```
 
+```{r}
+#Excluding smois30 values less than 0 and greater than 1 (soil moisture expressed as percent water content)
+
+Coweeta_wrangled3 <- Coweeta_wrangled2 %>% 
+  filter(smois30 >= 0 & smois30 <= 1)
+
+```
+
+```{r}
+#Separating 4 sites into 4 dataframes
+
+site1 <- Coweeta_wrangled3 %>% 
+  filter(site == "1")
+
+site2 <- Coweeta_wrangled3 %>% 
+  filter(site == "2")
+
+site3 <- Coweeta_wrangled3 %>% 
+  filter(site == "3")
+
+site4 <- Coweeta_wrangled3 %>% 
+  filter(site == "4")
+
+```
+
+```{r}
+#Plotting
+
+site1_plot <- ggplot(site1) +
+  geom_line(aes(x = Date, y = smois30))
+print(site1_plot)
+
+site2_plot <- ggplot(site2) +
+  geom_line(aes(x = Date, y = smois30))
+print(site2_plot)
+
+site3_plot <- ggplot(site3) +
+  geom_line(aes(x = Date, y = smois30))
+print(site3_plot)
+
+site4_plot <- ggplot(site4) +
+  geom_line(aes(x = Date, y = smois30))
+print(site4_plot)
+
+```
 
 ```{r pressure, echo=FALSE}
 plot(pressure)
