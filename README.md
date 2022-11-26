@@ -21,13 +21,35 @@ Information about Soil Moisture Change Over Time in Coweeta LTER:
 
 <describe the purpose of this repository, the information it contains, and any relevant analysis goals. What, why, where, when, how?>
 
+
+This repository was developed for our final project in Environmental Data Analytics (ENV 872). The GitHub repository was the created at the beginning of the project to serve as the workspace between collaborators. The repository contains folders for data (raw and processed), code and output. The team members have made sure to commit and push changes following a work session, and have communicated closely to avoid merge conflicts associated with working on the documents simultaneously.
+
 ## Investigators
 
 <name(s), affiliation(s), contact information, roles (if applicable)>
 
+Isabel Zungailia
+  Student - Master's of Environmental Management at Duke University
+  Ecosystem Science and Conservation Concentration
+  Email: ibz@duke.edu
+Kelly Davidson
+  Student - Master's of Environmental Management at Duke University
+  Ecosystem Science and Conservation Concentration
+  Email:
+Megan McClaugherty
+  Student - Master's of Environmental Management at Duke University
+  Water Resources Management Concentration
+  Email: 
+
 ## Keywords
 
 <add relevant keywords here>
+Variables:
+site→Site Code
+Year→Calendar year
+YearDay→Numerical year day (day number within the current year)
+smois→Hourly average of soil moisture, as percent water content, measured every minute, 0-30cm below mineral soil
+smois60→Hourly average of soil moisture, as percent water content, measured every minute, 30-60cm below mineral soil
 
 ## Database Information
 
@@ -45,6 +67,14 @@ Information about Soil Moisture Change Over Time in Coweeta LTER:
 ## Metadata
 
 <For each data file in the repository, describe the data contained in each column. Include the column name, a description of the information, the class of data, and any units associated with the data. Create a list or table for each data file.> 
+
+Variables/Columns:
+site→Site Code, class=integer
+Year→Calendar year, class=integer
+YearDay→Numerical year day (day number within the current year), class=numerical
+smois→Hourly average of soil moisture, as percent water content, measured every minute, 0-30cm below mineral soil, class=numeric
+smois60→Hourly average of soil moisture, as percent water content, measured every minute, 30-60cm below mineral soil, class=numeric
+Date→(created column) format="%Y-%m-%d", class=Date
 
 ## Scripts and code
 
