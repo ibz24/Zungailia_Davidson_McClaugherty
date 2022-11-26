@@ -47,6 +47,7 @@ Coweeta_wrangled <- Coweeta %>% select(site, Year, YearDay, smois30, smois60)
 class(Coweeta_wrangled$YearDay)
 class(Coweeta_wrangled$Year)
 
+
 Coweeta_wrangled2 <- Coweeta_wrangled %>% 
   mutate(Date = as.Date(paste0(Year,"-",YearDay),format = "%Y-%j"))
 
@@ -61,24 +62,29 @@ Coweeta_wrangled3 <- Coweeta_wrangled2 %>%
 ```
 
 ```{r}
-#Separating 4 sites into 4 dataframes
+#Separating 4 sites into 4 dataframes; checking all for NAs. Only site4 has NAs but it's only in the smois60 so we could just plan to use the smois 30 data instead? 
 
 site1 <- Coweeta_wrangled3 %>% 
   filter(site == "1")
+sum(is.na(site1))
 
 site2 <- Coweeta_wrangled3 %>% 
   filter(site == "2")
+sum(is.na(site2))
 
 site3 <- Coweeta_wrangled3 %>% 
   filter(site == "3")
+sum(is.na(site3$Date)) #showing 1 NA in the date column, could just drop the date? 
 
 site4 <- Coweeta_wrangled3 %>% 
   filter(site == "4")
+sum(is.na(site4$smois30)) #only has NAs in the smois60
+
 
 ```
 
 ```{r}
-#Plotting
+#Plotting 
 
 site1_plot <- ggplot(site1) +
   geom_line(aes(x = Date, y = smois30))
@@ -98,8 +104,51 @@ print(site4_plot)
 
 ```
 
+
+```{r} 
+#averaging by date for each site
+
+site1_averaged <-site1 %>% 
+  group_by(Date) %>% 
+  summarise(AverageDailySmois30 = mean(smois30))
+
+site2_averaged <- site2 %>% 
+  group_by(Date) %>% 
+  summarise(AverageDailySmois30 = mean(smois30))
+
+site3_averaged <- site3 %>% 
+  group_by(Date) %>% 
+    summarise(AverageDailySmois30 = mean(smois30))
+
+site4_averaged <- site4 %>% 
+  group_by(Date) %>% 
+    summarise(AverageDailySmois30 = mean(smois30))
+
+```
+
 ```{r pressure, echo=FALSE}
-plot(pressure)
+#Plotting the daily averages
+
+site1averaged_plot <- ggplot(site1_averaged) +
+  geom_line(aes(x = Date, y = AverageDailySmois30))
+print(site1averaged_plot)
+
+site2averaged_plot <- ggplot(site2_averaged) +
+  geom_line(aes(x = Date, y = AverageDailySmois30))
+print(site2averaged_plot)
+
+site3averaged_plot <- ggplot(site3_averaged) +
+  geom_line(aes(x = Date, y = AverageDailySmois30))
+print(site3averaged_plot)
+
+site4averaged_plot <- ggplot(site4_averaged) +
+  geom_line(aes(x = Date, y = AverageDailySmois30))
+print(site4averaged_plot)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+
+```
+
