@@ -86,20 +86,24 @@ sum(is.na(site4$smois30)) #only has NAs in the smois60
 ```{r}
 #Plotting 
 
-site1_plot <- ggplot(site1) +
-  geom_line(aes(x = Date, y = smois30))
+site1_plot <- ggplot(site1, aes(x = Date, y = smois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
 print(site1_plot)
 
-site2_plot <- ggplot(site2) +
-  geom_line(aes(x = Date, y = smois30))
+site2_plot <- ggplot(site2, aes(x = Date, y = smois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
 print(site2_plot)
 
-site3_plot <- ggplot(site3) +
-  geom_line(aes(x = Date, y = smois30))
+site3_plot <- ggplot(site3, aes(x = Date, y = smois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
 print(site3_plot)
 
-site4_plot <- ggplot(site4) +
-  geom_line(aes(x = Date, y = smois30))
+site4_plot <- ggplot(site4, aes(x = Date, y = smois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
 print(site4_plot)
 
 ```
@@ -129,22 +133,113 @@ site4_averaged <- site4 %>%
 ```{r pressure, echo=FALSE}
 #Plotting the daily averages
 
-site1averaged_plot <- ggplot(site1_averaged) +
-  geom_line(aes(x = Date, y = AverageDailySmois30))
+site1averaged_plot <- 
+  ggplot(site1_averaged, aes(x = Date, y = AverageDailySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
 print(site1averaged_plot)
 
-site2averaged_plot <- ggplot(site2_averaged) +
-  geom_line(aes(x = Date, y = AverageDailySmois30))
+site2averaged_plot <- 
+  ggplot(site2_averaged, aes(x = Date, y = AverageDailySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
 print(site2averaged_plot)
 
-site3averaged_plot <- ggplot(site3_averaged) +
-  geom_line(aes(x = Date, y = AverageDailySmois30))
+site3averaged_plot <- 
+  ggplot(site3_averaged, aes(x = Date, y = AverageDailySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
 print(site3averaged_plot)
 
-site4averaged_plot <- ggplot(site4_averaged) +
-  geom_line(aes(x = Date, y = AverageDailySmois30))
+site4averaged_plot <- 
+  ggplot(site4_averaged, aes(x = Date, y = AverageDailySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
 print(site4averaged_plot)
 ```
+
+```{r}
+#Notes on time series
+
+#Time series datasets come with several caveats, which need to be addressed in order to effectively model the system. A few common challenges that arise (and can occur together within a single dataset) are: 
+
+#Autocorrelation: Data points are not independent from one another (i.e., the measurement at a given time point is dependent on previous time point(s)) - still only looking at one variable, just at different points in time
+
+#Data gaps: Data are not collected at regular intervals, necessitating *interpolation* between measurements.
+
+#Seasonality: seasonal patterns in variables occur at regular intervals, impeding clear interpretation of a monotonic (unidirectional) trend. relatively SHORT intervals (ex: dry vs wet seasons)
+
+#Heteroscedasticity: The variance of the time series is not constant over time
+
+#Covariance: the covariance of the time series is not constant over time
+
+#creating a ts for each site
+site1_ts <- ts(site1_averaged$AverageDailySmois30, start = c(2000, 1), frequency = 365)
+
+site2_ts <- ts(site2_averaged$AverageDailySmois30, start = c(2000,1), frequency = 365)
+
+site3_ts <- ts(site3_averaged$AverageDailySmois30, start = c(2000,1), frequency = 365)
+
+site4_ts <- ts(site4_averaged$AverageDailySmois30, start = c(2000,1), frequency = 365)
+
+#decomposing the ts
+
+site1_decomposed <- stl(site1_ts, s.window = "periodic")
+
+site2_decomposed <- stl(site2_ts, s.window = "periodic")
+
+site3_decomposed <- stl(site3_ts, s.window = "periodic")
+
+site4_decomposed <- stl(site4_ts, s.window = "periodic")
+
+#plotting decomposed ts
+#seasonality component seems to explain much of the variability in sites 3 & 4
+#trend component seems to explain more of the variability in sites 1 & 2
+
+plot(site1_decomposed)
+plot(site2_decomposed)
+plot(site3_decomposed)
+plot(site4_decomposed)
+
+#Notes on Components
+
+#Seasonal component: repeats over a fixed known period (e.g., seasons of the year, months, days of the week, hour of the day)
+
+#Trend component: quantifies the upward or downward progression over time. The trend component of a time series does not have to be monotonic.
+
+```
+
+```{r}
+#Monotonic trend analysis notes (will either be upward or downward)
+
+#Linear regression: no seasonality, fits the assumptions of a parametric test. Function: `lm`
+
+#Mann-Kendall: no seasonality, non-parametric, missing data allowed. Function: `MannKendall()` (package: Kendall)
+
+#Seasonal Mann-Kendall: seasonality, non-parametric `SeasonalMannKendall` (package: Kendall)
+
+#Spearman Rho: no seasonality, non-parametric, missing data allowed. Function: `cor.test(method="spearman")` (package: stats) - can detect nonlinear trends
+
+#Specific test for stochastic trend analysis:
+#Augmented Dickey Fuller**: no seasonality, non-parametric, missing data not allowed. Function: `adf.test()` (package: tseries)
+
+#running trend analysis
+library(Kendall)
+
+site1_trend <- Kendall::SeasonalMannKendall(site1_ts)
+summary(site1_trend)
+
+site2_trend <- Kendall::SeasonalMannKendall(site2_ts)
+summary(site2_trend)
+
+site3_trend <- Kendall::SeasonalMannKendall(site3_ts)
+summary(site3_trend)
+
+site4_trend <- Kendall::SeasonalMannKendall(site4_ts)
+summary(site4_trend)
+
+```
+
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
