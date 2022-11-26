@@ -26,8 +26,10 @@ library(dplyr)
 library(lubridate)
 library(tidyverse)
 
-#reading in dataframe
+#Reading in dataframe
 Coweeta <- read.csv("./Data/Raw/1040_Hourly_CR10_1_2080.csv")
+
+#Set theme
 
 ```
 
@@ -47,10 +49,18 @@ Coweeta_wrangled <- Coweeta %>% select(site, Year, YearDay, smois30, smois60)
 class(Coweeta_wrangled$YearDay)
 class(Coweeta_wrangled$Year)
 
-
 Coweeta_wrangled2 <- Coweeta_wrangled %>% 
   mutate(Date = as.Date(paste0(Year,"-",YearDay),format = "%Y-%j"))
+```
 
+```{r}
+#Checking the class of each variable
+class(Coweeta_wrangled2$site)
+class(Coweeta_wrangled2$Year)
+class(Coweeta_wrangled2$YearDay)
+class(Coweeta_wrangled2$smois30)
+class(Coweeta_wrangled2$smois60)
+class(Coweeta_wrangled2$Date)
 ```
 
 ```{r}
