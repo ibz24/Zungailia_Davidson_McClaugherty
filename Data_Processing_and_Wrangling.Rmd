@@ -25,6 +25,7 @@ getwd()
 library(dplyr)
 library(lubridate)
 library(tidyverse)
+library(cowplot)
 
 #Reading in dataframe
 Coweeta <- read.csv("./Data/Raw/1040_Hourly_CR10_1_2080.csv")
@@ -142,30 +143,38 @@ site4_averaged <- site4 %>%
 
 ```{r pressure, echo=FALSE}
 #Plotting the daily averages
-
 site1averaged_plot <- 
   ggplot(site1_averaged, aes(x = Date, y = AverageDailySmois30)) +
   geom_line() +
-  geom_smooth(method = lm)
+  geom_smooth(method = lm)+
+  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 1")
 print(site1averaged_plot)
 
 site2averaged_plot <- 
   ggplot(site2_averaged, aes(x = Date, y = AverageDailySmois30)) +
   geom_line() +
-  geom_smooth(method = lm)
+  geom_smooth(method = lm)+
+  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 2")
 print(site2averaged_plot)
 
 site3averaged_plot <- 
   ggplot(site3_averaged, aes(x = Date, y = AverageDailySmois30)) +
   geom_line() +
-  geom_smooth(method = lm)
+  geom_smooth(method = lm)+
+  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 3")
 print(site3averaged_plot)
 
 site4averaged_plot <- 
   ggplot(site4_averaged, aes(x = Date, y = AverageDailySmois30)) +
   geom_line() +
-  geom_smooth(method = lm)
+  geom_smooth(method = lm)+
+  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 4")
 print(site4averaged_plot)
+
+#playing around with cowplot
+allaveragedplots <- plot_grid(site1averaged_plot, site2averaged_plot, site3averaged_plot, site4averaged_plot)
+print(allaveragedplots)
+
 ```
 
 ```{r}
