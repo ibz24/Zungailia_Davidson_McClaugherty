@@ -46,7 +46,7 @@ dim(Coweeta)
 colnames(Coweeta)
 
 #Select columns:
-Coweeta_wrangled <- Coweeta %>% select(site, Year, YearDay, smois30, smois60)
+Coweeta_wrangled <- Coweeta %>% select(site, Year, YearDay, smois30)
 ```
 
 ```{r}
