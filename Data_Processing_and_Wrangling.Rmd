@@ -222,10 +222,10 @@ site3_decomposed <- stl(site3_ts, s.window = "periodic")
 site4_decomposed <- stl(site4_ts, s.window = "periodic")
 
 #plotting decomposed ts
-#seasonality component seems to explain much of the variability in sites 3 & 4
-#trend component seems to explain more of the variability in sites 1 & 2
+#trend component seems to explain much of the variability in sites 3 & 4
+#seasonality component seems to explain more of the variability in sites 1 & 2
 
-plot(site1_decomposed)
+plot(site1_decomposed) 
 plot(site2_decomposed)
 plot(site3_decomposed)
 plot(site4_decomposed)
@@ -246,11 +246,6 @@ plot(site4_decomposed)
 #Mann-Kendall: no seasonality, non-parametric, missing data allowed. Function: `MannKendall()` (package: Kendall)
 
 #Seasonal Mann-Kendall: seasonality, non-parametric `SeasonalMannKendall` (package: Kendall)
-
-#Spearman Rho: no seasonality, non-parametric, missing data allowed. Function: `cor.test(method="spearman")` (package: stats) - can detect nonlinear trends
-
-#Specific test for stochastic trend analysis:
-#Augmented Dickey Fuller**: no seasonality, non-parametric, missing data not allowed. Function: `adf.test()` (package: tseries)
 
 #running trend analysis
 library(Kendall)
