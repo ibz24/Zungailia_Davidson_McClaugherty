@@ -15,6 +15,31 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
+```{r}
+#Check working directory
+getwd()
+
+#Load necessary packages
+library(dplyr)
+library(lubridate)
+library(tidyverse)
+library(cowplot)
+install.packages("ggplot2")
+library(ggplot2)
+install.packages("ggpubr")
+library(ggpubr)
+
+#Set theme
+```
+
+```{r}
+#Reading in csv files for each site:
+site1 <- read.csv("./Data/Processed/coweeta_site1.csv")
+site2 <- read.csv("./Data/Processed/coweeta_site2.csv")
+site3 <- read.csv("./Data/Processed/coweeta_site3.csv")
+site4 <- read.csv("./Data/Processed/coweeta_site4.csv")
+```
+
 ```{r cars}
 summary(cars)
 ```
