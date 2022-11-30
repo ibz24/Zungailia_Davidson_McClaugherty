@@ -168,10 +168,12 @@ summary(Coweeta_Mean_Smois30)
 #Boxplot to explore distribution of smois30 values at each site
 boxplot(MeanSmois30 ~ site,
         data = Coweeta_Mean_Smois30,
-        )
+        xlab = "Site",
+        ylab = "Mean Soil Moisture")
 
 #ANOVA test (response variable ~ predictor variable)
 Coweeta_Mean_Smois30_ANOVA <- aov(data = Coweeta_Mean_Smois30, MeanSmois30 ~ site)
+summary(Coweeta_Mean_Smois30_ANOVA)
 
 ```
 
