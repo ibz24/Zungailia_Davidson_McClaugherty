@@ -112,6 +112,9 @@ write.csv(site3, file = "./Data/Processed/coweeta_site3.csv", row.names = FALSE)
 #Site 4
 write.csv(site4, file = "./Data/Processed/coweeta_site4.csv", row.names = FALSE)
 
+#Coweeta_wrangled3
+write.csv(Coweeta_wrangled3, file = "./Data/Processed/Coweeta_wrangled3.csv", row.names = FALSE)
+
 ```
 
 ```{r}
