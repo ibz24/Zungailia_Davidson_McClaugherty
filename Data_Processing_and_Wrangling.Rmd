@@ -64,7 +64,6 @@ class(Coweeta_wrangled2$site)
 class(Coweeta_wrangled2$Year)
 class(Coweeta_wrangled2$YearDay)
 class(Coweeta_wrangled2$smois30)
-class(Coweeta_wrangled2$smois60)
 class(Coweeta_wrangled2$Date)
 ```
 
