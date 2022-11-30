@@ -40,6 +40,8 @@ site1 <- read.csv("./Data/Processed/coweeta_site1.csv")
 site2 <- read.csv("./Data/Processed/coweeta_site2.csv")
 site3 <- read.csv("./Data/Processed/coweeta_site3.csv")
 site4 <- read.csv("./Data/Processed/coweeta_site4.csv")
+
+Coweeta_wrangled3 <- read.csv("./Data/Processed/Coweeta_wrangled3.csv")
 ```
 
 ```{r} 
@@ -48,6 +50,8 @@ site1$Date <- as.Date(site1$Date, format = '%Y-%m-%d')
 site2$Date <- as.Date(site2$Date, format = '%Y-%m-%d')
 site3$Date <- as.Date(site3$Date, format = '%Y-%m-%d')
 site4$Date <- as.Date(site4$Date, format = '%Y-%m-%d')
+
+Coweeta_wrangled3$Date <- as.Date(Coweeta_wrangled3$Date, format = '%Y-%m-%d')
 
 ```
 
