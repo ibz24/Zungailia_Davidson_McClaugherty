@@ -162,8 +162,6 @@ site4_averaged <- site4 %>%
 ```
 
 ```{r pressure, echo=FALSE}
-
-
 #Plotting the daily averages
 site1averaged_plot <- 
   ggplot(site1_averaged, aes(x = Date, y = AverageDailySmois30)) +
