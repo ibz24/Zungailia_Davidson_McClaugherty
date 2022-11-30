@@ -3,6 +3,8 @@ title: "Data_Exploration"
 author: "Isabel Zungailia"
 date: "2022-11-29"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -48,16 +50,89 @@ mean(site3$smois30) #0.2726953
 mean(site4$smois30) #0.3172329
 ```
 
-```{r cars}
-summary(cars)
+```{r}
+#Plotting 
+
+site1_plot <- ggplot(site1, aes(x = Date, y = smois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
+print(site1_plot)
+
+site2_plot <- ggplot(site2, aes(x = Date, y = smois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
+print(site2_plot)
+
+site3_plot <- ggplot(site3, aes(x = Date, y = smois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
+print(site3_plot)
+
+site4_plot <- ggplot(site4, aes(x = Date, y = smois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
+print(site4_plot)
+
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+```{r}
+#averaging by date for each site
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+site1_averaged <-site1 %>% 
+  group_by(Date) %>% 
+  summarise(AverageDailySmois30 = mean(smois30))
+
+site2_averaged <- site2 %>% 
+  group_by(Date) %>% 
+  summarise(AverageDailySmois30 = mean(smois30))
+
+site3_averaged <- site3 %>% 
+  group_by(Date) %>% 
+    summarise(AverageDailySmois30 = mean(smois30))
+
+site4_averaged <- site4 %>% 
+  group_by(Date) %>% 
+    summarise(AverageDailySmois30 = mean(smois30))
+
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+#Plotting the daily averages
+site1averaged_plot <- 
+  ggplot(site1_averaged, aes(x = Date, y = AverageDailySmois30)) +
+  geom_line(group = 1) +
+  geom_smooth(method = lm)+
+  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 1") +
+  stat_regline_equation(label.y = 0.4)
+print(site1averaged_plot)
+
+site2averaged_plot <- 
+  ggplot(site2_averaged, aes(x = Date, y = AverageDailySmois30)) +
+  geom_line(group = 1) +
+  geom_smooth(method = lm)+
+  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 2") +
+  stat_regline_equation(label.y = 0.4)
+print(site2averaged_plot)
+
+site3averaged_plot <- 
+  ggplot(site3_averaged, aes(x = Date, y = AverageDailySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm)+
+  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 3") +
+  stat_regline_equation()
+print(site3averaged_plot)
+
+site4averaged_plot <- 
+  ggplot(site4_averaged, aes(x = Date, y = AverageDailySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm)+
+  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 4") +
+  stat_regline_equation()
+print(site4averaged_plot)
+
+#Creating a cowplot to show all four sites at once
+allaveragedplots <- plot_grid(site1averaged_plot, site2averaged_plot, site3averaged_plot, site4averaged_plot)
+print(allaveragedplots)
+```
