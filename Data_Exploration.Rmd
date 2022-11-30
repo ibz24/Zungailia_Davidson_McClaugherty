@@ -42,6 +42,15 @@ site3 <- read.csv("./Data/Processed/coweeta_site3.csv")
 site4 <- read.csv("./Data/Processed/coweeta_site4.csv")
 ```
 
+```{r} 
+#Formatting Dates 
+site1$Date <- as.Date(site1$Date, format = '%Y-%m-%d')
+site2$Date <- as.Date(site2$Date, format = '%Y-%m-%d')
+site3$Date <- as.Date(site3$Date, format = '%Y-%m-%d')
+site4$Date <- as.Date(site4$Date, format = '%Y-%m-%d')
+
+```
+
 ```{r}
 #Comparing the mean soil moisture values for each site (30 cm depth) throughout the study period
 mean(site1$smois30) #0.2796104
@@ -102,7 +111,7 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 #Plotting the daily averages
 site1averaged_plot <- 
   ggplot(site1_averaged, aes(x = Date, y = AverageDailySmois30)) +
-  geom_line(group = 1) +
+  geom_line() +
   geom_smooth(method = lm)+
   labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 1") +
   stat_regline_equation(label.y = 0.4)
@@ -110,7 +119,7 @@ print(site1averaged_plot)
 
 site2averaged_plot <- 
   ggplot(site2_averaged, aes(x = Date, y = AverageDailySmois30)) +
-  geom_line(group = 1) +
+  geom_line() +
   geom_smooth(method = lm)+
   labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 2") +
   stat_regline_equation(label.y = 0.4)
