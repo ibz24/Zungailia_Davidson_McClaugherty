@@ -157,6 +157,15 @@ summary(site4_trend)
 #One-way ANOVA test - used when you have one categorical explanatory variable with more than two categories
   #Question: Does the mean smois30 value differ among sites at the Coweeta Basin LTER?
 
+#Wrangle data to group by size and calcualte the mean smois30 value for each site
+Coweeta_Mean_Smois30 <- Coweeta_wrangled3 %>% 
+  group_by(site) %>% 
+  summarise(MeanSmois30 = mean(smois30))
+
+summary(Coweeta_Mean_Smois30)
+
+#ANOVA test
+Coweeta_Mean_Smois30_ANOVA <- aov(data = Coweeta_Mean_Smois30, MeanSmois30)
 
 
 ```
