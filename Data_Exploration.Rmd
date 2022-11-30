@@ -40,6 +40,14 @@ site3 <- read.csv("./Data/Processed/coweeta_site3.csv")
 site4 <- read.csv("./Data/Processed/coweeta_site4.csv")
 ```
 
+```{r}
+#Comparing the mean soil moisture values for each site (30 cm depth) throughout the study period
+mean(site1$smois30) #0.2796104
+mean(site2$smois30) #0.2537259
+mean(site3$smois30) #0.2726953
+mean(site4$smois30) #0.3172329
+```
+
 ```{r cars}
 summary(cars)
 ```
