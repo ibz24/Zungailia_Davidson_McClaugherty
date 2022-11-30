@@ -98,6 +98,23 @@ sum(is.na(site4$smois30)) #only has NAs in the smois60
 ```
 
 ```{r}
+#Exporting dataframes into the 'Processed' data folder
+
+#Site 1
+write.csv(site1, file = "./Data/Processed/coweeta_site1.csv", row.names = FALSE)
+
+#Site 2
+write.csv(site2, file = "./Data/Processed/coweeta_site2.csv", row.names = FALSE)
+
+#Site 3
+write.csv(site3, file = "./Data/Processed/coweeta_site3.csv", row.names = FALSE)
+
+#Site 4
+write.csv(site4, file = "./Data/Processed/coweeta_site4.csv", row.names = FALSE)
+
+```
+
+```{r}
 #Plotting 
 
 site1_plot <- ggplot(site1, aes(x = Date, y = smois30)) +
