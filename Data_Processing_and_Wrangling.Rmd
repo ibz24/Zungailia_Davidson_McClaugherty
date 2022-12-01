@@ -76,7 +76,10 @@ summary(Coweeta_wrangled2$Year)
 #Excluding smois30 values less than 0 and greater than 1 (soil moisture expressed as percent water content)
 
 Coweeta_wrangled3 <- Coweeta_wrangled2 %>% 
-  filter(smois30 >= 0 & smois30 <= 1)
+  filter(smois30 >= 0 & smois30 <= 1) %>% 
+  drop_na(Date) #dropped 1 na in the date column (day 366)
+
+sum(is.na(Coweeta_wrangled3))
 
 ```
 
@@ -92,13 +95,13 @@ site2 <- Coweeta_wrangled3 %>%
 sum(is.na(site2))
 
 site3 <- Coweeta_wrangled3 %>% 
-  filter(site == "3")
+  filter(site == "3") %>% 
+  drop_na(Date)
 sum(is.na(site3$Date)) #showing 1 NA in the date column, could just drop the date? 
 
 site4 <- Coweeta_wrangled3 %>% 
   filter(site == "4")
-sum(is.na(site4$smois30)) #only has NAs in the smois60
-
+sum(is.na(site4$smois30))
 
 ```
 
@@ -161,30 +164,54 @@ print(site4_plot)
 
 
 ```{r} 
-#averaging by date for each site
+#averaging soil mositure by MONTH for each site
 
-site1_averaged <-site1 %>% 
-  group_by(Date) %>% 
-  summarise(AverageDailySmois30 = mean(smois30))
+#site1_averaged <-site1 %>% 
+  #group_by(Date) %>% 
+  #summarise(AverageDailySmois30 = mean(smois30))
 
-site2_averaged <- site2 %>% 
-  group_by(Date) %>% 
-  summarise(AverageDailySmois30 = mean(smois30))
+site1_MonthAvg <-site1 %>% 
+  mutate(Month = month(Date)) %>% 
+  group_by(Year, Month) %>% 
+  summarise(AverageMonthlySmois30 = mean(smois30)) %>% 
+  mutate(YearMonth = as.Date(paste0(Year, "-", Month, "-", "01"), format = "%Y-%m-%d"))
 
-site3_averaged <- site3 %>% 
-  group_by(Date) %>% 
-    summarise(AverageDailySmois30 = mean(smois30))
+#site2_averaged <- site2 %>% 
+  #group_by(Date) %>% 
+  #summarise(AverageDailySmois30 = mean(smois30))
 
-site4_averaged <- site4 %>% 
-  group_by(Date) %>% 
-    summarise(AverageDailySmois30 = mean(smois30))
+site2_MonthAvg <-site2 %>% 
+  mutate(Month = month(Date)) %>% 
+  group_by(Year, Month) %>% 
+  summarise(AverageMonthlySmois30 = mean(smois30)) %>% 
+  mutate(YearMonth = as.Date(paste0(Year, "-", Month, "-", "01"), format = "%Y-%m-%d"))
+
+#site3_averaged <- site3 %>% 
+  #group_by(Date) %>% 
+    #summarise(AverageDailySmois30 = mean(smois30))
+
+site3_MonthAvg <-site3 %>% 
+  mutate(Month = month(Date)) %>% 
+  group_by(Year, Month) %>% 
+  summarise(AverageMonthlySmois30 = mean(smois30)) %>% 
+  mutate(YearMonth = as.Date(paste0(Year, "-", Month, "-", "01"), format = "%Y-%m-%d"))
+
+#site4_averaged <- site4 %>% 
+  #group_by(Date) %>% 
+    #summarise(AverageDailySmois30 = mean(smois30))
+
+site4_MonthAvg <-site4 %>% 
+  mutate(Month = month(Date)) %>% 
+  group_by(Year, Month) %>% 
+  summarise(AverageMonthlySmois30 = mean(smois30)) %>% 
+  mutate(YearMonth = as.Date(paste0(Year, "-", Month, "-", "01"), format = "%Y-%m-%d"))
 
 ```
 
 ```{r pressure, echo=FALSE}
 #Plotting the daily averages
 site1averaged_plot <- 
-  ggplot(site1_averaged, aes(x = Date, y = AverageDailySmois30)) +
+  ggplot(site1_MonthAvg, aes(x = YearMonth, y = AverageMonthlySmois30)) +
   geom_line() +
   geom_smooth(method = lm)+
   labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 1") +
@@ -192,7 +219,7 @@ site1averaged_plot <-
 print(site1averaged_plot)
 
 site2averaged_plot <- 
-  ggplot(site2_averaged, aes(x = Date, y = AverageDailySmois30)) +
+  ggplot(site2_MonthAvg, aes(x = YearMonth, y = AverageMonthlySmois30)) +
   geom_line() +
   geom_smooth(method = lm)+
   labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 2") +
@@ -200,7 +227,7 @@ site2averaged_plot <-
 print(site2averaged_plot)
 
 site3averaged_plot <- 
-  ggplot(site3_averaged, aes(x = Date, y = AverageDailySmois30)) +
+  ggplot(site3_MonthAvg, aes(x = YearMonth, y = AverageMonthlySmois30)) +
   geom_line() +
   geom_smooth(method = lm)+
   labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 3") +
@@ -208,7 +235,7 @@ site3averaged_plot <-
 print(site3averaged_plot)
 
 site4averaged_plot <- 
-  ggplot(site4_averaged, aes(x = Date, y = AverageDailySmois30)) +
+  ggplot(site4_MonthAvg, aes(x = YearMonth, y = AverageMonthlySmois30)) +
   geom_line() +
   geom_smooth(method = lm)+
   labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 4") +
@@ -220,6 +247,7 @@ allaveragedplots <- plot_grid(site1averaged_plot, site2averaged_plot, site3avera
 print(allaveragedplots)
 
 ```
+
 
 ```{r}
 #Notes on time series
