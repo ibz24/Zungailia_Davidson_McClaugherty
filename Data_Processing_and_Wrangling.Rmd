@@ -53,12 +53,23 @@ Coweeta_wrangled <- Coweeta %>% select(site, Year, YearDay, smois30)
 ```
 
 ```{r}
-#Addressing the date
+#Addressing the date in the Coweeta soil moisture datasets
 class(Coweeta_wrangled$YearDay)
 class(Coweeta_wrangled$Year)
 
 Coweeta_wrangled2 <- Coweeta_wrangled %>% 
   mutate(Date = as.Date(paste0(Year,"-",YearDay),format = "%Y-%j"))
+
+#Creating a date column for rain gage datasets
+
+RG5 <- RG5 %>% 
+  mutate(Date = as.Date(paste0(YEAR,"-", MONTH,"-", DAY), format = "%Y-%m-%d"))
+
+RG6 <- RG6 %>% 
+  mutate(Date = as.Date(paste0(YEAR,"-", MONTH,"-", DAY), format = "%Y-%m-%d"))
+
+RG31 <- RG31 %>% 
+  mutate(Date = as.Date(paste0(YEAR,"-", MONTH,"-", DAY), format = "%Y-%m-%d"))
 ```
 
 ```{r}
@@ -106,23 +117,6 @@ sum(is.na(site4$smois30))
 ```
 
 ```{r}
-#Exporting dataframes into the 'Processed' data folder
-
-#Site 1
-write.csv(site1, file = "./Data/Processed/coweeta_site1.csv", row.names = FALSE)
-
-#Site 2
-write.csv(site2, file = "./Data/Processed/coweeta_site2.csv", row.names = FALSE)
-
-#Site 3
-write.csv(site3, file = "./Data/Processed/coweeta_site3.csv", row.names = FALSE)
-
-#Site 4
-write.csv(site4, file = "./Data/Processed/coweeta_site4.csv", row.names = FALSE)
-
-#Coweeta_wrangled3
-write.csv(Coweeta_wrangled3, file = "./Data/Processed/Coweeta_wrangled3.csv", row.names = FALSE)
-
 ```
 
 ```{r}
@@ -246,6 +240,25 @@ print(site4averaged_plot)
 allaveragedplots <- plot_grid(site1averaged_plot, site2averaged_plot, site3averaged_plot, site4averaged_plot)
 print(allaveragedplots)
 
+```
+
+```{r}
+#Exporting dataframes into the 'Processed' data folder
+
+#Site 1
+write.csv(site1_MonthAvg, file = "./Data/Processed/coweeta_site1.csv", row.names = FALSE)
+
+#Site 2
+write.csv(site2_MonthAvg, file = "./Data/Processed/coweeta_site2.csv", row.names = FALSE)
+
+#Site 3
+write.csv(site3_MonthAvg, file = "./Data/Processed/coweeta_site3.csv", row.names = FALSE)
+
+#Site 4
+write.csv(site4_MonthAvg, file = "./Data/Processed/coweeta_site4.csv", row.names = FALSE)
+
+#Coweeta_wrangled3
+write.csv(Coweeta_wrangled3, file = "./Data/Processed/Coweeta_wrangled3.csv", row.names = FALSE)
 ```
 
 
