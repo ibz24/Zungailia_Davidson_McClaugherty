@@ -149,3 +149,17 @@ print(site4averaged_plot)
 allaveragedplots <- plot_grid(site1averaged_plot, site2averaged_plot, site3averaged_plot, site4averaged_plot)
 print(allaveragedplots)
 ```
+
+```{r}
+RG5 <- read.csv('./Data/Raw/RG05_daily_1992_2021.csv')
+RG6 <- read.csv('./Data/Raw/RG06_daily_1936_2021.csv')
+RG31 <- read.csv('./Data/Raw/RG31_daily_1958_2021.csv')
+
+#Creating a date column for rain gage data
+
+RG5 <- RG5 %>% 
+  mutate(Date = as.Date(paste0(YEAR, MONTH, DAY), format = "%Y-%m-%d"))
+
+
+```
+
