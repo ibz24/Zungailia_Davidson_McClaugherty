@@ -53,22 +53,12 @@ Coweeta_wrangled <- Coweeta %>% select(site, Year, YearDay, smois30)
 ```
 
 ```{r}
-#Addressing the date for Coweeta soil moisture
+#Addressing the date
 class(Coweeta_wrangled$YearDay)
 class(Coweeta_wrangled$Year)
 
 Coweeta_wrangled2 <- Coweeta_wrangled %>% 
   mutate(Date = as.Date(paste0(Year,"-",YearDay),format = "%Y-%j"))
-
-#Creating a date column for rain gage dataset
-RG5 <- RG5 %>% 
-  mutate(Date = as.Date(paste0(YEAR,"-", MONTH,"-", DAY), format = "%Y-%m-%d"))
-
-RG6 <- RG6 %>% 
-  mutate(Date = as.Date(paste0(YEAR,"-", MONTH,"-", DAY), format = "%Y-%m-%d"))
-
-RG31 <- RG31 %>% 
-  mutate(Date = as.Date(paste0(YEAR,"-", MONTH,"-", DAY), format = "%Y-%m-%d"))
 ```
 
 ```{r}
@@ -90,6 +80,7 @@ Coweeta_wrangled3 <- Coweeta_wrangled2 %>%
   drop_na(Date) #dropped 1 na in the date column (day 366)
 
 sum(is.na(Coweeta_wrangled3))
+
 ```
 
 ```{r}
@@ -115,6 +106,23 @@ sum(is.na(site4$smois30))
 ```
 
 ```{r}
+#Exporting dataframes into the 'Processed' data folder
+
+#Site 1
+write.csv(site1, file = "./Data/Processed/coweeta_site1.csv", row.names = FALSE)
+
+#Site 2
+write.csv(site2, file = "./Data/Processed/coweeta_site2.csv", row.names = FALSE)
+
+#Site 3
+write.csv(site3, file = "./Data/Processed/coweeta_site3.csv", row.names = FALSE)
+
+#Site 4
+write.csv(site4, file = "./Data/Processed/coweeta_site4.csv", row.names = FALSE)
+
+#Coweeta_wrangled3
+write.csv(Coweeta_wrangled3, file = "./Data/Processed/Coweeta_wrangled3.csv", row.names = FALSE)
+
 ```
 
 ```{r}
@@ -200,25 +208,6 @@ site4_MonthAvg <-site4 %>%
 
 ```
 
-```{r}
-#Exporting dataframes into the 'Processed' data folder
-
-#Site 1
-write.csv(site1_MonthAvg, file = "./Data/Processed/coweeta_site1.csv", row.names = FALSE)
-
-#Site 2
-write.csv(site2_MonthAvg, file = "./Data/Processed/coweeta_site2.csv", row.names = FALSE)
-
-#Site 3
-write.csv(site3_MonthAvg, file = "./Data/Processed/coweeta_site3.csv", row.names = FALSE)
-
-#Site 4
-write.csv(site4_MonthAvg, file = "./Data/Processed/coweeta_site4.csv", row.names = FALSE)
-
-#Coweeta_wrangled3
-write.csv(Coweeta_wrangled3, file = "./Data/Processed/Coweeta_wrangled3.csv", row.names = FALSE)
-```
-
 ```{r pressure, echo=FALSE}
 #Plotting the daily averages
 site1averaged_plot <- 
@@ -276,13 +265,13 @@ print(allaveragedplots)
 #Covariance: the covariance of the time series is not constant over time
 
 #creating a ts for each site
-site1_ts <- ts(site1_averaged$AverageDailySmois30, start = c(2000, 1), frequency = 365)
+site1_ts <- ts(site1_MonthAvg$AverageMonthlySmois30, start = c(2000, 1), frequency = 365)
 
-site2_ts <- ts(site2_averaged$AverageDailySmois30, start = c(2000,1), frequency = 365)
+site2_ts <- ts(site2_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 365)
 
-site3_ts <- ts(site3_averaged$AverageDailySmois30, start = c(2000,1), frequency = 365)
+site3_ts <- ts(site3_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 365)
 
-site4_ts <- ts(site4_averaged$AverageDailySmois30, start = c(2000,1), frequency = 365)
+site4_ts <- ts(site4_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 365)
 
 #decomposing the ts
 
@@ -341,6 +330,11 @@ summary(site4_trend)
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
 ```{r}
+#linear model for each site - precip on y axis, soil moisture x axis
+
+lm_site1 <- lm(data = dataframesite1, formula = soilmoisture ~ precipitation)
+#output will tell you if precip is significant
+
 
 ```
 
