@@ -115,23 +115,6 @@ sum(is.na(site4$smois30))
 ```
 
 ```{r}
-#Exporting dataframes into the 'Processed' data folder
-
-#Site 1
-write.csv(site1, file = "./Data/Processed/coweeta_site1.csv", row.names = FALSE)
-
-#Site 2
-write.csv(site2, file = "./Data/Processed/coweeta_site2.csv", row.names = FALSE)
-
-#Site 3
-write.csv(site3, file = "./Data/Processed/coweeta_site3.csv", row.names = FALSE)
-
-#Site 4
-write.csv(site4, file = "./Data/Processed/coweeta_site4.csv", row.names = FALSE)
-
-#Coweeta_wrangled3
-write.csv(Coweeta_wrangled3, file = "./Data/Processed/Coweeta_wrangled3.csv", row.names = FALSE)
-
 ```
 
 ```{r}
@@ -215,6 +198,25 @@ site4_MonthAvg <-site4 %>%
   summarise(AverageMonthlySmois30 = mean(smois30)) %>% 
   mutate(YearMonth = as.Date(paste0(Year, "-", Month, "-", "01"), format = "%Y-%m-%d"))
 
+```
+
+```{r}
+#Exporting dataframes into the 'Processed' data folder
+
+#Site 1
+write.csv(site1_MonthAvg, file = "./Data/Processed/coweeta_site1.csv", row.names = FALSE)
+
+#Site 2
+write.csv(site2_MonthAvg, file = "./Data/Processed/coweeta_site2.csv", row.names = FALSE)
+
+#Site 3
+write.csv(site3_MonthAvg, file = "./Data/Processed/coweeta_site3.csv", row.names = FALSE)
+
+#Site 4
+write.csv(site4_MonthAvg, file = "./Data/Processed/coweeta_site4.csv", row.names = FALSE)
+
+#Coweeta_wrangled3
+write.csv(Coweeta_wrangled3, file = "./Data/Processed/Coweeta_wrangled3.csv", row.names = FALSE)
 ```
 
 ```{r pressure, echo=FALSE}
