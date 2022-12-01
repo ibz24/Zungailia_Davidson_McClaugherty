@@ -278,13 +278,13 @@ write.csv(Coweeta_wrangled3, file = "./Data/Processed/Coweeta_wrangled3.csv", ro
 #Covariance: the covariance of the time series is not constant over time
 
 #creating a ts for each site
-site1_ts <- ts(site1_MonthAvg$AverageMonthlySmois30, start = c(2000, 1), frequency = 365)
+site1_ts <- ts(site1_MonthAvg$AverageMonthlySmois30, start = c(2000, 1), frequency = 12)
 
-site2_ts <- ts(site2_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 365)
+site2_ts <- ts(site2_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
 
-site3_ts <- ts(site3_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 365)
+site3_ts <- ts(site3_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
 
-site4_ts <- ts(site4_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 365)
+site4_ts <- ts(site4_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
 
 #decomposing the ts
 
@@ -327,15 +327,19 @@ library(Kendall)
 
 site1_trend <- Kendall::SeasonalMannKendall(site1_ts)
 summary(site1_trend)
+#not significant
 
 site2_trend <- Kendall::SeasonalMannKendall(site2_ts)
 summary(site2_trend)
+#not significant
 
 site3_trend <- Kendall::SeasonalMannKendall(site3_ts)
 summary(site3_trend)
+#significant trend
 
 site4_trend <- Kendall::SeasonalMannKendall(site4_ts)
 summary(site4_trend)
+#significant trend
 
 ```
 
@@ -344,10 +348,59 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 
 ```{r}
 #linear model for each site - precip on y axis, soil moisture x axis
+#output will tell you if the relationship between soil moisture & precip is significant
 
-lm_site1 <- lm(data = dataframesite1, formula = soilmoisture ~ precipitation)
-#output will tell you if precip is significant
+#site 1
+site1SoilPrecip <- left_join(site1, RG6wrangled, by = "Date")
 
+site1SoilPrecip_wrangled <- site1SoilPrecip %>% 
+  select(Date, smois30, RRG06) %>% 
+  na.omit() %>% 
+  group_by(Date) %>%
+  summarise(meanSoil = mean(smois30), meanPrecip = mean(RRG06))
+
+lm_site1 <- lm(data = site1SoilPrecip_wrangled, formula = meanSoil ~ meanPrecip)
+summary(lm_site1)
+#precip is significant - 1 unit increase in precip leads to a 0.021187 unit increase in soil moisture
+
+#site 2
+site2SoilPrecip <- left_join(site2, RG31wrangled, by = "Date")
+
+site2SoilPrecip_wrangled <- site2SoilPrecip %>% 
+  select(Date, smois30, RRG31) %>% 
+  na.omit() %>% 
+  group_by(Date) %>% 
+  summarise(meanSoil = mean(smois30), meanPrecip = mean(RRG31))
+
+lm_site2 <- lm(data = site2SoilPrecip_wrangled, formula = meanSoil ~ meanPrecip)
+summary(lm_site2)
+#precip is significant
+
+#site 3
+site3SoilPrecip <- left_join(site3, RG5wrangled, by = "Date")
+
+site3SoilPrecip_wrangled <- site3SoilPrecip %>% 
+  select(Date, smois30, RRG05) %>% 
+  na.omit() %>% 
+  group_by(Date) %>% 
+  summarise(meanSoil = mean(smois30), meanPrecip = mean(RRG05))
+
+lm_site3 <- lm(data = site3SoilPrecip_wrangled, formula = meanSoil ~ meanPrecip)
+summary(lm_site3)
+#precip is significant
+
+#site 4
+site4SoilPrecip <- left_join(site4, RG6wrangled, by = "Date")
+
+site4SoilPrecip_wrangled <- site4SoilPrecip %>% 
+  select(Date, smois30, RRG06) %>% 
+  na.omit() %>% 
+  group_by(Date) %>% 
+  summarise(meanSoil = mean(smois30), meanPrecip = mean(RRG06))
+
+lm_site4 <- lm(data = site4SoilPrecip_wrangled, formula = meanSoil ~ meanPrecip)
+summary(lm_site4)
+#precip is significant
 
 ```
 
