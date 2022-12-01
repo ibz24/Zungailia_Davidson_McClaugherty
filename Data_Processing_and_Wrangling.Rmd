@@ -53,12 +53,22 @@ Coweeta_wrangled <- Coweeta %>% select(site, Year, YearDay, smois30)
 ```
 
 ```{r}
-#Addressing the date
+#Addressing the date for Coweeta soil moisture
 class(Coweeta_wrangled$YearDay)
 class(Coweeta_wrangled$Year)
 
 Coweeta_wrangled2 <- Coweeta_wrangled %>% 
   mutate(Date = as.Date(paste0(Year,"-",YearDay),format = "%Y-%j"))
+
+#Creating a date column for rain gage dataset
+RG5 <- RG5 %>% 
+  mutate(Date = as.Date(paste0(YEAR,"-", MONTH,"-", DAY), format = "%Y-%m-%d"))
+
+RG6 <- RG6 %>% 
+  mutate(Date = as.Date(paste0(YEAR,"-", MONTH,"-", DAY), format = "%Y-%m-%d"))
+
+RG31 <- RG31 %>% 
+  mutate(Date = as.Date(paste0(YEAR,"-", MONTH,"-", DAY), format = "%Y-%m-%d"))
 ```
 
 ```{r}
@@ -80,7 +90,6 @@ Coweeta_wrangled3 <- Coweeta_wrangled2 %>%
   drop_na(Date) #dropped 1 na in the date column (day 366)
 
 sum(is.na(Coweeta_wrangled3))
-
 ```
 
 ```{r}
