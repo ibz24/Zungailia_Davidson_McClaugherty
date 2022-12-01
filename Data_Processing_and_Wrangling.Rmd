@@ -33,6 +33,9 @@ library(ggpubr)
 
 #Reading in dataframe
 Coweeta <- read.csv("./Data/Raw/1040_Hourly_CR10_1_2080.csv")
+RG5 <- read.csv('./Data/Raw/RG05_daily_1992_2021.csv')
+RG6 <- read.csv('./Data/Raw/RG06_daily_1936_2021.csv')
+RG31 <- read.csv('./Data/Raw/RG31_daily_1958_2021.csv')
 
 #Set theme
 
@@ -65,6 +68,8 @@ class(Coweeta_wrangled2$Year)
 class(Coweeta_wrangled2$YearDay)
 class(Coweeta_wrangled2$smois30)
 class(Coweeta_wrangled2$Date)
+
+summary(Coweeta_wrangled2$Year)
 ```
 
 ```{r}
@@ -114,6 +119,18 @@ write.csv(site4, file = "./Data/Processed/coweeta_site4.csv", row.names = FALSE)
 
 #Coweeta_wrangled3
 write.csv(Coweeta_wrangled3, file = "./Data/Processed/Coweeta_wrangled3.csv", row.names = FALSE)
+
+```
+
+```{r}
+#wrangling the precipitation data to the years we have soil moisture data for 
+
+RG5wrangled <- RG5 %>% 
+  filter(YEAR >= 2000 & YEAR <= 2014)
+RG6wrangled <- RG6 %>% 
+  filter(YEAR >= 2000 & YEAR <= 2014)
+RG31wrangled <- RG31 %>% 
+  filter(YEAR >= 2000 & YEAR <= 2014)
 
 ```
 
