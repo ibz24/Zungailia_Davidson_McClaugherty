@@ -30,6 +30,7 @@ install.packages("ggplot2")
 library(ggplot2)
 install.packages("ggpubr")
 library(ggpubr)
+library(Kendall)
 
 #Reading in dataframe
 Coweeta <- read.csv("./Data/Raw/1040_Hourly_CR10_1_2080.csv")
@@ -132,7 +133,7 @@ RG31wrangled <- RG31 %>%
 ```
 
 ```{r}
-#Plotting 
+#Plots of initial (not averaged) hourly data
 
 site1_plot <- ggplot(site1, aes(x = Date, y = smois30)) +
   geom_line() +
@@ -202,44 +203,23 @@ site4_MonthAvg <-site4 %>%
 
 ```
 
-```{r pressure, echo=FALSE}
-#Plotting the daily averages
-site1averaged_plot <- 
-  ggplot(site1_MonthAvg, aes(x = YearMonth, y = AverageMonthlySmois30)) +
-  geom_line() +
-  geom_smooth(method = lm)+
-  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 1") +
-  stat_regline_equation(label.y = 0.4)
-print(site1averaged_plot)
+```{r}
+#averaging monthly rain gage data
+RG5_MonthAvg <- RG5wrangled %>% 
+  group_by(YEAR, MONTH) %>% 
+  summarise(AverageMonthlyPrecip = mean(RRG05)) %>% 
+  mutate(YearMonth = as.Date(paste0(YEAR, "-", MONTH, "-", "01"), format = "%Y-%m-%d"))
 
-site2averaged_plot <- 
-  ggplot(site2_MonthAvg, aes(x = YearMonth, y = AverageMonthlySmois30)) +
-  geom_line() +
-  geom_smooth(method = lm)+
-  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 2") +
-  stat_regline_equation(label.y = 0.4)
-print(site2averaged_plot)
+RG6_MonthAvg <- RG6wrangled %>% 
+  group_by(YEAR, MONTH) %>% 
+  summarise(AverageMonthlyPrecip = mean(RRG06)) %>% 
+  mutate(YearMonth = as.Date(paste0(YEAR, "-", MONTH, "-", "01"), format = "%Y-%m-%d"))
 
-site3averaged_plot <- 
-  ggplot(site3_MonthAvg, aes(x = YearMonth, y = AverageMonthlySmois30)) +
-  geom_line() +
-  geom_smooth(method = lm)+
-  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 3") +
-  stat_regline_equation()
-print(site3averaged_plot)
-
-site4averaged_plot <- 
-  ggplot(site4_MonthAvg, aes(x = YearMonth, y = AverageMonthlySmois30)) +
-  geom_line() +
-  geom_smooth(method = lm)+
-  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 4") +
-  stat_regline_equation()
-print(site4averaged_plot)
-
-#playing around with cowplot
-allaveragedplots <- plot_grid(site1averaged_plot, site2averaged_plot, site3averaged_plot, site4averaged_plot)
-print(allaveragedplots)
-
+RG31_MonthAvg <- RG31wrangled %>% 
+  group_by(YEAR, MONTH) %>% 
+  summarise(AverageMonthlyPrecip = mean(RRG31)) %>% 
+  mutate(YearMonth = as.Date(paste0(YEAR, "-", MONTH, "-", "01"), format = "%Y-%m-%d"))
+  
 ```
 
 ```{r}
@@ -259,7 +239,39 @@ write.csv(site4_MonthAvg, file = "./Data/Processed/coweeta_site4.csv", row.names
 
 #Coweeta_wrangled3
 write.csv(Coweeta_wrangled3, file = "./Data/Processed/Coweeta_wrangled3.csv", row.names = FALSE)
+
+#RG5
+write.csv(RG5wrangled, file = "./Data/Processed/RG5wrangled.csv", row.names = FALSE)
+
+#RG6
+write.csv(RG6wrangled, file = "./Data/Processed/RG6wrangled.csv", row.names = FALSE)
+
+#RG31
+write.csv(RG31wrangled, file = "./Data/Processed/RG31wrangled.csv", row.names = FALSE)
+
+#RG5 Monthly Average
+write.csv(RG5_MonthAvg, file = "./Data/Processed/RG5_Monthly.csv", row.names = FALSE)
+
+#RG6 Monthly Average
+write.csv(RG6_MonthAvg, file = "./Data/Processed/RG6_Monthly.csv", row.names = FALSE)
+
+#RG31 Monthly Average
+write.csv(RG31_MonthAvg, file = "./Data/Processed/RG31_Monthly.csv", row.names = FALSE)
+
+#Site 1 soil & precip
+write.csv(site1SoilPrecip_wrangled, file = "./Data/Processed/site1_soil_precip.csv", row.names = FALSE)
+
+#Site 2 soil & precip
+write.csv(site2SoilPrecip_wrangled, file = "./Data/Processed/site2_soil_precip.csv", row.names = FALSE)
+
+#Site 3 soil & precip
+write.csv(site3SoilPrecip_wrangled, file = "./Data/Processed/site3_soil_precip.csv", row.names = FALSE)
+
+#Site 4 soil & precip
+write.csv(site4SoilPrecip_wrangled, file = "./Data/Processed/site4_soil_moisture.csv", row.names = FALSE)
+
 ```
+
 
 
 ```{r}
@@ -323,7 +335,7 @@ plot(site4_decomposed)
 #Seasonal Mann-Kendall: seasonality, non-parametric `SeasonalMannKendall` (package: Kendall)
 
 #running trend analysis
-library(Kendall)
+
 
 site1_trend <- Kendall::SeasonalMannKendall(site1_ts)
 summary(site1_trend)
@@ -401,6 +413,59 @@ site4SoilPrecip_wrangled <- site4SoilPrecip %>%
 lm_site4 <- lm(data = site4SoilPrecip_wrangled, formula = meanSoil ~ meanPrecip)
 summary(lm_site4)
 #precip is significant
+
+```
+
+
+
+
+
+
+
+
+
+
+#Below are some chunks that have been moved to data exploration rmd
+```{r}
+#THIS HAS BEEN MOVED TO DATA EXPLORATION RMD
+
+
+#Plotting the montly average soil moisture data
+site1averaged_plot <- 
+  ggplot(site1_MonthAvg, aes(x = YearMonth, y = AverageMonthlySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm)+
+  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 1") +
+  stat_regline_equation(label.y = 0.4)
+print(site1averaged_plot)
+
+site2averaged_plot <- 
+  ggplot(site2_MonthAvg, aes(x = YearMonth, y = AverageMonthlySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm)+
+  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 2") +
+  stat_regline_equation(label.y = 0.4)
+print(site2averaged_plot)
+
+site3averaged_plot <- 
+  ggplot(site3_MonthAvg, aes(x = YearMonth, y = AverageMonthlySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm)+
+  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 3") +
+  stat_regline_equation()
+print(site3averaged_plot)
+
+site4averaged_plot <- 
+  ggplot(site4_MonthAvg, aes(x = YearMonth, y = AverageMonthlySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm)+
+  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 4") +
+  stat_regline_equation()
+print(site4averaged_plot)
+
+#playing around with cowplot
+allaveragedplots <- plot_grid(site1averaged_plot, site2averaged_plot, site3averaged_plot, site4averaged_plot)
+print(allaveragedplots)
 
 ```
 
