@@ -57,7 +57,7 @@ RG31_MonthlyAvg <- read.csv('./Data/Processed/RG31_Monthly.csv')
 site1_soil_precip <- read.csv("./Data/Processed/site1_soil_precip.csv")
 site2_soil_precip <- read.csv("./Data/Processed/site2_soil_precip.csv")
 site3_soil_precip <- read.csv("./Data/Processed/site3_soil_precip.csv")
-site4_soil_precip <- read.csv("./Data/Processed/site4_soil_moisture.csv")
+site4_soil_precip <- read.csv("./Data/Processed/site4_soil_precip.csv")
 ```
 
 ```{r} 
@@ -187,18 +187,5 @@ print(Site4_soil_precip_plot)
 all_soil_precip_plots <- plot_grid(Site1_soil_precip_plot, Site2_soil_precip_plot, Site3_soil_precip_plot, Site4_soil_precip_plot)
 print(all_soil_precip_plots)
 
-
-```
-
-
-
-```{r}
-#Reading in the full wrangled dataset (contains all 4 soil moisture sites)
-Coweeta_wrangled3 <- read.csv("./Data/Processed/Coweeta_wrangled3.csv")
-
-#Reading in rain gage dataframes
-RG5 <- read.csv('./Data/Processed/RG5wrangled.csv')
-RG6 <- read.csv('./Data/Processed/RG6wrangled.csv')
-RG31 <- read.csv('./Data/Processed/RG31wrangled.csv')
 ```
 
