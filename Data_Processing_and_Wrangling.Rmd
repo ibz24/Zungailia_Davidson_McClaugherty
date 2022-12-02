@@ -182,7 +182,7 @@ RG31_MonthAvg <- RG31wrangled %>%
 ```
 
 ```{r}
-#Exporting dataframes into the 'Processed' data folder
+#Exporting the wrangled dataframes into the 'Processed' data folder
 
 #Site 1
 write.csv(site1_MonthAvg, file = "./Data/Processed/coweeta_site1.csv", row.names = FALSE)
@@ -227,7 +227,7 @@ write.csv(site2SoilPrecip_wrangled, file = "./Data/Processed/site2_soil_precip.c
 write.csv(site3SoilPrecip_wrangled, file = "./Data/Processed/site3_soil_precip.csv", row.names = FALSE)
 
 #Site 4 soil & precip
-write.csv(site4SoilPrecip_wrangled, file = "./Data/Processed/site4_soil_moisture.csv", row.names = FALSE)
+write.csv(site4SoilPrecip_wrangled, file = "./Data/Processed/site4_soil_precip.csv", row.names = FALSE)
 
 ```
 

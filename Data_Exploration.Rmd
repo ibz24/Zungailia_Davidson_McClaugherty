@@ -32,6 +32,11 @@ install.packages("ggpubr")
 library(ggpubr)
 
 #Set theme
+Project_theme <-
+  theme_classic(base_size = 14) +
+  theme(axis.text = element_text(color = "dark gray"), 
+  legend.position = "top")
+theme_set(Project_theme)
 ```
 
 ```{r}
@@ -41,13 +46,6 @@ site2 <- read.csv("./Data/Processed/coweeta_site2.csv")
 site3 <- read.csv("./Data/Processed/coweeta_site3.csv")
 site4 <- read.csv("./Data/Processed/coweeta_site4.csv")
 
-#Reading in the full wrangled dataset (contains all 4 soil moisture sites)
-Coweeta_wrangled3 <- read.csv("./Data/Processed/Coweeta_wrangled3.csv")
-
-#Reading in rain gage dataframes
-RG5 <- read.csv('./Data/Processed/RG5wrangled.csv')
-RG6 <- read.csv('./Data/Processed/RG6wrangled.csv')
-RG31 <- read.csv('./Data/Processed/RG31wrangled.csv')
 
 #Reading in monthly average rain data
 RG5_MonthlyAvg <- read.csv('./Data/Processed/RG5_Monthly.csv')
@@ -69,29 +67,23 @@ site2$YearMonth <- as.Date(site2$YearMonth, format = '%Y-%m-%d')
 site3$YearMonth <- as.Date(site3$YearMonth, format = '%Y-%m-%d')
 site4$YearMonth <- as.Date(site4$YearMonth, format = '%Y-%m-%d')
 
-Coweeta_wrangled3$Date <- as.Date(Coweeta_wrangled3$Date, format = '%Y-%m-%d')
-
-RG5$Date <- as.Date(RG5$Date, format = '%Y-%m-%d')
-RG6$Date <- as.Date(RG6$Date, format = '%Y-%m-%d')
-RG31$Date <- as.Date(RG31$Date, format = '%Y-%m-%d')
-
 RG5_MonthlyAvg$YearMonth <- as.Date(RG5_MonthlyAvg$YearMonth, format = '%Y-%m-%d')
 RG6_MonthlyAvg$YearMonth <- as.Date(RG6_MonthlyAvg$YearMonth, format = '%Y-%m-%d')
 RG31_MonthlyAvg$YearMonth <- as.Date(RG31_MonthlyAvg$YearMonth, format = '%Y-%m-%d')
 
-site1_soil_precip$Date <- as.Date(site1_soil_precip$Date, format = '%Y-%m-%d')
-site2_soil_precip$Date <- as.Date(site2_soil_precip$Date, format = '%Y-%m-%d')
-site3_soil_precip$Date <- as.Date(site3_soil_precip$Date, format = '%Y-%m-%d')
-site4_soil_precip$Date <- as.Date(site4_soil_precip$Date, format = '%Y-%m-%d')
+site1_soil_precip$YearMonth <- as.Date(site1_soil_precip$YearMonth, format = '%Y-%m-%d')
+site2_soil_precip$YearMonth <- as.Date(site2_soil_precip$YearMonth, format = '%Y-%m-%d')
+site3_soil_precip$YearMonth <- as.Date(site3_soil_precip$YearMonth, format = '%Y-%m-%d')
+site4_soil_precip$YearMonth <- as.Date(site4_soil_precip$YearMonth, format = '%Y-%m-%d')
 
 ```
 
 ```{r}
 #Comparing the mean soil moisture values for each site (30 cm depth) throughout the study period
-mean(site1$smois30) #0.2796104
-mean(site2$smois30) #0.2537259
-mean(site3$smois30) #0.2726953
-mean(site4$smois30) #0.3172329
+mean(site1$AverageMonthlySmois30) #0.2804474
+mean(site2$AverageMonthlySmois30) #0.2542586
+mean(site3$AverageMonthlySmois30) #0.2728689
+mean(site4$AverageMonthlySmois30) #0.3156362
 
 ```
 
@@ -102,7 +94,7 @@ site1_plot <-
   ggplot(site1, aes(x = YearMonth, y = AverageMonthlySmois30)) +
   geom_line() +
   geom_smooth(method = lm)+
-  labs(x = "Year", y = "Average Monthly Soil Moisture 30 cm (%)", title = "Site 1") +
+  labs(x = "Year", y = "Average Monthly Soil Moisture (%)", title = "Site 1") +
   stat_regline_equation(label.y = 0.4)
 print(site1_plot)
 
@@ -110,7 +102,7 @@ site2_plot <-
   ggplot(site2, aes(x = YearMonth, y = AverageMonthlySmois30)) +
   geom_line() +
   geom_smooth(method = lm)+
-  labs(x = "Year", y = "Average Monthly Soil Moisture 30 cm (%)", title = "Site 2") +
+  labs(x = "Year", y = "Average Monthly Soil Moisture (%)", title = "Site 2") +
   stat_regline_equation(label.y = 0.4)
 print(site2_plot)
 
@@ -118,7 +110,7 @@ site3_plot <-
   ggplot(site3, aes(x = YearMonth, y = AverageMonthlySmois30)) +
   geom_line() +
   geom_smooth(method = lm)+
-  labs(x = "Year", y = "Average Monthly Soil Moisture 30 cm (%)", title = "Site 3") +
+  labs(x = "Year", y = "Average Monthly Soil Moisture (%)", title = "Site 3") +
   stat_regline_equation()
 print(site3_plot)
 
@@ -126,7 +118,7 @@ site4_plot <-
   ggplot(site4, aes(x = YearMonth, y = AverageMonthlySmois30)) +
   geom_line() +
   geom_smooth(method = lm)+
-  labs(x = "Year", y = "Average Monthly Soil Moisture 30 cm (%)", title = "Site 4") +
+  labs(x = "Year", y = "Average Monthly Soil Moisture (%)", title = "Site 4") +
   stat_regline_equation()
 print(site4_plot)
 
@@ -138,10 +130,75 @@ print(allsiteplots)
 
 ```{r}
 #Here we could plot average monthly precip over time
+RG5_Plot <-
+  ggplot(RG5_MonthlyAvg, aes(x = YearMonth, y = AverageMonthlyPrecip)) +
+  geom_line()+
+  geom_smooth(method = lm) +
+  labs(x = 'Year', y = 'Average Monthly Precipitation (in.)', title = 'Rain Gage 5') +
+  stat_regline_equation()
+print(RG5_Plot)
 
+RG6_Plot <-
+  ggplot(RG6_MonthlyAvg, aes(x = YearMonth, y = AverageMonthlyPrecip)) +
+  geom_line()+
+  geom_smooth(method = lm) +
+  labs(x = 'Year', y = 'Average Monthly Precipitation (in.)', title = 'Rain Gage 6') +
+  stat_regline_equation()
+print(RG6_Plot)
+
+RG31_Plot <-
+  ggplot(RG31_MonthlyAvg, aes(x = YearMonth, y = AverageMonthlyPrecip)) +
+  geom_line()+
+  geom_smooth(method = lm) +
+  labs(x = 'Year', y = 'Average Monthly Precipitation (in.)', title = 'Rain Gage 31') +
+  stat_regline_equation()
+print(RG31_Plot)
+
+allprecipplots <- plot_grid(RG5_Plot, RG6_Plot, RG31_Plot)
+print(allprecipplots)
 ```
 
 ```{r}
 #here we could do a scatterplot of average monthly smois and average monthly precip
+Site1_soil_precip_plot <- 
+  ggplot(site1_soil_precip, aes(x = AverageMonthlyPrecip, y = AverageMonthlySmois30)) +
+  geom_point() +
+  labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 1') 
+print(Site1_soil_precip_plot)
+
+Site2_soil_precip_plot <- 
+  ggplot(site2_soil_precip, aes(x = AverageMonthlyPrecip, y = AverageMonthlySmois30)) +
+  geom_point() +
+  labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 2') 
+print(Site2_soil_precip_plot)
+
+Site3_soil_precip_plot <- 
+  ggplot(site3_soil_precip, aes(x = AverageMonthlyPrecip, y = AverageMonthlySmois30)) +
+  geom_point() +
+  labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 3') 
+print(Site3_soil_precip_plot)
+
+Site4_soil_precip_plot <- 
+  ggplot(site4_soil_precip, aes(x = AverageMonthlyPrecip, y = AverageMonthlySmois30)) +
+  geom_point() +
+  labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 4') 
+print(Site4_soil_precip_plot)
+
+all_soil_precip_plots <- plot_grid(Site1_soil_precip_plot, Site2_soil_precip_plot, Site3_soil_precip_plot, Site4_soil_precip_plot)
+print(all_soil_precip_plots)
+
 
 ```
+
+
+
+```{r}
+#Reading in the full wrangled dataset (contains all 4 soil moisture sites)
+Coweeta_wrangled3 <- read.csv("./Data/Processed/Coweeta_wrangled3.csv")
+
+#Reading in rain gage dataframes
+RG5 <- read.csv('./Data/Processed/RG5wrangled.csv')
+RG6 <- read.csv('./Data/Processed/RG6wrangled.csv')
+RG31 <- read.csv('./Data/Processed/RG31wrangled.csv')
+```
+
