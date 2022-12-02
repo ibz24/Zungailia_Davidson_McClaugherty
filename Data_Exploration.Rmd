@@ -18,10 +18,10 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 ```{r}
-#Check working directory
+#Checking working directory
 getwd()
 
-#Load necessary packages
+#Loading necessary packages
 library(dplyr)
 library(lubridate)
 library(tidyverse)
@@ -31,7 +31,7 @@ library(ggplot2)
 install.packages("ggpubr")
 library(ggpubr)
 
-#Set theme
+#Setting the ggplot theme
 Project_theme <-
   theme_classic(base_size = 14) +
   theme(axis.text = element_text(color = "dark gray"), 
@@ -93,33 +93,33 @@ mean(site4$AverageMonthlySmois30) #0.3156362
 site1_plot <- 
   ggplot(site1, aes(x = YearMonth, y = AverageMonthlySmois30)) +
   geom_line() +
-  geom_smooth(method = lm)+
+  geom_smooth(method = lm, se = FALSE)+
   labs(x = "Year", y = "Average Monthly Soil Moisture (%)", title = "Site 1") +
-  stat_regline_equation(label.y = 0.4)
+  stat_regline_equation(label.y = 0.37)
 print(site1_plot)
 
 site2_plot <- 
   ggplot(site2, aes(x = YearMonth, y = AverageMonthlySmois30)) +
   geom_line() +
-  geom_smooth(method = lm)+
+  geom_smooth(method = lm, se = FALSE)+
   labs(x = "Year", y = "Average Monthly Soil Moisture (%)", title = "Site 2") +
-  stat_regline_equation(label.y = 0.4)
+  stat_regline_equation(label.y = 0.36)
 print(site2_plot)
 
 site3_plot <- 
   ggplot(site3, aes(x = YearMonth, y = AverageMonthlySmois30)) +
   geom_line() +
-  geom_smooth(method = lm)+
+  geom_smooth(method = lm, se = FALSE)+
   labs(x = "Year", y = "Average Monthly Soil Moisture (%)", title = "Site 3") +
-  stat_regline_equation()
+  stat_regline_equation(label.y = 0.52)
 print(site3_plot)
 
 site4_plot <- 
   ggplot(site4, aes(x = YearMonth, y = AverageMonthlySmois30)) +
   geom_line() +
-  geom_smooth(method = lm)+
+  geom_smooth(method = lm, se = FALSE)+
   labs(x = "Year", y = "Average Monthly Soil Moisture (%)", title = "Site 4") +
-  stat_regline_equation()
+  stat_regline_equation(label.y = 0.48)
 print(site4_plot)
 
 #Creating a cowplot to show all four sites at once
@@ -129,32 +129,33 @@ print(allsiteplots)
 ```
 
 ```{r}
-#Plotting average monthly precipitation at the three rain gages closest to our sites to look at trends over time
+#Plotting average monthly precipitation at the three rain gauges closest to our sites to look at trends over time
 
 RG5_Plot <-
   ggplot(RG5_MonthlyAvg, aes(x = YearMonth, y = AverageMonthlyPrecip)) +
   geom_line()+
-  geom_smooth(method = lm) +
-  labs(x = 'Year', y = 'Average Monthly Precipitation (in.)', title = 'Rain Gage 5') +
-  stat_regline_equation()
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = 'Year', y = 'Average Monthly Precipitation (in.)', title = 'Rain Gauge 5') +
+  stat_regline_equation(label.y = 2.4)
 print(RG5_Plot)
 
 RG6_Plot <-
   ggplot(RG6_MonthlyAvg, aes(x = YearMonth, y = AverageMonthlyPrecip)) +
   geom_line()+
-  geom_smooth(method = lm) +
-  labs(x = 'Year', y = 'Average Monthly Precipitation (in.)', title = 'Rain Gage 6') +
-  stat_regline_equation()
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = 'Year', y = 'Average Monthly Precipitation (in.)', title = 'Rain Gauge 6') +
+  stat_regline_equation(label.y = 1.5)
 print(RG6_Plot)
 
 RG31_Plot <-
   ggplot(RG31_MonthlyAvg, aes(x = YearMonth, y = AverageMonthlyPrecip)) +
   geom_line()+
-  geom_smooth(method = lm) +
-  labs(x = 'Year', y = 'Average Monthly Precipitation (in.)', title = 'Rain Gage 31') +
-  stat_regline_equation()
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = 'Year', y = 'Average Monthly Precipitation (in.)', title = 'Rain Gauge 31') +
+  stat_regline_equation(label.y = 2.8)
 print(RG31_Plot)
 
+#Creating a cowplot to show all three rain gauges at once
 allprecipplots <- plot_grid(RG5_Plot, RG6_Plot, RG31_Plot)
 print(allprecipplots)
 ```
@@ -165,27 +166,36 @@ print(allprecipplots)
 Site1_soil_precip_plot <- 
   ggplot(site1_soil_precip, aes(x = AverageMonthlyPrecip, y = AverageMonthlySmois30)) +
   geom_point() +
-  labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 1') 
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 1') +
+  stat_regline_equation(label.y = 0.37)
 print(Site1_soil_precip_plot)
 
 Site2_soil_precip_plot <- 
   ggplot(site2_soil_precip, aes(x = AverageMonthlyPrecip, y = AverageMonthlySmois30)) +
   geom_point() +
-  labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 2') 
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 2') +
+  stat_regline_equation(label.y = 0.36)
 print(Site2_soil_precip_plot)
 
 Site3_soil_precip_plot <- 
   ggplot(site3_soil_precip, aes(x = AverageMonthlyPrecip, y = AverageMonthlySmois30)) +
   geom_point() +
-  labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 3') 
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 3') +
+  stat_regline_equation(label.y = 0.46)
 print(Site3_soil_precip_plot)
 
 Site4_soil_precip_plot <- 
   ggplot(site4_soil_precip, aes(x = AverageMonthlyPrecip, y = AverageMonthlySmois30)) +
   geom_point() +
-  labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 4') 
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 4') +
+  stat_regline_equation(label.y = 0.48)
 print(Site4_soil_precip_plot)
 
+#Creating a cowplot to show all four sites at once
 all_soil_precip_plots <- plot_grid(Site1_soil_precip_plot, Site2_soil_precip_plot, Site3_soil_precip_plot, Site4_soil_precip_plot)
 print(all_soil_precip_plots)
 

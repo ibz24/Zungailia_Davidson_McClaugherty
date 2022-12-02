@@ -18,10 +18,10 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 ```{r}
-#Check working directory
+#Checking working directory
 getwd()
 
-#Load necessary packages
+#Loading necessary packages
 library(dplyr)
 library(lubridate)
 library(tidyverse)
@@ -38,7 +38,7 @@ RG5 <- read.csv('./Data/Raw/RG05_daily_1992_2021.csv')
 RG6 <- read.csv('./Data/Raw/RG06_daily_1936_2021.csv')
 RG31 <- read.csv('./Data/Raw/RG31_daily_1958_2021.csv')
 
-#Set theme
+#Setting the ggplot theme
 Project_theme <-
   theme_classic(base_size = 14) +
   theme(axis.text = element_text(color = "dark gray"), 
@@ -48,10 +48,10 @@ theme_set(Project_theme)
 ```
 
 ```{r}
-#Check dimensions
+#Checking dimensions
 dim(Coweeta)
 
-#Check column names
+#Checking column names
 colnames(Coweeta)
 
 #Selecting the columns of interest for our analysis:

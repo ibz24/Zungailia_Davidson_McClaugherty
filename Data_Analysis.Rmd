@@ -18,10 +18,10 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 ```{r}
-#Check working directory
+#Checking working directory
 getwd()
 
-#Load necessary packages
+#Loading necessary packages
 library(dplyr)
 library(lubridate)
 library(tidyverse)
@@ -32,7 +32,7 @@ install.packages("ggpubr")
 library(ggpubr)
 library(Kendall)
 
-#Set theme
+#Setting the ggplot theme
 Project_theme <-
   theme_classic(base_size = 14) +
   theme(axis.text = element_text(color = "dark gray"), 
@@ -68,7 +68,7 @@ site4_soil_precip$YearMonth <- as.Date(site4_soil_precip$YearMonth, format = '%Y
 ```
 
 ```{r}
-#creating a time series for each soil moisture site
+#Creating a time series for each soil moisture site
 site1_ts <- ts(site1$AverageMonthlySmois30, start = c(2000, 1), frequency = 12)
 
 site2_ts <- ts(site2$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
@@ -77,7 +77,7 @@ site3_ts <- ts(site3$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
 
 site4_ts <- ts(site4$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
 
-#decomposing the ts
+#Decomposing the time series
 site1_decomposed <- stl(site1_ts, s.window = "periodic")
 
 site2_decomposed <- stl(site2_ts, s.window = "periodic")
@@ -86,9 +86,9 @@ site3_decomposed <- stl(site3_ts, s.window = "periodic")
 
 site4_decomposed <- stl(site4_ts, s.window = "periodic")
 
-#plotting decomposed ts
-#trend component seems to explain much of the variability in sites 3 & 4
-#seasonality component seems to explain more of the variability in sites 1 & 2
+#Plotting decomposed time series
+## NOTES: trend component seems to explain much of the variability in sites 3 & 4
+## NOTES: seasonality component seems to explain more of the variability in sites 1 & 2
 
 plot(site1_decomposed) 
 plot(site2_decomposed)
@@ -98,48 +98,47 @@ plot(site4_decomposed)
 ```
 
 ```{r}
-#running Seasonal Mann-Kendall trend analysis
+#Running the Seasonal Mann-Kendall trend analysis
 
 site1_trend <- Kendall::SeasonalMannKendall(site1_ts)
 summary(site1_trend)
-#not significant
+## NOTES: not significant
 
 site2_trend <- Kendall::SeasonalMannKendall(site2_ts)
 summary(site2_trend)
-#not significant
+## NOTES: not significant
 
 site3_trend <- Kendall::SeasonalMannKendall(site3_ts)
 summary(site3_trend)
-#significant trend
+## NOTES:significant trend
 
 site4_trend <- Kendall::SeasonalMannKendall(site4_ts)
 summary(site4_trend)
-#significant trend
+## NOTES: significant trend
 
 ```
 
 ```{r}
-#Linear model to determine the strength of the statistical relationship between precipitation and soil moisture. 
-#linear model for each site - precip on y axis, soil moisture x axis
-#output will tell you if the relationship between soil moisture & precip is significant
-
+#Running a linear model to determine the strength of the statistical relationship between precipitation and soil moisture.
+## NOTES: precip on y axis, soil moisture x axis
+## NOTES: output will tell you if the relationship between soil moisture & precip is significant
 
 lm_site1 <- lm(data = site1_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
 summary(lm_site1)
-#precip is significant, p-value < 0.05
-#1 unit increase in precip leads to a 0.047911 unit increase in soil moisture
+## NOTES: precip is significant, p-value < 0.05
+## NOTES: 1 unit increase in precip leads to a 0.047911 unit increase in soil moisture
 
 lm_site2 <- lm(data = site2_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
 summary(lm_site2)
-#precip is NOT significant, p-value > 0.05
+## NOTES: precip is NOT significant, p-value > 0.05
 
 lm_site3 <- lm(data = site3_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
 summary(lm_site3)
-#precip is NOT significant, p-value > 0.05
+## NOTES: precip is NOT significant, p-value > 0.05
 
 lm_site4 <- lm(data = site4_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
 summary(lm_site4)
-#precip is significant, p-value < 0.05
+## NOTES: precip is significant, p-value < 0.05
 ```
 
 ```
