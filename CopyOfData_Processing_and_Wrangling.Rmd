@@ -39,11 +39,6 @@ RG6 <- read.csv('./Data/Raw/RG06_daily_1936_2021.csv')
 RG31 <- read.csv('./Data/Raw/RG31_daily_1958_2021.csv')
 
 #Set theme
-Project_theme <-
-  theme_classic(base_size = 14) +
-  theme(axis.text = element_text(color = "dark gray"), 
-  legend.position = "top")
-theme_set(Project_theme)
 
 ```
 
@@ -60,7 +55,6 @@ Coweeta_wrangled <- Coweeta %>% select(site, Year, YearDay, smois30)
 
 ```{r}
 #Addressing the date in the Coweeta soil moisture datasets
-
 class(Coweeta_wrangled$YearDay)
 class(Coweeta_wrangled$Year)
 
@@ -81,7 +75,6 @@ RG31 <- RG31 %>%
 
 ```{r}
 #Checking the class of each variable
-
 class(Coweeta_wrangled2$site)
 class(Coweeta_wrangled2$Year)
 class(Coweeta_wrangled2$YearDay)
@@ -97,25 +90,34 @@ summary(Coweeta_wrangled2$Year)
 Coweeta_wrangled3 <- Coweeta_wrangled2 %>% 
   filter(smois30 >= 0 & smois30 <= 1) %>% 
   drop_na(Date) #dropped 1 na in the date column (day 366)
+
 sum(is.na(Coweeta_wrangled3))
 
 ```
 
 ```{r}
-#Separating 4 sites into 4 dataframes
+#Separating 4 sites into 4 dataframes; checking all for NAs. Only site4 has NAs but it's only in the smois60 so we could just plan to use the smois 30 data instead? 
 
 site1 <- Coweeta_wrangled3 %>% 
   filter(site == "1")
+sum(is.na(site1))
 
 site2 <- Coweeta_wrangled3 %>% 
   filter(site == "2")
+sum(is.na(site2))
 
 site3 <- Coweeta_wrangled3 %>% 
-  filter(site == "3") 
+  filter(site == "3") %>% 
+  drop_na(Date)
+sum(is.na(site3$Date)) #showing 1 NA in the date column, could just drop the date? 
 
 site4 <- Coweeta_wrangled3 %>% 
   filter(site == "4")
+sum(is.na(site4$smois30))
 
+```
+
+```{r}
 ```
 
 ```{r}
@@ -123,17 +125,45 @@ site4 <- Coweeta_wrangled3 %>%
 
 RG5wrangled <- RG5 %>% 
   filter(YEAR >= 2000 & YEAR <= 2014)
-
 RG6wrangled <- RG6 %>% 
   filter(YEAR >= 2000 & YEAR <= 2014)
-
 RG31wrangled <- RG31 %>% 
   filter(YEAR >= 2000 & YEAR <= 2014)
 
 ```
 
+```{r}
+#Plots of initial (not averaged) hourly data
+
+site1_plot <- ggplot(site1, aes(x = Date, y = smois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
+print(site1_plot)
+
+site2_plot <- ggplot(site2, aes(x = Date, y = smois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
+print(site2_plot)
+
+site3_plot <- ggplot(site3, aes(x = Date, y = smois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
+print(site3_plot)
+
+site4_plot <- ggplot(site4, aes(x = Date, y = smois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
+print(site4_plot)
+
+```
+
+
 ```{r} 
-#averaging soil moisture by month for each site
+#averaging soil mositure by MONTH for each site
+
+#site1_averaged <-site1 %>% 
+  #group_by(Date) %>% 
+  #summarise(AverageDailySmois30 = mean(smois30))
 
 site1_MonthAvg <-site1 %>% 
   mutate(Month = month(Date)) %>% 
@@ -141,17 +171,29 @@ site1_MonthAvg <-site1 %>%
   summarise(AverageMonthlySmois30 = mean(smois30)) %>% 
   mutate(YearMonth = as.Date(paste0(Year, "-", Month, "-", "01"), format = "%Y-%m-%d"))
 
+#site2_averaged <- site2 %>% 
+  #group_by(Date) %>% 
+  #summarise(AverageDailySmois30 = mean(smois30))
+
 site2_MonthAvg <-site2 %>% 
   mutate(Month = month(Date)) %>% 
   group_by(Year, Month) %>% 
   summarise(AverageMonthlySmois30 = mean(smois30)) %>% 
   mutate(YearMonth = as.Date(paste0(Year, "-", Month, "-", "01"), format = "%Y-%m-%d"))
 
+#site3_averaged <- site3 %>% 
+  #group_by(Date) %>% 
+    #summarise(AverageDailySmois30 = mean(smois30))
+
 site3_MonthAvg <-site3 %>% 
   mutate(Month = month(Date)) %>% 
   group_by(Year, Month) %>% 
   summarise(AverageMonthlySmois30 = mean(smois30)) %>% 
   mutate(YearMonth = as.Date(paste0(Year, "-", Month, "-", "01"), format = "%Y-%m-%d"))
+
+#site4_averaged <- site4 %>% 
+  #group_by(Date) %>% 
+    #summarise(AverageDailySmois30 = mean(smois30))
 
 site4_MonthAvg <-site4 %>% 
   mutate(Month = month(Date)) %>% 
@@ -163,7 +205,6 @@ site4_MonthAvg <-site4 %>%
 
 ```{r}
 #averaging monthly rain gage data
-
 RG5_MonthAvg <- RG5wrangled %>% 
   group_by(YEAR, MONTH) %>% 
   summarise(AverageMonthlyPrecip = mean(RRG05)) %>% 
@@ -231,8 +272,24 @@ write.csv(site4SoilPrecip_wrangled, file = "./Data/Processed/site4_soil_moisture
 
 ```
 
+
+
 ```{r}
-#creating a time series for each site
+#Notes on time series
+
+#Time series datasets come with several caveats, which need to be addressed in order to effectively model the system. A few common challenges that arise (and can occur together within a single dataset) are: 
+
+#Autocorrelation: Data points are not independent from one another (i.e., the measurement at a given time point is dependent on previous time point(s)) - still only looking at one variable, just at different points in time
+
+#Data gaps: Data are not collected at regular intervals, necessitating *interpolation* between measurements.
+
+#Seasonality: seasonal patterns in variables occur at regular intervals, impeding clear interpretation of a monotonic (unidirectional) trend. relatively SHORT intervals (ex: dry vs wet seasons)
+
+#Heteroscedasticity: The variance of the time series is not constant over time
+
+#Covariance: the covariance of the time series is not constant over time
+
+#creating a ts for each site
 site1_ts <- ts(site1_MonthAvg$AverageMonthlySmois30, start = c(2000, 1), frequency = 12)
 
 site2_ts <- ts(site2_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
@@ -242,6 +299,7 @@ site3_ts <- ts(site3_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequenc
 site4_ts <- ts(site4_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
 
 #decomposing the ts
+
 site1_decomposed <- stl(site1_ts, s.window = "periodic")
 
 site2_decomposed <- stl(site2_ts, s.window = "periodic")
@@ -259,10 +317,25 @@ plot(site2_decomposed)
 plot(site3_decomposed)
 plot(site4_decomposed)
 
+#Notes on Components
+
+#Seasonal component: repeats over a fixed known period (e.g., seasons of the year, months, days of the week, hour of the day)
+
+#Trend component: quantifies the upward or downward progression over time. The trend component of a time series does not have to be monotonic.
+
 ```
 
 ```{r}
-#running Seasonal Mann-Kendall trend analysis
+#Monotonic trend analysis notes (will either be upward or downward)
+
+#Linear regression: no seasonality, fits the assumptions of a parametric test. Function: `lm`
+
+#Mann-Kendall: no seasonality, non-parametric, missing data allowed. Function: `MannKendall()` (package: Kendall)
+
+#Seasonal Mann-Kendall: seasonality, non-parametric `SeasonalMannKendall` (package: Kendall)
+
+#running trend analysis
+
 
 site1_trend <- Kendall::SeasonalMannKendall(site1_ts)
 summary(site1_trend)
@@ -282,57 +355,126 @@ summary(site4_trend)
 
 ```
 
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
 ```{r}
 #linear model for each site - precip on y axis, soil moisture x axis
 #output will tell you if the relationship between soil moisture & precip is significant
 
 #site 1
-site1SoilPrecip <- left_join(site1_MonthAvg, RG6_MonthAvg, by = "YearMonth")
+#site1SoilPrecip <- left_join(site1, RG6wrangled, by = "Date")
+site1SoilPrecip_new <- left_join(site1_MonthAvg, RG6_MonthAvg, by = "YearMonth")
 
-site1SoilPrecip_wrangled <- site1SoilPrecip %>% 
+#site1SoilPrecip_wrangled <- site1SoilPrecip %>% 
+  #select(Date, smois30, RRG06) %>% 
+  #na.omit() %>% 
+  #group_by(Date) %>%
+  #summarise(meanSoil = mean(smois30), meanPrecip = mean(RRG06))
+
+soil1SoilPrecip_wrangled_new <- site1SoilPrecip_new %>% 
   select(YearMonth, AverageMonthlySmois30, AverageMonthlyPrecip) %>% 
   na.omit() %>% 
   group_by(YearMonth)
 
-lm_site1 <- lm(data = site1SoilPrecip_wrangled, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
-summary(lm_site1)
-#precip is significant, p-value < 0.05
-#1 unit increase in precip leads to a 0.047911 unit increase in soil moisture
+#lm_site1 <- lm(data = site1SoilPrecip_wrangled, formula = meanSoil ~ meanPrecip)
+#summary(lm_site1)
+#precip is significant - 1 unit increase in precip leads to a 0.021187 unit increase in soil moisture
+
+lm_site1_new <- lm(data = site1SoilPrecip_new, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
+summary(lm_site1_new)
 
 #site 2
-site2SoilPrecip <- left_join(site2_MonthAvg, RG31_MonthAvg, by = "YearMonth")
+site2SoilPrecip <- left_join(site2, RG31wrangled, by = "Date")
 
 site2SoilPrecip_wrangled <- site2SoilPrecip %>% 
-  select(YearMonth, AverageMonthlySmois30, AverageMonthlyPrecip) %>% 
+  select(Date, smois30, RRG31) %>% 
   na.omit() %>% 
-  group_by(YearMonth)
+  group_by(Date) %>% 
+  summarise(meanSoil = mean(smois30), meanPrecip = mean(RRG31))
 
-lm_site2 <- lm(data = site2SoilPrecip_wrangled, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
+lm_site2 <- lm(data = site2SoilPrecip_wrangled, formula = meanSoil ~ meanPrecip)
 summary(lm_site2)
-#precip is NOT significant, p-value > 0.05
+#precip is significant
 
 #site 3
-site3SoilPrecip <- left_join(site3_MonthAvg, RG5_MonthAvg, by = "YearMonth")
+site3SoilPrecip <- left_join(site3, RG5wrangled, by = "Date")
 
 site3SoilPrecip_wrangled <- site3SoilPrecip %>% 
-  select(YearMonth, AverageMonthlySmois30, AverageMonthlyPrecip) %>% 
+  select(Date, smois30, RRG05) %>% 
   na.omit() %>% 
-  group_by(YearMonth)
+  group_by(Date) %>% 
+  summarise(meanSoil = mean(smois30), meanPrecip = mean(RRG05))
 
-lm_site3 <- lm(data = site3SoilPrecip_wrangled, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
+lm_site3 <- lm(data = site3SoilPrecip_wrangled, formula = meanSoil ~ meanPrecip)
 summary(lm_site3)
-#precip is NOT significant, p-value > 0.05
+#precip is significant
 
 #site 4
-site4SoilPrecip <- left_join(site4_MonthAvg, RG6_MonthAvg, by = "YearMonth")
+site4SoilPrecip <- left_join(site4, RG6wrangled, by = "Date")
 
 site4SoilPrecip_wrangled <- site4SoilPrecip %>% 
-  select(YearMonth, AverageMonthlySmois30, AverageMonthlyPrecip) %>% 
+  select(Date, smois30, RRG06) %>% 
   na.omit() %>% 
-  group_by(YearMonth)
+  group_by(Date) %>% 
+  summarise(meanSoil = mean(smois30), meanPrecip = mean(RRG06))
 
-lm_site4 <- lm(data = site4SoilPrecip_wrangled, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
+lm_site4 <- lm(data = site4SoilPrecip_wrangled, formula = meanSoil ~ meanPrecip)
 summary(lm_site4)
-#precip is significant, p-value < 0.05
+#precip is significant
 
 ```
+
+
+
+
+
+
+
+
+
+
+#Below are some chunks that have been moved to data exploration rmd
+```{r}
+#THIS HAS BEEN MOVED TO DATA EXPLORATION RMD
+
+
+#Plotting the montly average soil moisture data
+site1averaged_plot <- 
+  ggplot(site1_MonthAvg, aes(x = YearMonth, y = AverageMonthlySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm)+
+  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 1") +
+  stat_regline_equation(label.y = 0.4)
+print(site1averaged_plot)
+
+site2averaged_plot <- 
+  ggplot(site2_MonthAvg, aes(x = YearMonth, y = AverageMonthlySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm)+
+  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 2") +
+  stat_regline_equation(label.y = 0.4)
+print(site2averaged_plot)
+
+site3averaged_plot <- 
+  ggplot(site3_MonthAvg, aes(x = YearMonth, y = AverageMonthlySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm)+
+  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 3") +
+  stat_regline_equation()
+print(site3averaged_plot)
+
+site4averaged_plot <- 
+  ggplot(site4_MonthAvg, aes(x = YearMonth, y = AverageMonthlySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm)+
+  labs(x = "Year", y = "Average Daily Soil Moisture 30 cm (%)", title = "Site 4") +
+  stat_regline_equation()
+print(site4averaged_plot)
+
+#playing around with cowplot
+allaveragedplots <- plot_grid(site1averaged_plot, site2averaged_plot, site3averaged_plot, site4averaged_plot)
+print(allaveragedplots)
+
+```
+

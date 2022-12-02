@@ -136,12 +136,76 @@ print(allsiteplots)
 
 ```
 
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 ```{r}
 #Here we could plot average monthly precip over time
-
 ```
+
 
 ```{r}
 #here we could do a scatterplot of average monthly smois and average monthly precip
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Down here are plots we probably don't need to include for the final report (plots of the initial hourly smois data and plots of daily smois data)
+```{r}
+#Plotting initial data THINK ABOUT REMOVING THIS & ONLY PLOTTING MONTHLY AVERAGES
+
+site1_plot <- ggplot(site1, aes(x = Date, y = smois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
+print(site1_plot)
+
+site2_plot <- ggplot(site2, aes(x = Date, y = smois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
+print(site2_plot)
+
+site3_plot <- ggplot(site3, aes(x = Date, y = smois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
+print(site3_plot)
+
+site4_plot <- ggplot(site4, aes(x = Date, y = smois30)) +
+  geom_line() +
+  geom_smooth(method = lm)
+print(site4_plot)
 
 ```
+
+
+```{r}
+#averaging by date for each site REMOVE THIS AND KEEP MONTHLY PLOTS 
+
+site1_averaged <-site1 %>% 
+  group_by(Date) %>% 
+  summarise(AverageDailySmois30 = mean(smois30))
+
+site2_averaged <- site2 %>% 
+  group_by(Date) %>% 
+  summarise(AverageDailySmois30 = mean(smois30))
+
+site3_averaged <- site3 %>% 
+  group_by(Date) %>% 
+    summarise(AverageDailySmois30 = mean(smois30))
+
+site4_averaged <- site4 %>% 
+  group_by(Date) %>% 
+    summarise(AverageDailySmois30 = mean(smois30))
+
+
+
+
+```
+

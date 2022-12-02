@@ -78,31 +78,16 @@ site4_averaged <- site4 %>%
 
 
 ```{r}
-#Notes on time series
+#creating a time series for each site
+site1_ts <- ts(site1_MonthAvg$AverageMonthlySmois30, start = c(2000, 1), frequency = 12)
 
-#Time series datasets come with several caveats, which need to be addressed in order to effectively model the system. A few common challenges that arise (and can occur together within a single dataset) are: 
+site2_ts <- ts(site2_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
 
-#Autocorrelation: Data points are not independent from one another (i.e., the measurement at a given time point is dependent on previous time point(s)) - still only looking at one variable, just at different points in time
+site3_ts <- ts(site3_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
 
-#Data gaps: Data are not collected at regular intervals, necessitating *interpolation* between measurements.
-
-#Seasonality: seasonal patterns in variables occur at regular intervals, impeding clear interpretation of a monotonic (unidirectional) trend. relatively SHORT intervals (ex: dry vs wet seasons)
-
-#Heteroscedasticity: The variance of the time series is not constant over time
-
-#Covariance: the covariance of the time series is not constant over time
-
-#creating a ts for each site
-site1_ts <- ts(site1_averaged$AverageDailySmois30, start = c(2000, 1), frequency = 365)
-
-site2_ts <- ts(site2_averaged$AverageDailySmois30, start = c(2000,1), frequency = 365)
-
-site3_ts <- ts(site3_averaged$AverageDailySmois30, start = c(2000,1), frequency = 365)
-
-site4_ts <- ts(site4_averaged$AverageDailySmois30, start = c(2000,1), frequency = 365)
+site4_ts <- ts(site4_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
 
 #decomposing the ts
-
 site1_decomposed <- stl(site1_ts, s.window = "periodic")
 
 site2_decomposed <- stl(site2_ts, s.window = "periodic")
@@ -120,37 +105,27 @@ plot(site2_decomposed)
 plot(site3_decomposed)
 plot(site4_decomposed)
 
-#Notes on Components
-
-#Seasonal component: repeats over a fixed known period (e.g., seasons of the year, months, days of the week, hour of the day)
-
-#Trend component: quantifies the upward or downward progression over time. The trend component of a time series does not have to be monotonic.
-
 ```
 
 ```{r}
-#Monotonic trend analysis notes (will either be upward or downward)
-
-#Linear regression: no seasonality, fits the assumptions of a parametric test. Function: `lm`
-
-#Mann-Kendall: no seasonality, non-parametric, missing data allowed. Function: `MannKendall()` (package: Kendall)
-
-#Seasonal Mann-Kendall: seasonality, non-parametric `SeasonalMannKendall` (package: Kendall)
-
-#running trend analysis
-
+#running Seasonal Mann-Kendall trend analysis
 
 site1_trend <- Kendall::SeasonalMannKendall(site1_ts)
 summary(site1_trend)
+#not significant
 
 site2_trend <- Kendall::SeasonalMannKendall(site2_ts)
 summary(site2_trend)
+#not significant
 
 site3_trend <- Kendall::SeasonalMannKendall(site3_ts)
 summary(site3_trend)
+#significant trend
 
 site4_trend <- Kendall::SeasonalMannKendall(site4_ts)
 summary(site4_trend)
+#significant trend
+
 ```
 
 ```{r}
@@ -182,5 +157,3 @@ plot(Coweeta_Mean_Smois30_ANOVA)
 TukeyHSD(Coweeta_Mean_Smois30_ANOVA)
 
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
