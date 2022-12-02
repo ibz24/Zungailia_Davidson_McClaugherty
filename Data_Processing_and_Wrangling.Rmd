@@ -363,17 +363,26 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 #output will tell you if the relationship between soil moisture & precip is significant
 
 #site 1
-site1SoilPrecip <- left_join(site1, RG6wrangled, by = "Date")
+#site1SoilPrecip <- left_join(site1, RG6wrangled, by = "Date")
+site1SoilPrecip_new <- left_join(site1_MonthAvg, RG6_MonthAvg, by = "YearMonth")
 
-site1SoilPrecip_wrangled <- site1SoilPrecip %>% 
-  select(Date, smois30, RRG06) %>% 
+#site1SoilPrecip_wrangled <- site1SoilPrecip %>% 
+  #select(Date, smois30, RRG06) %>% 
+  #na.omit() %>% 
+  #group_by(Date) %>%
+  #summarise(meanSoil = mean(smois30), meanPrecip = mean(RRG06))
+
+soil1SoilPrecip_wrangled_new <- site1SoilPrecip_new %>% 
+  select(YearMonth, AverageMonthlySmois30, AverageMonthlyPrecip) %>% 
   na.omit() %>% 
-  group_by(Date) %>%
-  summarise(meanSoil = mean(smois30), meanPrecip = mean(RRG06))
+  group_by(YearMonth)
 
-lm_site1 <- lm(data = site1SoilPrecip_wrangled, formula = meanSoil ~ meanPrecip)
-summary(lm_site1)
+#lm_site1 <- lm(data = site1SoilPrecip_wrangled, formula = meanSoil ~ meanPrecip)
+#summary(lm_site1)
 #precip is significant - 1 unit increase in precip leads to a 0.021187 unit increase in soil moisture
+
+lm_site1_new <- lm(data = site1SoilPrecip_new, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
+summary(lm_site1_new)
 
 #site 2
 site2SoilPrecip <- left_join(site2, RG31wrangled, by = "Date")
