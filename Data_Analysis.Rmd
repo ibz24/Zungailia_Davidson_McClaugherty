@@ -42,15 +42,15 @@ theme_set(Project_theme)
 
 ```{r}
 #Reading in csv files for each site:
-site1 <- read.csv("./Data/Processed/coweeta_site1.csv")
-site2 <- read.csv("./Data/Processed/coweeta_site2.csv")
-site3 <- read.csv("./Data/Processed/coweeta_site3.csv")
-site4 <- read.csv("./Data/Processed/coweeta_site4.csv")
+site1 <- read.csv("./Data/Processed/coweeta_site1_processed.csv")
+site2 <- read.csv("./Data/Processed/coweeta_site2_processed.csv")
+site3 <- read.csv("./Data/Processed/coweeta_site3_processed.csv")
+site4 <- read.csv("./Data/Processed/coweeta_site4_processed.csv")
 
-site1_soil_precip <- read.csv("./Data/Processed/site1_soil_precip.csv")
-site2_soil_precip <- read.csv("./Data/Processed/site2_soil_precip.csv")
-site3_soil_precip <- read.csv("./Data/Processed/site3_soil_precip.csv")
-site4_soil_precip <- read.csv("./Data/Processed/site4_soil_precip.csv")
+site1_soil_precip <- read.csv("./Data/Processed/site1_soil_precip_processed.csv")
+site2_soil_precip <- read.csv("./Data/Processed/site2_soil_precip_processed.csv")
+site3_soil_precip <- read.csv("./Data/Processed/site3_soil_precip_processed.csv")
+site4_soil_precip <- read.csv("./Data/Processed/site4_soil_precip_processed.csv")
 
 ```
 
