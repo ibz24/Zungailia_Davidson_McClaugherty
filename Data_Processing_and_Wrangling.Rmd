@@ -222,49 +222,49 @@ site4SoilPrecip_wrangled <- site4SoilPrecip %>%
 #Exporting the wrangled dataframes into the 'Processed' data folder
 
 #Site 1
-write.csv(site1_MonthAvg, file = "./Data/Processed/coweeta_site1.csv", row.names = FALSE)
+write.csv(site1_MonthAvg, file = "./Data/Processed/coweeta_site1_processed.csv", row.names = FALSE)
 
 #Site 2
-write.csv(site2_MonthAvg, file = "./Data/Processed/coweeta_site2.csv", row.names = FALSE)
+write.csv(site2_MonthAvg, file = "./Data/Processed/coweeta_site2_processed.csv", row.names = FALSE)
 
 #Site 3
-write.csv(site3_MonthAvg, file = "./Data/Processed/coweeta_site3.csv", row.names = FALSE)
+write.csv(site3_MonthAvg, file = "./Data/Processed/coweeta_site3_processed.csv", row.names = FALSE)
 
 #Site 4
-write.csv(site4_MonthAvg, file = "./Data/Processed/coweeta_site4.csv", row.names = FALSE)
+write.csv(site4_MonthAvg, file = "./Data/Processed/coweeta_site4_processed.csv", row.names = FALSE)
 
 #Coweeta_wrangled3
-write.csv(Coweeta_wrangled3, file = "./Data/Processed/Coweeta_wrangled3.csv", row.names = FALSE)
+write.csv(Coweeta_wrangled3, file = "./Data/Processed/Coweeta_wrangled3_processed.csv", row.names = FALSE)
 
 #RG5
-write.csv(RG5wrangled, file = "./Data/Processed/RG5wrangled.csv", row.names = FALSE)
+write.csv(RG5wrangled, file = "./Data/Processed/RG5wrangled_processed.csv", row.names = FALSE)
 
 #RG6
-write.csv(RG6wrangled, file = "./Data/Processed/RG6wrangled.csv", row.names = FALSE)
+write.csv(RG6wrangled, file = "./Data/Processed/RG6wrangled_processed.csv", row.names = FALSE)
 
 #RG31
-write.csv(RG31wrangled, file = "./Data/Processed/RG31wrangled.csv", row.names = FALSE)
+write.csv(RG31wrangled, file = "./Data/Processed/RG31wrangled_processed.csv", row.names = FALSE)
 
 #RG5 Monthly Average
-write.csv(RG5_MonthAvg, file = "./Data/Processed/RG5_Monthly.csv", row.names = FALSE)
+write.csv(RG5_MonthAvg, file = "./Data/Processed/RG5_Monthly_processed.csv", row.names = FALSE)
 
 #RG6 Monthly Average
-write.csv(RG6_MonthAvg, file = "./Data/Processed/RG6_Monthly.csv", row.names = FALSE)
+write.csv(RG6_MonthAvg, file = "./Data/Processed/RG6_Monthly_processed.csv", row.names = FALSE)
 
 #RG31 Monthly Average
-write.csv(RG31_MonthAvg, file = "./Data/Processed/RG31_Monthly.csv", row.names = FALSE)
+write.csv(RG31_MonthAvg, file = "./Data/Processed/RG31_Monthly_processed.csv", row.names = FALSE)
 
 #Site 1 soil & precip
-write.csv(site1SoilPrecip_wrangled, file = "./Data/Processed/site1_soil_precip.csv", row.names = FALSE)
+write.csv(site1SoilPrecip_wrangled, file = "./Data/Processed/site1_soil_precip_processed.csv", row.names = FALSE)
 
 #Site 2 soil & precip
-write.csv(site2SoilPrecip_wrangled, file = "./Data/Processed/site2_soil_precip.csv", row.names = FALSE)
+write.csv(site2SoilPrecip_wrangled, file = "./Data/Processed/site2_soil_precip_processed.csv", row.names = FALSE)
 
 #Site 3 soil & precip
-write.csv(site3SoilPrecip_wrangled, file = "./Data/Processed/site3_soil_precip.csv", row.names = FALSE)
+write.csv(site3SoilPrecip_wrangled, file = "./Data/Processed/site3_soil_precip_processed.csv", row.names = FALSE)
 
 #Site 4 soil & precip
-write.csv(site4SoilPrecip_wrangled, file = "./Data/Processed/site4_soil_precip.csv", row.names = FALSE)
+write.csv(site4SoilPrecip_wrangled, file = "./Data/Processed/site4_soil_precip_processed.csv", row.names = FALSE)
 
 ```
 
