@@ -33,7 +33,11 @@ library(ggpubr)
 library(Kendall)
 
 #Set theme
-
+Project_theme <-
+  theme_classic(base_size = 14) +
+  theme(axis.text = element_text(color = "dark gray"), 
+  legend.position = "top")
+theme_set(Project_theme)
 ```
 
 ```{r}
@@ -43,49 +47,35 @@ site2 <- read.csv("./Data/Processed/coweeta_site2.csv")
 site3 <- read.csv("./Data/Processed/coweeta_site3.csv")
 site4 <- read.csv("./Data/Processed/coweeta_site4.csv")
 
-Coweeta_wrangled3 <- read.csv("./Data/Processed/Coweeta_wrangled3.csv")
+site1_soil_precip <- read.csv("./Data/Processed/site1_soil_precip.csv")
+site2_soil_precip <- read.csv("./Data/Processed/site2_soil_precip.csv")
+site3_soil_precip <- read.csv("./Data/Processed/site3_soil_precip.csv")
+site4_soil_precip <- read.csv("./Data/Processed/site4_soil_precip.csv")
+
 ```
 
 ```{r}
 #Formatting Dates
-site1$Date <- as.Date(site1$Date, format = '%Y-%m-%d')
-site2$Date <- as.Date(site2$Date, format = '%Y-%m-%d')
-site3$Date <- as.Date(site3$Date, format = '%Y-%m-%d')
-site4$Date <- as.Date(site4$Date, format = '%Y-%m-%d')
+site1$YearMonth <- as.Date(site1$YearMonth, format = '%Y-%m-%d')
+site2$YearMonth <- as.Date(site2$YearMonth, format = '%Y-%m-%d')
+site3$YearMonth <- as.Date(site3$YearMonth, format = '%Y-%m-%d')
+site4$YearMonth <- as.Date(site4$YearMonth, format = '%Y-%m-%d')
 
-Coweeta_wrangled3$Date <- as.Date(Coweeta_wrangled3$Date, format = '%Y-%m-%d')
+site1_soil_precip$YearMonth <- as.Date(site1_soil_precip$YearMonth, format = '%Y-%m-%d')
+site2_soil_precip$YearMonth <- as.Date(site2_soil_precip$YearMonth, format = '%Y-%m-%d')
+site3_soil_precip$YearMonth <- as.Date(site3_soil_precip$YearMonth, format = '%Y-%m-%d')
+site4_soil_precip$YearMonth <- as.Date(site4_soil_precip$YearMonth, format = '%Y-%m-%d')
 ```
-
-```{r}
-#Averaging by date for each site
-
-site1_averaged <-site1 %>% 
-  group_by(Date) %>% 
-  summarise(AverageDailySmois30 = mean(smois30))
-
-site2_averaged <- site2 %>% 
-  group_by(Date) %>% 
-  summarise(AverageDailySmois30 = mean(smois30))
-
-site3_averaged <- site3 %>% 
-  group_by(Date) %>% 
-    summarise(AverageDailySmois30 = mean(smois30))
-
-site4_averaged <- site4 %>% 
-  group_by(Date) %>% 
-    summarise(AverageDailySmois30 = mean(smois30))
-```
-
 
 ```{r}
 #creating a time series for each site
-site1_ts <- ts(site1_MonthAvg$AverageMonthlySmois30, start = c(2000, 1), frequency = 12)
+site1_ts <- ts(site1$AverageMonthlySmois30, start = c(2000, 1), frequency = 12)
 
-site2_ts <- ts(site2_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
+site2_ts <- ts(site2$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
 
-site3_ts <- ts(site3_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
+site3_ts <- ts(site3$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
 
-site4_ts <- ts(site4_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
+site4_ts <- ts(site4$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
 
 #decomposing the ts
 site1_decomposed <- stl(site1_ts, s.window = "periodic")
@@ -127,6 +117,42 @@ summary(site4_trend)
 #significant trend
 
 ```
+
+```{r}
+#Linear model to determine the strength of the statistical relationship between precipitation and soil moisture. 
+
+lm_site1 <- lm(data = site1_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
+summary(lm_site1)
+#precip is significant, p-value < 0.05
+#1 unit increase in precip leads to a 0.047911 unit increase in soil moisture
+
+lm_site2 <- lm(data = site2_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
+summary(lm_site2)
+#precip is NOT significant, p-value > 0.05
+
+lm_site3 <- lm(data = site3_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
+summary(lm_site3)
+#precip is NOT significant, p-value > 0.05
+
+lm_site4 <- lm(data = site4_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
+summary(lm_site4)
+#precip is significant, p-value < 0.05
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```{r}
 #One-way ANOVA test - used when you have one categorical explanatory variable with more than two categories
