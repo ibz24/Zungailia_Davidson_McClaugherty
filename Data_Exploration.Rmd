@@ -129,7 +129,8 @@ print(allsiteplots)
 ```
 
 ```{r}
-#Here we could plot average monthly precip over time
+#Plotting average monthly precipitation at the three rain gages closest to our sites to look at trends over time
+
 RG5_Plot <-
   ggplot(RG5_MonthlyAvg, aes(x = YearMonth, y = AverageMonthlyPrecip)) +
   geom_line()+
@@ -159,7 +160,8 @@ print(allprecipplots)
 ```
 
 ```{r}
-#here we could do a scatterplot of average monthly smois and average monthly precip
+#Plotting the relationship between average monthly precipitation and average monthly soil moisture
+
 Site1_soil_precip_plot <- 
   ggplot(site1_soil_precip, aes(x = AverageMonthlyPrecip, y = AverageMonthlySmois30)) +
   geom_point() +

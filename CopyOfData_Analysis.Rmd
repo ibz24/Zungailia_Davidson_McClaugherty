@@ -68,7 +68,7 @@ site4_soil_precip$YearMonth <- as.Date(site4_soil_precip$YearMonth, format = '%Y
 ```
 
 ```{r}
-#creating a time series for each soil moisture site
+#creating a time series for each site
 site1_ts <- ts(site1$AverageMonthlySmois30, start = c(2000, 1), frequency = 12)
 
 site2_ts <- ts(site2$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
@@ -141,5 +141,48 @@ lm_site4 <- lm(data = site4_soil_precip, formula = AverageMonthlySmois30 ~ Avera
 summary(lm_site4)
 #precip is significant, p-value < 0.05
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+#One-way ANOVA test - used when you have one categorical explanatory variable with more than two categories
+  #Question: Does the mean smois30 value differ among sites at the Coweeta Basin LTER?
+
+#Wrangle data to group by size and calcualte the mean smois30 value for each site. Also calcualte standard deviation.
+Coweeta_Mean_Smois30 <- Coweeta_wrangled3 %>% 
+  group_by(site) %>% 
+  summarise(MeanSmois30 = mean(smois30),
+            StdDevSmois30 = sd(smois30))
+
+summary(Coweeta_Mean_Smois30)
+
+#Boxplot to explore distribution of smois30 values at each site
+boxplot(MeanSmois30 ~ site,
+        data = Coweeta_Mean_Smois30,
+        xlab = "Site",
+        ylab = "Mean Soil Moisture")
+
+#ANOVA test (response variable ~ predictor variable)
+Coweeta_Mean_Smois30_ANOVA <- aov(data = Coweeta_Mean_Smois30, MeanSmois30 ~ site)
+summary(Coweeta_Mean_Smois30_ANOVA)
+  #Null hypothesis: there is no difference in mean smois30 values across sites
+  #Results: the difference in the means is not statistically significant (p-value:0.361)
+plot(Coweeta_Mean_Smois30_ANOVA)
+
+#Post-hoc test - TukeyHSD() computes Tukey Honest Significant Differences
+TukeyHSD(Coweeta_Mean_Smois30_ANOVA)
 
 ```

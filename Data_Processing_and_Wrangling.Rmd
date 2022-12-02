@@ -54,7 +54,7 @@ dim(Coweeta)
 #Check column names
 colnames(Coweeta)
 
-#Select columns:
+#Selecting the columns of interest for our analysis:
 Coweeta_wrangled <- Coweeta %>% select(site, Year, YearDay, smois30)
 ```
 
@@ -80,7 +80,7 @@ RG31 <- RG31 %>%
 ```
 
 ```{r}
-#Checking the class of each variable
+#Checking the class of each variable in the soil moisture dataset
 
 class(Coweeta_wrangled2$site)
 class(Coweeta_wrangled2$Year)
@@ -102,7 +102,7 @@ sum(is.na(Coweeta_wrangled3))
 ```
 
 ```{r}
-#Separating 4 sites into 4 dataframes
+#Separating the 4 soil moisture data sites into 4 dataframes
 
 site1 <- Coweeta_wrangled3 %>% 
   filter(site == "1")
@@ -119,7 +119,7 @@ site4 <- Coweeta_wrangled3 %>%
 ```
 
 ```{r}
-#wrangling the precipitation data to the years we have soil moisture data for 
+#Wrangling the precipitation data to the same years we have soil moisture data for 
 
 RG5wrangled <- RG5 %>% 
   filter(YEAR >= 2000 & YEAR <= 2014)
@@ -133,7 +133,7 @@ RG31wrangled <- RG31 %>%
 ```
 
 ```{r} 
-#averaging soil moisture by month for each site
+#Averaging soil moisture by month for each site
 
 site1_MonthAvg <-site1 %>% 
   mutate(Month = month(Date)) %>% 
@@ -162,7 +162,7 @@ site4_MonthAvg <-site4 %>%
 ```
 
 ```{r}
-#averaging monthly rain gage data
+#Averaging rain gage data by month
 
 RG5_MonthAvg <- RG5wrangled %>% 
   group_by(YEAR, MONTH) %>% 
@@ -179,6 +179,43 @@ RG31_MonthAvg <- RG31wrangled %>%
   summarise(AverageMonthlyPrecip = mean(RRG31)) %>% 
   mutate(YearMonth = as.Date(paste0(YEAR, "-", MONTH, "-", "01"), format = "%Y-%m-%d"))
   
+```
+
+```{r}
+#Joining the soil moisture monthly average dataframe to the dataframe of monthly precipitation from the nearest rain gage. 
+
+#site 1
+site1SoilPrecip <- left_join(site1_MonthAvg, RG6_MonthAvg, by = "YearMonth")
+
+site1SoilPrecip_wrangled <- site1SoilPrecip %>% 
+  select(YearMonth, AverageMonthlySmois30, AverageMonthlyPrecip) %>% 
+  na.omit() %>% 
+  group_by(YearMonth)
+
+#site 2
+site2SoilPrecip <- left_join(site2_MonthAvg, RG31_MonthAvg, by = "YearMonth")
+
+site2SoilPrecip_wrangled <- site2SoilPrecip %>% 
+  select(YearMonth, AverageMonthlySmois30, AverageMonthlyPrecip) %>% 
+  na.omit() %>% 
+  group_by(YearMonth)
+
+#site 3
+site3SoilPrecip <- left_join(site3_MonthAvg, RG5_MonthAvg, by = "YearMonth")
+
+site3SoilPrecip_wrangled <- site3SoilPrecip %>% 
+  select(YearMonth, AverageMonthlySmois30, AverageMonthlyPrecip) %>% 
+  na.omit() %>% 
+  group_by(YearMonth)
+
+#site 4
+site4SoilPrecip <- left_join(site4_MonthAvg, RG6_MonthAvg, by = "YearMonth")
+
+site4SoilPrecip_wrangled <- site4SoilPrecip %>% 
+  select(YearMonth, AverageMonthlySmois30, AverageMonthlyPrecip) %>% 
+  na.omit() %>% 
+  group_by(YearMonth)
+
 ```
 
 ```{r}
@@ -231,108 +268,3 @@ write.csv(site4SoilPrecip_wrangled, file = "./Data/Processed/site4_soil_precip.c
 
 ```
 
-```{r}
-#creating a time series for each site
-site1_ts <- ts(site1_MonthAvg$AverageMonthlySmois30, start = c(2000, 1), frequency = 12)
-
-site2_ts <- ts(site2_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
-
-site3_ts <- ts(site3_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
-
-site4_ts <- ts(site4_MonthAvg$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
-
-#decomposing the ts
-site1_decomposed <- stl(site1_ts, s.window = "periodic")
-
-site2_decomposed <- stl(site2_ts, s.window = "periodic")
-
-site3_decomposed <- stl(site3_ts, s.window = "periodic")
-
-site4_decomposed <- stl(site4_ts, s.window = "periodic")
-
-#plotting decomposed ts
-#trend component seems to explain much of the variability in sites 3 & 4
-#seasonality component seems to explain more of the variability in sites 1 & 2
-
-plot(site1_decomposed) 
-plot(site2_decomposed)
-plot(site3_decomposed)
-plot(site4_decomposed)
-
-```
-
-```{r}
-#running Seasonal Mann-Kendall trend analysis
-
-site1_trend <- Kendall::SeasonalMannKendall(site1_ts)
-summary(site1_trend)
-#not significant
-
-site2_trend <- Kendall::SeasonalMannKendall(site2_ts)
-summary(site2_trend)
-#not significant
-
-site3_trend <- Kendall::SeasonalMannKendall(site3_ts)
-summary(site3_trend)
-#significant trend
-
-site4_trend <- Kendall::SeasonalMannKendall(site4_ts)
-summary(site4_trend)
-#significant trend
-
-```
-
-```{r}
-#linear model for each site - precip on y axis, soil moisture x axis
-#output will tell you if the relationship between soil moisture & precip is significant
-
-#site 1
-site1SoilPrecip <- left_join(site1_MonthAvg, RG6_MonthAvg, by = "YearMonth")
-
-site1SoilPrecip_wrangled <- site1SoilPrecip %>% 
-  select(YearMonth, AverageMonthlySmois30, AverageMonthlyPrecip) %>% 
-  na.omit() %>% 
-  group_by(YearMonth)
-
-lm_site1 <- lm(data = site1SoilPrecip_wrangled, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
-summary(lm_site1)
-#precip is significant, p-value < 0.05
-#1 unit increase in precip leads to a 0.047911 unit increase in soil moisture
-
-#site 2
-site2SoilPrecip <- left_join(site2_MonthAvg, RG31_MonthAvg, by = "YearMonth")
-
-site2SoilPrecip_wrangled <- site2SoilPrecip %>% 
-  select(YearMonth, AverageMonthlySmois30, AverageMonthlyPrecip) %>% 
-  na.omit() %>% 
-  group_by(YearMonth)
-
-lm_site2 <- lm(data = site2SoilPrecip_wrangled, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
-summary(lm_site2)
-#precip is NOT significant, p-value > 0.05
-
-#site 3
-site3SoilPrecip <- left_join(site3_MonthAvg, RG5_MonthAvg, by = "YearMonth")
-
-site3SoilPrecip_wrangled <- site3SoilPrecip %>% 
-  select(YearMonth, AverageMonthlySmois30, AverageMonthlyPrecip) %>% 
-  na.omit() %>% 
-  group_by(YearMonth)
-
-lm_site3 <- lm(data = site3SoilPrecip_wrangled, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
-summary(lm_site3)
-#precip is NOT significant, p-value > 0.05
-
-#site 4
-site4SoilPrecip <- left_join(site4_MonthAvg, RG6_MonthAvg, by = "YearMonth")
-
-site4SoilPrecip_wrangled <- site4SoilPrecip %>% 
-  select(YearMonth, AverageMonthlySmois30, AverageMonthlyPrecip) %>% 
-  na.omit() %>% 
-  group_by(YearMonth)
-
-lm_site4 <- lm(data = site4SoilPrecip_wrangled, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
-summary(lm_site4)
-#precip is significant, p-value < 0.05
-
-```
