@@ -97,11 +97,16 @@ The investigators generated four new datasets combining the monthly average prec
 
 <describe the folders contained in the repository, including what type of files they contain>
 
-The repository contains 3 folders. The Data folder contains 3 folders: Raw (containing csv files of data downloaded from sources), Processed (wrangled datasets containing only pertinent information for analysis in csv format), and Metadata (containing a md file of relevant information about the investigators, data, and analysis.)
+The repository contains 3 folders. The Data folder contains 3 folders: Raw (containing csv files of data downloaded from sources), Processed (wrangled datasets containing only pertinent information for analysis in csv format), and Metadata (containing a md file of relevant information about the investigators, data, and analysis.) The code folder contains three R Markdown files, one for data processing and wrangling, one for data exploration, and one for data analysis. The outpout folder contains an R Markdown file of the final project report. 
 
 <describe the formats of files for the various purposes contained in the repository>
 
+The .csv file format allows for data to be stored in a table. This file format can readily be read into RStudio in the dataframe format, a tabular data structure convenient for the purposes of our analyses. 
+
+The Rmd file format is a file type that allows for both blocks of R code and sections of regular text. It is a useful format for running code with space for organized text descriptions that would otherwise have to be commented out for code to run smoothly.
+
 <describe your file naming conventions>
+Raw data files retained the name given by the data source. Processed data files were given more descriptive names (e.g. Coweeta Site 1 or RG6 Monthly) and contained "processed" in their file name for clarity. 
 
 ## Metadata
 
