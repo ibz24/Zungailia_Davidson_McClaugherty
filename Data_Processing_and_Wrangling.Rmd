@@ -1,6 +1,7 @@
 ---
-title: "Data Processing & Wrangling"
-author: "Megan McClaugherty"
+title: "Analyzing Soil Moisture & Precipitation Trends in Coweeta Basin LTER Site"
+subtitle: "Data Processing & Wrangling"
+author: "Kelly Davidson, Megan McClaugherty, & Isabel Zungailia"
 date: "2022-11-21"
 output: html_document
 editor_options: 
@@ -32,7 +33,7 @@ install.packages("ggpubr")
 library(ggpubr)
 library(Kendall)
 
-#Reading in dataframe
+#Reading in dataframes
 Coweeta <- read.csv("./Data/Raw/1040_Hourly_CR10_1_2080.csv")
 RG5 <- read.csv('./Data/Raw/RG05_daily_1992_2021.csv')
 RG6 <- read.csv('./Data/Raw/RG06_daily_1936_2021.csv')
@@ -56,19 +57,18 @@ colnames(Coweeta)
 
 #Selecting the columns of interest for our analysis:
 Coweeta_wrangled <- Coweeta %>% select(site, Year, YearDay, smois30)
+
 ```
 
 ```{r}
 #Addressing the date in the Coweeta soil moisture datasets
-
 class(Coweeta_wrangled$YearDay)
 class(Coweeta_wrangled$Year)
 
 Coweeta_wrangled2 <- Coweeta_wrangled %>% 
   mutate(Date = as.Date(paste0(Year,"-",YearDay),format = "%Y-%j"))
 
-#Creating a date column for rain gage datasets
-
+#Creating a date column for rain gauge datasets
 RG5 <- RG5 %>% 
   mutate(Date = as.Date(paste0(YEAR,"-", MONTH,"-", DAY), format = "%Y-%m-%d"))
 
@@ -77,11 +77,11 @@ RG6 <- RG6 %>%
 
 RG31 <- RG31 %>% 
   mutate(Date = as.Date(paste0(YEAR,"-", MONTH,"-", DAY), format = "%Y-%m-%d"))
+
 ```
 
 ```{r}
 #Checking the class of each variable in the soil moisture dataset
-
 class(Coweeta_wrangled2$site)
 class(Coweeta_wrangled2$Year)
 class(Coweeta_wrangled2$YearDay)
@@ -89,11 +89,11 @@ class(Coweeta_wrangled2$smois30)
 class(Coweeta_wrangled2$Date)
 
 summary(Coweeta_wrangled2$Year)
+
 ```
 
 ```{r}
 #Excluding smois30 values less than 0 and greater than 1 (soil moisture expressed as percent water content)
-
 Coweeta_wrangled3 <- Coweeta_wrangled2 %>% 
   filter(smois30 >= 0 & smois30 <= 1) %>% 
   drop_na(Date) #dropped 1 na in the date column (day 366)
@@ -162,7 +162,7 @@ site4_MonthAvg <-site4 %>%
 ```
 
 ```{r}
-#Averaging rain gage data by month
+#Averaging rain gauge data by month
 
 RG5_MonthAvg <- RG5wrangled %>% 
   group_by(YEAR, MONTH) %>% 
@@ -182,7 +182,7 @@ RG31_MonthAvg <- RG31wrangled %>%
 ```
 
 ```{r}
-#Joining the soil moisture monthly average dataframe to the dataframe of monthly precipitation from the nearest rain gage. 
+#Joining the soil moisture monthly average dataframe to the dataframe of monthly precipitation from the nearest rain gauge
 
 #site 1
 site1SoilPrecip <- left_join(site1_MonthAvg, RG6_MonthAvg, by = "YearMonth")

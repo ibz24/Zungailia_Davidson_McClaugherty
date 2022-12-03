@@ -1,6 +1,7 @@
 ---
-title: "Data_Exploration"
-author: "Isabel Zungailia"
+title: "Analyzing Soil Moisture & Precipitation Trends in Coweeta Basin LTER Site"
+subtitle: "Data Exploration"
+author: "Kelly Davidson, Megan McClaugherty, & Isabel Zungailia"
 date: "2022-11-29"
 output: html_document
 editor_options: 
@@ -37,27 +38,27 @@ Project_theme <-
   theme(axis.text = element_text(color = "dark gray"), 
   legend.position = "top")
 theme_set(Project_theme)
+
 ```
 
 ```{r}
-#Reading in csv files for each soil moisture site:
+#Reading in csv files for each soil moisture site
 site1 <- read.csv("./Data/Processed/coweeta_site1_processed.csv")
 site2 <- read.csv("./Data/Processed/coweeta_site2_processed.csv")
 site3 <- read.csv("./Data/Processed/coweeta_site3_processed.csv")
 site4 <- read.csv("./Data/Processed/coweeta_site4_processed.csv")
 
-
-#Reading in monthly average rain data
+#Reading in monthly average rain dataframes
 RG5_MonthlyAvg <- read.csv('./Data/Processed/RG5_Monthly_processed.csv')
 RG6_MonthlyAvg <- read.csv('./Data/Processed/RG6_Monthly_processed.csv')
 RG31_MonthlyAvg <- read.csv('./Data/Processed/RG31_Monthly_processed.csv')
-
 
 #Reading in the combined soil moisture & precipitation dataframes
 site1_soil_precip <- read.csv("./Data/Processed/site1_soil_precip_processed.csv")
 site2_soil_precip <- read.csv("./Data/Processed/site2_soil_precip_processed.csv")
 site3_soil_precip <- read.csv("./Data/Processed/site3_soil_precip_processed.csv")
 site4_soil_precip <- read.csv("./Data/Processed/site4_soil_precip_processed.csv")
+
 ```
 
 ```{r} 
@@ -158,6 +159,7 @@ print(RG31_Plot)
 #Creating a cowplot to show all three rain gauges at once
 allprecipplots <- plot_grid(RG5_Plot, RG6_Plot, RG31_Plot)
 print(allprecipplots)
+
 ```
 
 ```{r}

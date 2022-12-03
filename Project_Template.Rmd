@@ -5,9 +5,9 @@ output:
     fig_caption: yes
     number_sections: yes
 geometry: margin=2.54cm
-title: "Insert title of project here"
+title: "Analyzing Soil Moisture & Precipitation Trends in Coweeta Basin LTER Site"
 subtitle: "Web address for GitHub repository"
-author: "Name"
+author: "Kelly Davidson, Megan McClaugherty, & Isabel Zungailia"
 fontsize: 12pt
 mainfont: Times New Roman
 
@@ -22,13 +22,58 @@ mainfont: Times New Roman
 \newpage
 
 ```{r setup, include=FALSE}
-# Set your working directory
+#Checking working directory
+getwd()
 
-# Load your packages
+#Loading necessary packages
+library(dplyr)
+library(lubridate)
+library(tidyverse)
+library(cowplot)
+install.packages("ggplot2")
+library(ggplot2)
+install.packages("ggpubr")
+library(ggpubr)
+library(Kendall)
 
-# Set your ggplot theme
+#Setting the ggplot theme
+Project_theme <-
+  theme_classic(base_size = 14) +
+  theme(axis.text = element_text(color = "dark gray"), 
+  legend.position = "top")
+theme_set(Project_theme)
 
-# Load your datasets
+#Reading in csv files for each soil moisture site
+site1 <- read.csv("./Data/Processed/coweeta_site1_processed.csv")
+site2 <- read.csv("./Data/Processed/coweeta_site2_processed.csv")
+site3 <- read.csv("./Data/Processed/coweeta_site3_processed.csv")
+site4 <- read.csv("./Data/Processed/coweeta_site4_processed.csv")
+
+#Reading in monthly average rain dataframes
+RG5_MonthlyAvg <- read.csv('./Data/Processed/RG5_Monthly_processed.csv')
+RG6_MonthlyAvg <- read.csv('./Data/Processed/RG6_Monthly_processed.csv')
+RG31_MonthlyAvg <- read.csv('./Data/Processed/RG31_Monthly_processed.csv')
+
+#Reading in the combined soil moisture & precipitation dataframes
+site1_soil_precip <- read.csv("./Data/Processed/site1_soil_precip_processed.csv")
+site2_soil_precip <- read.csv("./Data/Processed/site2_soil_precip_processed.csv")
+site3_soil_precip <- read.csv("./Data/Processed/site3_soil_precip_processed.csv")
+site4_soil_precip <- read.csv("./Data/Processed/site4_soil_precip_processed.csv")
+
+#Formatting Dates 
+site1$YearMonth <- as.Date(site1$YearMonth, format = '%Y-%m-%d')
+site2$YearMonth <- as.Date(site2$YearMonth, format = '%Y-%m-%d')
+site3$YearMonth <- as.Date(site3$YearMonth, format = '%Y-%m-%d')
+site4$YearMonth <- as.Date(site4$YearMonth, format = '%Y-%m-%d')
+
+RG5_MonthlyAvg$YearMonth <- as.Date(RG5_MonthlyAvg$YearMonth, format = '%Y-%m-%d')
+RG6_MonthlyAvg$YearMonth <- as.Date(RG6_MonthlyAvg$YearMonth, format = '%Y-%m-%d')
+RG31_MonthlyAvg$YearMonth <- as.Date(RG31_MonthlyAvg$YearMonth, format = '%Y-%m-%d')
+
+site1_soil_precip$YearMonth <- as.Date(site1_soil_precip$YearMonth, format = '%Y-%m-%d')
+site2_soil_precip$YearMonth <- as.Date(site2_soil_precip$YearMonth, format = '%Y-%m-%d')
+site3_soil_precip$YearMonth <- as.Date(site3_soil_precip$YearMonth, format = '%Y-%m-%d')
+site4_soil_precip$YearMonth <- as.Date(site4_soil_precip$YearMonth, format = '%Y-%m-%d')
 
 ```
 

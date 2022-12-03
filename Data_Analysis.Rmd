@@ -1,6 +1,7 @@
 ---
-title: "Data_Analysis"
-author: "Isabel Zungailia"
+title: "Analyzing Soil Moisture & Precipitation Trends in Coweeta Basin LTER Site"
+subtitle: "Data Analysis"
+author: "Kelly Davidson, Megan McClaugherty, & Isabel Zungailia"
 date: "2022-11-29"
 output: html_document
 editor_options: 
@@ -38,10 +39,11 @@ Project_theme <-
   theme(axis.text = element_text(color = "dark gray"), 
   legend.position = "top")
 theme_set(Project_theme)
+
 ```
 
 ```{r}
-#Reading in csv files for each site:
+#Reading in csv files for each site
 site1 <- read.csv("./Data/Processed/coweeta_site1_processed.csv")
 site2 <- read.csv("./Data/Processed/coweeta_site2_processed.csv")
 site3 <- read.csv("./Data/Processed/coweeta_site3_processed.csv")
@@ -65,32 +67,24 @@ site1_soil_precip$YearMonth <- as.Date(site1_soil_precip$YearMonth, format = '%Y
 site2_soil_precip$YearMonth <- as.Date(site2_soil_precip$YearMonth, format = '%Y-%m-%d')
 site3_soil_precip$YearMonth <- as.Date(site3_soil_precip$YearMonth, format = '%Y-%m-%d')
 site4_soil_precip$YearMonth <- as.Date(site4_soil_precip$YearMonth, format = '%Y-%m-%d')
+
 ```
 
 ```{r}
-#Creating a time series for each soil moisture site
+#Creating a time series for average monthly soil moisture at each site
 site1_ts <- ts(site1$AverageMonthlySmois30, start = c(2000, 1), frequency = 12)
-
 site2_ts <- ts(site2$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
-
 site3_ts <- ts(site3$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
-
 site4_ts <- ts(site4$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
 
 #Decomposing the time series
 site1_decomposed <- stl(site1_ts, s.window = "periodic")
-
 site2_decomposed <- stl(site2_ts, s.window = "periodic")
-
 site3_decomposed <- stl(site3_ts, s.window = "periodic")
-
 site4_decomposed <- stl(site4_ts, s.window = "periodic")
 
 #Plotting decomposed time series
-## NOTES: trend component seems to explain much of the variability in sites 3 & 4
-## NOTES: seasonality component seems to explain more of the variability in sites 1 & 2
-
-plot(site1_decomposed) 
+plot(site1_decomposed)
 plot(site2_decomposed)
 plot(site3_decomposed)
 plot(site4_decomposed)
@@ -98,47 +92,35 @@ plot(site4_decomposed)
 ```
 
 ```{r}
-#Running the Seasonal Mann-Kendall trend analysis
-
+#Running the Seasonal Mann-Kendall trend analysis of average monthly soil moisture
 site1_trend <- Kendall::SeasonalMannKendall(site1_ts)
 summary(site1_trend)
-## NOTES: not significant
 
 site2_trend <- Kendall::SeasonalMannKendall(site2_ts)
 summary(site2_trend)
-## NOTES: not significant
 
 site3_trend <- Kendall::SeasonalMannKendall(site3_ts)
 summary(site3_trend)
-## NOTES:significant trend
 
 site4_trend <- Kendall::SeasonalMannKendall(site4_ts)
 summary(site4_trend)
-## NOTES: significant trend
 
 ```
 
 ```{r}
-#Running a linear model to determine the strength of the statistical relationship between precipitation and soil moisture.
-## NOTES: precip on y axis, soil moisture x axis
-## NOTES: output will tell you if the relationship between soil moisture & precip is significant
-
+#Running a linear model to determine the strength of the statistical relationship between precipitation and soil moisture
 lm_site1 <- lm(data = site1_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
 summary(lm_site1)
-## NOTES: precip is significant, p-value < 0.05
-## NOTES: 1 unit increase in precip leads to a 0.047911 unit increase in soil moisture
 
 lm_site2 <- lm(data = site2_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
 summary(lm_site2)
-## NOTES: precip is NOT significant, p-value > 0.05
 
 lm_site3 <- lm(data = site3_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
 summary(lm_site3)
-## NOTES: precip is NOT significant, p-value > 0.05
 
 lm_site4 <- lm(data = site4_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
 summary(lm_site4)
-## NOTES: precip is significant, p-value < 0.05
+
 ```
 
 ```
