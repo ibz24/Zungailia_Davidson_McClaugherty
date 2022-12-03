@@ -97,6 +97,8 @@ The investigators generated four new datasets combining the monthly average prec
 
 <describe the folders contained in the repository, including what type of files they contain>
 
+The repository contains 3 folders. The Data folder contains 3 folders: Raw (containing csv files of data downloaded from sources), Processed (wrangled datasets containing only pertinent information for analysis in csv format), and Metadata (containing a md file of relevant information about the investigators, data, and analysis.)
+
 <describe the formats of files for the various purposes contained in the repository>
 
 <describe your file naming conventions>
