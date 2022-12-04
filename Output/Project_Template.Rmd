@@ -80,6 +80,10 @@ site4_soil_precip$YearMonth <- as.Date(site4_soil_precip$YearMonth, format = '%Y
 
 # Rationale and Research Questions
 
+```{r}
+#Reading in the image
+
+```
 
 
 \newpage
