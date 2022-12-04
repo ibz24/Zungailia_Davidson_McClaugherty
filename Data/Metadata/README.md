@@ -25,15 +25,15 @@ This repository was developed for our final project in Environmental Data Analyt
 
 The goal of this analysis was to use skills that we have learned throughout the semester to generate and answer a specific research question. This investigation was intended to analyze trends in soil moisture throughout the Coweeta Basin, and we used soil moisture data from four sites (at four different elevations) to explore our research questions. In addition to soil moisture, we decided to include precipitation into our analysis to explore the relationship between these two variables. 
 
-Our main research question was the following: Has soil moisture in the upper 30 cm increased or decreased in Coweeta Basin from 2000 to 2014 in each of the four research sites?
+Our main research question was the following: Has soil moisture in the upper 30 cm increased or decreased in Coweeta Basin from 2000 to 2013 in each of the four research sites?
 
 Other questions that were explored include: 
     Which sites experienced the greatest change in soil moisture over time?
     What is the impact of elevation on soil moisture?
     Is there a relationship between soil moisture and precipitation that can be observed these four study sites?
 
-Null Hypothesis A: There was no change in soil moisture in the upper 30 cm from 2000 to 2014.
-Alternative Hypothesis A: There was a change in soil moisture in the upper 30 cm from 2000 to 2014.
+Null Hypothesis A: There was no change in soil moisture in the upper 30 cm from 2000 to 2013.
+Alternative Hypothesis A: There was a change in soil moisture in the upper 30 cm from 2000 to 2013.
 
 Null Hypothesis B: There is no relationship between soil moisture and precipitation at the four study sites. 
 Alternative Hypothesis B: There is a relationship between soil moisture and precipitation at the four study sites. 
