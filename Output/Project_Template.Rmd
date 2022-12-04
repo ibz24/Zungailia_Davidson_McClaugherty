@@ -13,6 +13,10 @@ mainfont: Times New Roman
 
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 \newpage
 \tableofcontents 
 \newpage
