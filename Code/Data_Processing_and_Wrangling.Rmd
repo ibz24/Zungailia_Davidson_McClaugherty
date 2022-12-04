@@ -128,13 +128,13 @@ site4 <- Coweeta_wrangled3 %>%
 #Wrangling the precipitation data to the same years we have soil moisture data for 
 
 RG5wrangled <- RG5 %>% 
-  filter(YEAR >= 2000 & YEAR <= 2014)
+  filter(YEAR >= 2000 & YEAR < 2014)
 
 RG6wrangled <- RG6 %>% 
-  filter(YEAR >= 2000 & YEAR <= 2014)
+  filter(YEAR >= 2000 & YEAR < 2014)
 
 RG31wrangled <- RG31 %>% 
-  filter(YEAR >= 2000 & YEAR <= 2014)
+  filter(YEAR >= 2000 & YEAR < 2014)
 
 ```
 
