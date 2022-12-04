@@ -80,11 +80,16 @@ site4_soil_precip$YearMonth <- as.Date(site4_soil_precip$YearMonth, format = '%Y
 ```
 
 ```{r}
-#Comparing the mean soil moisture values for each site (30 cm depth) throughout the study period
-mean(site1$AverageMonthlySmois30) #0.2804474
-mean(site2$AverageMonthlySmois30) #0.2542586
-mean(site3$AverageMonthlySmois30) #0.2728689
-mean(site4$AverageMonthlySmois30) #0.3156362
+#Calculating summary statistics for average monthly soil moisture at each site
+summary(site1$AverageMonthlySmois30)
+summary(site2$AverageMonthlySmois30)
+summary(site3$AverageMonthlySmois30)
+summary(site4$AverageMonthlySmois30)
+
+#Calculating summary statistics for average monthly precipitation at each rain gauge
+summary(RG5_MonthlyAvg$AverageMonthlyPrecip)
+summary(RG6_MonthlyAvg$AverageMonthlyPrecip)
+summary(RG31_MonthlyAvg$AverageMonthlyPrecip)
 
 ```
 
