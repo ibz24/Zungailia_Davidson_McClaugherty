@@ -9,7 +9,6 @@ Course Project Information:
 Analysis of Soil Moisture and Precipitation Trends in the Coweeta Basin LTER
   The Coweeta Basin Long Term Ecological Research (LTER) site is deemed one of the oldest continuous environmental studies in North America. It is managed by the USDA Forest Service in collaboration with the University of Georgia. This site is located in the southern portion of the Appalachian Mountains and is primarily composed of deciduous forest.
 
-
 # Zungailia_Davidson_McClaugherty
 <Instructions: copy and paste this template into your project README file (found in the parent folder of the repository). Fill in relevant information as requested.>
 
@@ -112,27 +111,79 @@ Raw data files retained the name given by the data source. Processed data files 
 
 <For each data file in the repository, describe the data contained in each column. Include the column name, a description of the information, the class of data, and any units associated with the data. Create a list or table for each data file.> 
 
-Variables/Columns in Soil Moisture Datasets:
-site→Site Code, class=integer
-Year→Calendar year, class=integer
-YearDay→Numerical year day (day number within the current year), class=numerical
-smois→Hourly average of soil moisture, as percent water content, measured every minute, 0-30cm below mineral soil, class=numeric
-Date→(created column) format="%Y-%m-%d", class=Date
+RAW DATA
 
-Variables/Columns in Precipitation Datasets:
-YEAR→Calendar year, class=integer
-MONTH→Calendar month, class=integer
-DAY→Calendar day, class=integer
-RRG(*Gage Number)→amount of precipitation (units=inches), class=number
-Date→(created column) format="%Y-%m-%d", class=Date
+1040_Hourly_CR10_1_2080 (Soil Moisture Dataset):
+
+ * site→Site Code, class=integer
+ * Year→Calendar year, class=integer
+ * YearDay→Numerical year day (day number within the current year), class=numerical
+ * Time→hour of observation, class=numeric
+ * stemp05→hourly average of soil temperature 5cm below mineral soil measured every minute, class=numeric
+ * Flag_stemp05→QA/QC flags for stemp05, class=character
+ * stemp20→Hourly average of soil temperature 20cm below mineral soil measured every minute, class=numeric
+ * Flag_stemp20→QA/QC flags for stemp20, class=character
+ * atemp100→hourly average of air temperature 100 cm above ground surface measured every minute, class=numeric
+ * smois30→Hourly average of soil moisture, as percent water content, measured every minute, 0-30cm below       mineral soil, class=numeric
+ * Flag_smois30→QA/QC flag for smois30, class=character
+ * smois60→Hourly average of soil moisture, as percent water content, measured every minute 30-60 cm below      mineral soil, class=numeric
+ * Flag_smois60→QA/QC flag for smois60, class=character
+ * battvolt→hourly average of battery voltage from the datalogger taken every minute, class=numeric
+ * Flag_battvolt→QA/QC flag for battery voltage, class=character
+ * reftemp→hourly average of datalogger panel temperature, class=numeric
+ * Flag_reftemp→QA/QC flag for reftemp, class=character
+ * parbot→Hourly average of PAR 2m from ground measured every minute, class=numeric
+ * Flag_parbot→QA/QC flag for parbot, class=character
+ * partop→Hourly average of PAR 20m from ground measured every minute, class=numeric
+ * Flag_partop→QA/QC flag for partop, class=character
+
+RG05_daily_1992_2021, RG06_daily_1936_2021, & RG31_daily_1958_2021 (precipitation datasets):
+ * YEAR→Calendar year, class=integer
+ * MONTH→Calendar month, class=integer
+ * DAY→Calendar day, class=integer
+ * RRG(*Gage Number)→amount of precipitation (units=inches), class=number
+
+
+PROCESSED DATA
+coweeta_site#_processed:
+ * Year→Calendar year, class=integer
+ * Month→Calendar month, class=integer
+ * AverageMonthlySmois30: Average monthly 30 cm soil moisture as percent water content, class=numeric
+ * YearMonth→Date in format YYYY-MM-DD, class=character, class=character 
+
+Coweeta_wrangled3_processed:
+ * site→site number, class=integer
+ * Year→calendar year, class=integer
+ * YearDay→Numerical day of year, class=integer
+ * smois30→Hourly average of soil moisture, as percent water content, measured every minute, 0-30cm below       mineral soil, class=numeric
+ * Date→Date in format YYYY-MM-DD, class=character
+ 
+ RG#_Monthly_Processed: 
+  * Year→Calendar year, class=integer
+  * Month→Calendar month, class=integer
+  * AverageMonthlyPrecip→Average monthly precipitation (inches), class=numeric
+  * YearMonth→Date in format YYYY-MM-DD, class=character
+
 
 ## Scripts and code
 
 <list any software scripts/code contained in the repository and a description of their purpose.>
+Dplyr: facilitates data manipulation by using straightforward functions
+Lubridate: Intuitive date-time manipulation beyond what base R offers 
+Tidyverse: A suite of packages such to assist with organizing datasets and processing data
+Cowplot: A ggplot2 add-on to create plot grids and enhance other plot features 
+Ggplot2: A data visualization package that creates more appealing and customizable plots/graphs compared to base R
+Ggpubr: an add-on for ggplot2 to add regression lines and other useful enhancements to plots 
+Kendall: computes the Kendall rank correlation and Mann-Kendall trend test for time series analysis
+
 
 ## Quality assurance/quality control
 
 <describe any relevant QA/QC procedures taken with your data. Some ideas can be found here:>
+
+Data collection procedures and metadata were reviewed for all of the raw datasets to ensure understanding of each of the variables and collection methods. The soil moisture dataset (1040_Hourly_CR10_1_2080) had a built-in QA/QC feature to flag for measurements outside of specified ranges which facilitated the process of identifying outliers due to error. These values were removed from our processed datasets. Rain gage datasets were also checked for precipitation amounts that seemed extreme given the locations in which the data were collected. Processed dataset files were given descriptive names followed by "_processed" to ensure clarity and raw and processed data were kept in separate folders to further minimize the possibility of confusion. The steps of the project were split into data wrangling/processing, data exploration, and data analysis files. Organizing the code in this manner minimized redundancy, ensured wrangled datasets were saved for further analysis, kept the code concise, and made it easier to identify issues. Copies of each code file were made, as well as a copy of the entire project folder in case files were lost or corrupted. Files were saved at regular intervals and changes were committed and pushed to GitHub promptly to ensure other users could access updated files without issue.
+
+
 <https://www.dataone.org/best-practices/develop-quality-assurance-and-quality-control-plan>
 <https://www.dataone.org/best-practices/ensure-basic-quality-control>
 <https://www.dataone.org/best-practices/communicate-data-quality>
