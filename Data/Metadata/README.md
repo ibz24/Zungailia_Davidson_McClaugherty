@@ -33,9 +33,9 @@ Other questions that were explored include:
     Is there a relationship between soil moisture and precipitation that can be observed these four study sites?
 
 Null Hypothesis A: There was no change in soil moisture in the upper 30 cm from 2000 to 2014.
-Alternative Hypothesis B: There was a change in soil moisture in the upper 30 cm from 2000 to 2014.
+Alternative Hypothesis A: There was a change in soil moisture in the upper 30 cm from 2000 to 2014.
 
-Null Hypothesis A: There is no relationship between soil moisture and precipitation at the four study sites. 
+Null Hypothesis B: There is no relationship between soil moisture and precipitation at the four study sites. 
 Alternative Hypothesis B: There is a relationship between soil moisture and precipitation at the four study sites. 
 
 ## Investigators
