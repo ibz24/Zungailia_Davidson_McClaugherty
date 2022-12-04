@@ -23,8 +23,6 @@ mainfont: Times New Roman
 
 ```{r setup, include=FALSE}
 #Checking working directory
-setwd("/home/guest/EDAFinalProject")
-
 getwd()
 
 #Loading necessary packages
