@@ -95,8 +95,14 @@ summary(Coweeta_wrangled2$Year)
 ```{r}
 #Excluding smois30 values less than 0 and greater than 1 (soil moisture expressed as percent water content)
 Coweeta_wrangled3 <- Coweeta_wrangled2 %>% 
-  filter(smois30 >= 0 & smois30 <= 1) %>% 
-  drop_na(Date) #dropped 1 na in the date column (day 366)
+  filter(smois30 >= 0 & smois30 <= 1)
+
+#Checking for na's
+sum(is.na(Coweeta_wrangled3))
+
+#Deleting 2 na's
+Coweeta_wrangled3 <- Coweeta_wrangled3 %>% 
+  na.omit()
 sum(is.na(Coweeta_wrangled3))
 
 ```
