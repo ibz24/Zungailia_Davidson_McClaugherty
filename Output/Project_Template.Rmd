@@ -87,7 +87,7 @@ site4_soil_precip$YearMonth <- as.Date(site4_soil_precip$YearMonth, format = '%Y
 
 ```{r}
 #Reading in the image
-
+![Source: Soil Moisture Sites and Rain Gages]("/home/guest/Zungailia_Davidson_McClaugherty/Data/precipandsmois.png")
 ```
 
 
