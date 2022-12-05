@@ -122,3 +122,13 @@ lm_site4 <- lm(data = site4_soil_precip, formula = AverageMonthlySmois30 ~ Avera
 summary(lm_site4)
 
 ```
+
+
+
+
+
+<img title = Soil Moisture Research Sites and Rain Gauge Locations
+<img title="a title" alt="Alt text" src="/images/boo.svg"
+
+
+
