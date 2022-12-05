@@ -83,13 +83,33 @@ site4_soil_precip$YearMonth <- as.Date(site4_soil_precip$YearMonth, format = '%Y
 ```
 
 # Rationale and Research Questions
-
+\
+The Coweeta Basin Long Term Ecological Research (LTER) site is deemed one of the oldest continuous environmental studies in North America. It is managed by the USDA Forest Service in collaboration with the University of Georgia. This site is located in the southern portion of the Appalachian Mountains and is primarily composed of deciduous forest. We decided to use this site for our research project because it provides a unique setting to explore the relationships between variables such as soil moisture, precipitation, and elevation over time.  The goal of this analysis was to use skills that we have learned throughout the semester to generate and answer a specific research question. This investigation was intended to analyze temporal trends in soil moisture throughout the Coweeta Basin, and we used soil moisture data from four sites (at four different elevations) to explore our research questions. We also explored the relationship between precipitation and soil moisture over time given that soil moisture is likely to be affected in some way by precipitation. The analysis is based on data collected between the years 2000 and 2013.  The four sites (used for soil moisture data collection) are located at four different elevations, allowing us to infer the relationship between soil moisture and elevation based on the results of the analysis. The research sites are located at the following elevations: 
+\
+   * Site 1: 817.17 meters
+   * Site 2: 1380.44 meters
+   * Site 3: 1214.93 meters
+   * Site 4: 735.47 meters
+\
+The Coweeta LTER laboratory collects precipitation data from a total of eight rain gauges throughout the Coweeta Basin, so we used the geographic coordinates of the rain gauges and compared them to the geographic coordinates of the four research sites to determine which rain gauge was located closest to each site. The precipitation data from Rain Gauge 6 (RG06) was used for Sites 1 and 4, data from Rain Gauge 31 (RG31) was used for Site 2, and data from Rain Gauge 5 (RG05) was used for Site 3. All of the sites are within 0.5 miles of their paired rain gauge. 
+\
+Our main research question was the following: *Has soil moisture in the upper 30 cm (of soil) increased or decreased in Coweeta Basin from 2000 to 2013 in each of the four research sites?*
+\
+Other questions that were explored include: 
+  *Which sites experienced the greatest change in soil moisture over time?*
+  *What is the impact of elevation on soil moisture?*
+  *Is there a relationship between soil moisture and precipitation that can be observed at these four study sites?*
+\
+**Null Hypothesis A**: There was no change in soil moisture in the upper 30 cm from 2000 to 2013.
+**Alternative Hypothesis A**: There was a change in soil moisture in the upper 30 cm from 2000 to 2013.
+\
+**Null Hypothesis B**: There is no relationship between soil moisture and precipitation at the four study sites. 
+**Alternative Hypothesis B**: There is a relationship between soil moisture and precipitation at the four study sites. 
 
 
 ```{r}
-
+library(knitr)
 ```
-
 
 \newpage
 
@@ -118,7 +138,7 @@ The raw precipitation datasets (for the three rain gauges) had 5 variables (YEAR
 
 
 *Processed Rain Gauge/Precipitation Data*
-Variable | Description | Units | Class | Stats
+|Variable | Description | Units | Class | Stats
 |-------:|:----------:|------:|:-----:|:-----:|
 |Year| Calendar year | | Integer | Minimum = 2000, Maximum = 2013|
 |Month| Calendar Month | | Integer | Minimum = 01 (January), Maximum = 07 (August)|
