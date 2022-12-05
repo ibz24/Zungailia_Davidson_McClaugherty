@@ -84,7 +84,8 @@ site4_soil_precip$YearMonth <- as.Date(site4_soil_precip$YearMonth, format = '%Y
 
 # Rationale and Research Questions
 
-![Study Sites and Recording Rain Gage Locations]("/home/guest/Zungailia_Davidson_McClaugherty/Data/precipandsmois.png")
+![Study Sites and Recording Rain Gage Locations]("./home/guest/Zungailia_Davidson_McClaugherty/Data/precipandsmois.png")
+
 
 ```{r}
 
