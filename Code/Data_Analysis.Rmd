@@ -1,10 +1,12 @@
 ---
 title: "Analyzing Soil Moisture & Precipitation Trends in Coweeta Basin LTER Site"
-subtitle: "Data Analysis"
 author: "Kelly Davidson, Megan McClaugherty, & Isabel Zungailia"
 date: "2022-11-29"
-output: html_document
-editor_options: 
+output:
+  pdf_document: default
+  html_document: default
+subtitle: Data Analysis
+editor_options:
   chunk_output_type: console
 ---
 
@@ -123,12 +125,4 @@ summary(lm_site4)
 
 ```
 
-
-
-
-
-<img title = Soil Moisture Research Sites and Rain Gauge Locations
-<img title="a title" alt="Alt text" src="/images/boo.svg"
-
-
-
+![Soil moisture research sites and rain gauge locations within Coweeta Basin, North Carolina.](../Data/precipandsmois.png)
