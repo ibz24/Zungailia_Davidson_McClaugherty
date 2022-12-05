@@ -113,6 +113,8 @@ Other questions that were explored include:
 **Null Hypothesis B**: There is no relationship between soil moisture and precipitation at each of the four research sites. 
 **Alternative Hypothesis B**: There is a relationship between soil moisture and precipitation at each of the four research sites. 
 
+![Soil moisture research sites and rain gauge locations within Coweeta Basin, North Carolina.](../Data/precipandsmois.png)
+
 
 ```{r}
 library(knitr)
@@ -153,6 +155,8 @@ The raw precipitation datasets for the three rain gauges had 5 variables (YEAR, 
 AverageMonthlySmois30| Average monthly 30 cm soil moisture as percent water content |  Unitless (measured as a percent) | Numeric | Site 1: minimum = 0.1521, mean = 0.2804, maximum = 0.3556, Site 2: minimum = 0.1046, mean = 0.2543, maximum = 0.3421, Site 3: minimum = 0.114, mean = 0.2729, maximum = 0.5753, Site 4: minimum = 0.1383, mean = 0.3156, maximum = 0.4922 |
 |YearMonth| Date in format YYYY-MM-DD | | Character | Minimum = 2000-01-21, Maximum = 2013-07-19|
 
+![Processed soil moisture data.](../Data/SoilMoistureTable.png)
+
 *Processed Rain Gauge/Precipitation Data*
 |Variable | Description | Units | Class | Stats
 |-------:|:----------:|------:|:-----:|:-----:|
@@ -160,6 +164,8 @@ AverageMonthlySmois30| Average monthly 30 cm soil moisture as percent water cont
 |Month| Calendar Month | | Integer | Minimum = 01 (January), Maximum = 07 (August)|
 |AverageMonthlyPrecip| Average Monthly Precipitation | Inches | Numeric | RG5: minimum = 0.1443, mean = 0.6387, maximum = 2.422, RG6: minimum = 0.1033, mean = 0.552, maximum = 1.4345, RG31: minimum = 0.1978, mean = 0.7141, maximum = 2.6956 |
 |YearMonth| Date in format YYYY-MM-DD | | Character | Minimum = 2000-01-21, Maximum = 2013-07-19|
+
+![Processed rain gauge/precipitation data.](../Data/PrecipitationTable.png)
 
 \newpage
 
