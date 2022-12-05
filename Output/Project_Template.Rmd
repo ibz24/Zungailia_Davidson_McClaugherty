@@ -143,11 +143,14 @@ The raw precipitation datasets for the three rain gauges had 5 variables (YEAR, 
 **Data Structure**
 
 *Processed Soil Moisture Data* 
-|Variable | Description | Units | Class | Stats| 
-|--------:|:----------:|------:|:-----:|:-----:|
-|Year| Calendar year | | Integer | Minimum = 2000, Maximum = 2013|
-|Month| Calendar Month | | Integer | Minimum = 01 (January), Maximum = 07 (July)|
-|AverageMonthlySmois30| Average monthly 30 cm soil moisture as percent water content |  Unitless (measured as a percent) | Numeric | Site 1: minimum = 0.1521, mean = 0.2804, maximum = 0.3556, Site 2: minimum = 0.1046, mean = 0.2543, maximum = 0.3421, Site 3: minimum = 0.114, mean = 0.2729, maximum = 0.5753, Site 4: minimum = 0.1383, mean = 0.3156, maximum = 0.4922 |
+|Variable       | Description   | Units | Class      | Stats                         | 
+|---------------|---------------|------ |------------|-------------------------------|
+|Year           | Calendar year |       |Integer     | Minimum = 2000, Maximum = 2013|
+|---------------|---------------|-------|------------|-------------------------------|
+|Month          |Calendar Month |       |Integer     |Minimum = 01 (January),        | 
+|               |               |       |            |Maximum = 07 (July)            |
+|---------------|---------------|-------|------------|-------------------------------|
+AverageMonthlySmois30| Average monthly 30 cm soil moisture as percent water content |  Unitless (measured as a percent) | Numeric | Site 1: minimum = 0.1521, mean = 0.2804, maximum = 0.3556, Site 2: minimum = 0.1046, mean = 0.2543, maximum = 0.3421, Site 3: minimum = 0.114, mean = 0.2729, maximum = 0.5753, Site 4: minimum = 0.1383, mean = 0.3156, maximum = 0.4922 |
 |YearMonth| Date in format YYYY-MM-DD | | Character | Minimum = 2000-01-21, Maximum = 2013-07-19|
 
 *Processed Rain Gauge/Precipitation Data*
