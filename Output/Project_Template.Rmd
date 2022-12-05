@@ -103,25 +103,28 @@ Precipitation data was collected from the US Forest Service Southern Research St
 
 We generated four new datasets combining the monthly average precipitation with monthly average 30 cm soil moisture at the 4 sites monitored at the Coweeta LTER. 
 
-**Data Wrangling**
+**Data Wrangling** 
 The initial datasets required a significant amount of wrangling before they could be used for analysis. The raw soil moisture data had 21 variables/columns, so the first step was to select the columns of interest (site, Year, YearDay, smois30). A new ‘Date’ column was created (format = "%Y-%j") and the data was filtered to exclude the smois30 values less than 0 and greater than 1 (since soil moisture is expressed as percent water content). All NAs were omitted from the data and it was then split into 4 separate dataframes (one per site). The smois30 (cm) values were averaged per month for each site prior to analysis. 
 
 The raw precipitation datasets (for the three rain gauges) had 5 variables (YEAR, MONTH, DAY, RRG"gauge ID number"). A new ‘Date’ column was created (format = "%Y-%m-%d"), and the data was wrangled to only include the same years that are represented by the soil moisture data (2000-2013). All NAs were omitted from the data. The final step was to average the rain gauge data by month (to align with the soil moisture monthly averages).
 
-**Data Structure**
-Processed Soil Moisture Data
-
+**Data Structure**. 
+*Processed Soil Moisture Data*. 
 |Variable | Description | Units | Class | Stats| 
 |--------:|:----------:|------:|:-----:|:-----:|
-|Year| Calendar year | | Integer | Minimum = 2000, Maximum = 2013|
-|Month| Calendar Month | | Integer | Minimum = 01 (January), Maximum = 07 (July)|
-|AverageMonthlySmois30| Unitless (measured as a percent) | Numeric | Site 1: minimum = 0.1521, mean = 0.2804, maximum = 0.3556, Site 2: minimum = 0.1046, mean = 0.2543, maximum = 0.3421, Site 3: minimum = 0.114, mean = 0.2729, maximum = 0.5753, Site 4: minimum = 0.1383, mean = 0.3156, maximum = 0.4922 |
-|YearMonth| Date in format YYYY-MM-DD | | Character | Minimum = 2000-01-21, Maximum = 2013-07-19|
+|Year | Calendar year | | Integer | Minimum = 2000, Maximum = 2013|
+|Month | Calendar Month | | Integer | Minimum = 01 (January), Maximum = 07 (July)|
+|AverageMonthlySmois30 | Average monthly 30 cm soil moisture as percent water content |  Unitless (measured as a percent) | Numeric | Site 1: minimum = 0.1521, mean = 0.2804, maximum = 0.3556, Site 2: minimum = 0.1046, mean = 0.2543, maximum = 0.3421, Site 3: minimum = 0.114, mean = 0.2729, maximum = 0.5753, Site 4: minimum = 0.1383, mean = 0.3156, maximum = 0.4922 |
+|YearMonth | Date in format YYYY-MM-DD | | Character | Minimum = 2000-01-21, Maximum = 2013-07-19|
 
 
-Processed Rain Gauge/Precipitation Data
+*Processed Rain Gauge/Precipitation Data*. 
 Variable | Description | Units | Class | Stats
-
+|--------:|:----------:|------:|:-----:|:-----:|
+|Year | Calendar year | | Integer | Minimum = 2000, Maximum = 2013|
+|Month | Calendar Month | | Integer | Minimum = 01 (January), Maximum = 07 (August)|
+|AverageMonthlyPrecip | Average Monthly Precipitation | Inches | Numeric | RG5: minimum = 0.1443, mean = 0.6387, maximum = 2.422, RG6: minimum = 0.1033, mean = 0.552, maximum = 1.4345, RG31: minimum = 0.1978, mean = 0.7141, maximum = 2.6956 |
+|YearMonth | Date in format YYYY-MM-DD | | Character | Minimum = 2000-01-21, Maximum = 2013-07-19|
 
 
 
