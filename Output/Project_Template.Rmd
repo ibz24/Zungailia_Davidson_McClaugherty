@@ -82,18 +82,45 @@ site4_soil_precip$YearMonth <- as.Date(site4_soil_precip$YearMonth, format = '%Y
 
 ```
 
-
 # Rationale and Research Questions
 
 ```{r}
 #Reading in the image
-![Source: Soil Moisture Sites and Rain Gages]("/home/guest/Zungailia_Davidson_McClaugherty/Data/precipandsmois.png")
+#image: ![Study Sites and Recording Rain Gage #Locations]("/home/guest/Zungailia_Davidson_McClaugherty/Data/precipandsmois.png")
 ```
 
 
 \newpage
 
 # Dataset Information
+**Data Description**
+Soil moisture datasets were collected from the EDI Data Portal for Coweeta LTER [this is a link.](https://portal.edirepository.org/nis/home.jsp). Coweeta LTER (248) was selected as the LTER Site and "Continuously measured forest soil moisture at four sites in the Coweeta Basin"" was selected as the dataset of interest. The data were accessed 11/21/22.  The following selections were downloaded:   
+    1. 1040_2000_2014  
+    2. 1040.kml (a Google Earth file showing the soil moisture site locations)  
+Precipitation data was collected from the US Forest Service Southern Research Station [this is a link.](https://www.srs.fs.usda.gov/coweeta/tools-and-data/). Daily precipitation data from recording rain gages (RRG) at Coweeta Hydrologic Lab, North Carolina was selected under Coweeta Datasets on the USFS Research Data Archive [this is a link.](https://www.fs.usda.gov/rds/archive/Catalog/RDS-2017-0031). Data were accessed 11/30/22.
+
+We generated four new datasets combining the monthly average precipitation with monthly average 30 cm soil moisture at the 4 sites monitored at the Coweeta LTER. 
+
+**Data Wrangling**
+The initial datasets required a significant amount of wrangling before they could be used for analysis. The raw soil moisture data had 21 variables/columns, so the first step was to select the columns of interest (site, Year, YearDay, smois30). A new ‘Date’ column was created (format = "%Y-%j") and the data was filtered to exclude the smois30 values less than 0 and greater than 1 (since soil moisture is expressed as percent water content). All NAs were omitted from the data and it was then split into 4 separate dataframes (one per site). The smois30 (cm) values were averaged per month for each site prior to analysis. 
+
+The raw precipitation datasets (for the three rain gauges) had 5 variables (YEAR, MONTH, DAY, RRG"gauge ID number"). A new ‘Date’ column was created (format = "%Y-%m-%d"), and the data was wrangled to only include the same years that are represented by the soil moisture data (2000-2013). All NAs were omitted from the data. The final step was to average the rain gauge data by month (to align with the soil moisture monthly averages).
+
+**Data Structure**
+Processed Soil Moisture Data
+
+|Variable | Description | Units | Class | Stats| 
+|--------:|:----------:|------:|:-----:|:-----:|
+|Year| Calendar year | | Integer | Minimum = 2000, Maximum = 2013|
+|Month| Calendar Month | | Integer | Minimum = 01 (January), Maximum = 07 (July)|
+|AverageMonthlySmois30| Unitless (measured as a percent) | Numeric | Site 1: minimum = 0.1521, mean = 0.2804, maximum = 0.3556, Site 2: minimum = 0.1046, mean = 0.2543, maximum = 0.3421, Site 3: minimum = 0.114, mean = 0.2729, maximum = 0.5753, Site 4: minimum = 0.1383, mean = 0.3156, maximum = 0.4922 |
+|YearMonth| Date in format YYYY-MM-DD | | Character | Minimum = 2000-01-21, Maximum = 2013-07-19|
+
+
+Processed Rain Gauge/Precipitation Data
+Variable | Description | Units | Class | Stats
+
+
 
 
 
