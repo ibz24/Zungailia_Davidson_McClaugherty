@@ -84,16 +84,21 @@ site4_soil_precip$YearMonth <- as.Date(site4_soil_precip$YearMonth, format = '%Y
 
 # Rationale and Research Questions
 
-The Coweeta Basin Long Term Ecological Research (LTER) site is deemed one of the oldest continuous environmental studies in North America. It is managed by the USDA Forest Service in collaboration with the University of Georgia. This site is located in the southern portion of the Appalachian Mountains and is primarily composed of deciduous forest. We decided to use this site for our research project because it provides a unique setting to explore the relationships between variables such as soil moisture, precipitation, and elevation over time.  The goal of this analysis was to use skills that we have learned throughout the semester to generate and answer a specific research question. This investigation was intended to analyze temporal trends in soil moisture throughout the Coweeta Basin, and we used soil moisture data from four sites (at four different elevations) to explore our research questions. We also explored the relationship between precipitation and soil moisture over time given that soil moisture is likely to be affected in some way by precipitation. The analysis is based on data collected between the years 2000 and 2013.  The four sites (used for soil moisture data collection) are located at four different elevations, allowing us to infer the relationship between soil moisture and elevation based on the results of the analysis. The research sites are located at the following elevations: 
+The Coweeta Basin Long Term Ecological Research (LTER) site is deemed one of the oldest continuous environmental studies in North America. It is managed by the USDA Forest Service in collaboration with the University of Georgia. This site is located in the southern portion of the Appalachian Mountains in North Carolina and is primarily composed of deciduous forest. We decided to use this site for our research project because it provides a unique setting to explore the relationships between environmental variables such as soil moisture, precipitation, and elevation over time. 
+The goal of this analysis was to use skills that we have learned throughout the semester to generate and answer a specific research question. This investigation was intended to analyze temporal trends in soil moisture throughout the Coweeta Basin, and we used soil moisture data from four sites (at four different elevations) to explore our research questions. We also investigated the relationship between precipitation and soil moisture over time, assuming that there is a positive relationship between these two variables. The analysis is based on data collected between the years 2000 and 2013.
+The four sites where  soil moisture data was collected are located at four different elevations, allowing us to infer the relationship between soil moisture and elevation. The research sites are located at the following elevations: 
+
 
 - Site 1: 817.17 meters
 - Site 2: 1380.44 meters
 - Site 3: 1214.93 meters
 - Site 4: 735.47 meters
 
-The Coweeta LTER laboratory collects precipitation data from a total of eight rain gauges throughout the Coweeta Basin, so we used the geographic coordinates of the rain gauges and compared them to the geographic coordinates of the four research sites to determine which rain gauge was located closest to each site. The precipitation data from Rain Gauge 6 (RG06) was used for Sites 1 and 4, data from Rain Gauge 31 (RG31) was used for Site 2, and data from Rain Gauge 5 (RG05) was used for Site 3. All of the sites are within 0.5 miles of their paired rain gauge. 
 
-Our main research question: *Has soil moisture in the upper 30 cm (of soil) increased or decreased in Coweeta Basin from 2000 to 2013 in each of the four research sites?*
+The Coweeta LTER laboratory collects precipitation data from a total of eight rain gauges throughout the Coweeta Basin, so we used the geographic coordinates of the rain gauges and the four research sites to determine which rain gauge was located closest to each site. The precipitation data from Rain Gauge 6 (RG06) was used for Sites 1 and 4, data from Rain Gauge 31 (RG31) was used for Site 2, and data from Rain Gauge 5 (RG05) was used for Site 3. All of the sites are within 0.8 km of their paired rain gauge. 
+
+
+Our main research question: *Has soil moisture in the upper 30 cm (of soil) increased or decreased in Coweeta Basin from 2000 to 2013 at each of the four research sites?*
 
 Other questions that were explored include:
 
@@ -101,12 +106,12 @@ Other questions that were explored include:
 - *What is the impact of elevation on soil moisture?*
 - *Is there a relationship between soil moisture and precipitation that can be observed at these four study sites?*
 
-**Null Hypothesis A**: There was no change in soil moisture in the upper 30 cm from 2000 to 2013.
-**Alternative Hypothesis A**: There was a change in soil moisture in the upper 30 cm from 2000 to 2013.
+**Null Hypothesis A**: There was no change in soil moisture in the upper 30 cm from 2000 to 2013 at each of the four research sites.
+**Alternative Hypothesis A**: There was a change in soil moisture in the upper 30 cm from 2000 to 2013 at each of the four research sites.
 
 
-**Null Hypothesis B**: There is no relationship between soil moisture and precipitation at the four study sites. 
-**Alternative Hypothesis B**: There is a relationship between soil moisture and precipitation at the four study sites. 
+**Null Hypothesis B**: There is no relationship between soil moisture and precipitation at each of the four research sites. 
+**Alternative Hypothesis B**: There is a relationship between soil moisture and precipitation at each of the four research sites. 
 
 
 ```{r}
@@ -118,20 +123,22 @@ library(knitr)
 # Dataset Information
 **Data Description**
 
-Soil moisture datasets were collected from the EDI Data Portal for Coweeta LTER [here](https://portal.edirepository.org/nis/home.jsp). Coweeta LTER (248) was selected as the LTER Site and "Continuously measured forest soil moisture at four sites in the Coweeta Basin" was selected as the dataset of interest. The data were accessed 11/21/22.  The following selections were downloaded:
+Soil moisture datasets were collected from the EDI Data Portal for Coweeta LTER [here](https://portal.edirepository.org/nis/home.jsp). Coweeta LTER (248) was selected as the LTER Site and "Continuously measured forest soil moisture at four sites in the Coweeta Basin" was identified as the dataset of interest. The data was accessed on 11/21/22.  The following datasets were downloaded:
 
 - 1040_2000_2014
 - 1040.kml (a Google Earth file showing the soil moisture site locations)
 
-Precipitation data was collected from the US Forest Service Southern Research Station [here](https://www.srs.fs.usda.gov/coweeta/tools-and-data/). Daily precipitation data from recording rain gages (RRG) at Coweeta Hydrologic Lab, North Carolina was selected under Coweeta Datasets on the USFS Research Data Archive [here](https://www.fs.usda.gov/rds/archive/Catalog/RDS-2017-0031). Data were accessed 11/30/22.
+Precipitation data was collected from the US Forest Service Southern Research Station [here](https://www.srs.fs.usda.gov/coweeta/tools-and-data/). Daily precipitation data from recording rain gages (RRG) at Coweeta Hydrologic Lab, North Carolina was selected under Coweeta Datasets on the USFS Research Data Archive [here](https://www.fs.usda.gov/rds/archive/Catalog/RDS-2017-0031). The data was accessed on 11/30/22.
 
 We generated four new datasets combining the monthly average precipitation with monthly average 30 cm soil moisture at the 4 sites monitored at the Coweeta LTER. 
 
 **Data Wrangling**
 
-The initial datasets required a significant amount of wrangling before they could be used for analysis. The raw soil moisture data had 21 variables/columns, so the first step was to select the columns of interest (site, Year, YearDay, smois30). A new ‘Date’ column was created (format = "%Y-%j") and the data was filtered to exclude the smois30 values less than 0 and greater than 1 (since soil moisture is expressed as percent water content). All NAs were omitted from the data and it was then split into 4 separate dataframes (one per site). The smois30 (cm) values were averaged per month for each site prior to analysis. 
+The initial datasets required a significant amount of wrangling before they could be used for analysis. The raw soil moisture data had 21 variables/columns, so the first step was to select the columns of interest (site, Year, YearDay, smois30). A new ‘Date’ column was created (format = "%Y-%j") and the data was filtered to exclude the smois30 values less than 0 and greater than 1 since soil moisture was expressed as percent water content. All NAs were omitted from the data and it was then split into 4 separate dataframes, one for each research site. The smois30 (cm) values were averaged per month for each site prior to analysis. 
 
-The raw precipitation datasets (for the three rain gauges) had 5 variables (YEAR, MONTH, DAY, RRG"gauge ID number"). A new ‘Date’ column was created (format = "%Y-%m-%d"), and the data was wrangled to only include the same years that are represented by the soil moisture data (2000-2013). All NAs were omitted from the data. The final step was to average the rain gauge data by month (to align with the soil moisture monthly averages).
+
+The raw precipitation datasets for the three rain gauges had 5 variables (YEAR, MONTH, DAY, RRG*gauge ID number*). A new ‘Date’ column was created (format = "%Y-%m-%d"), and the data was wrangled to only include the years 2000 to 2013 that we had  soil moisture data for. All NAs were omitted from the data. The final step was to average the rain gauge data by month in order to mirror average monthly soil moisture. 
+
 
 **Data Structure**
 
