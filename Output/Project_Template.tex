@@ -36,16 +36,6 @@
 \makeatother
 \usepackage{xcolor}
 \usepackage[margin=2.54cm]{geometry}
-\usepackage{longtable,booktabs,array}
-\usepackage{calc} % for calculating minipage widths
-% Correct order of tables after \paragraph or \subparagraph
-\usepackage{etoolbox}
-\makeatletter
-\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
-\makeatother
-% Allow footnotes in longtable head/foot
-\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
-\makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -149,43 +139,38 @@ data (2000-2013). All NAs were omitted from the data. The final step was
 to average the rain gauge data by month (to align with the soil moisture
 monthly averages).
 
-\textbf{Data Structure} Processed Soil Moisture Data
+\textbf{Data Structure}. \emph{Processed Soil Moisture Data}.
+\textbar Variable \textbar{} Description \textbar{} Units \textbar{}
+Class \textbar{} Stats\textbar{}
+\textbar--------:\textbar:----------:\textbar------:\textbar:-----:\textbar:-----:\textbar{}
+\textbar Year \textbar{} Calendar year \textbar{} \textbar{} Integer
+\textbar{} Minimum = 2000, Maximum = 2013\textbar{} \textbar Month
+\textbar{} Calendar Month \textbar{} \textbar{} Integer \textbar{}
+Minimum = 01 (January), Maximum = 07 (July)\textbar{}
+\textbar AverageMonthlySmois30 \textbar{} Average monthly 30 cm soil
+moisture as percent water content \textbar{} Unitless (measured as a
+percent) \textbar{} Numeric \textbar{} Site 1: minimum = 0.1521, mean =
+0.2804, maximum = 0.3556, Site 2: minimum = 0.1046, mean = 0.2543,
+maximum = 0.3421, Site 3: minimum = 0.114, mean = 0.2729, maximum =
+0.5753, Site 4: minimum = 0.1383, mean = 0.3156, maximum = 0.4922
+\textbar{} \textbar YearMonth \textbar{} Date in format YYYY-MM-DD
+\textbar{} \textbar{} Character \textbar{} Minimum = 2000-01-21, Maximum
+= 2013-07-19\textbar{}
 
-\begin{longtable}[]{@{}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2143}}
-  >{\centering\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2857}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1667}}
-  >{\centering\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1667}}
-  >{\centering\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1667}}@{}}
-\toprule()
-\begin{minipage}[b]{\linewidth}\raggedleft
-Variable
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-Description
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Units
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-Class
-\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
-Stats
-\end{minipage} \\
-\midrule()
-\endhead
-Year & Calendar year & & Integer & Minimum = 2000, Maximum = 2013 \\
-Month & Calendar Month & & Integer & Minimum = 01 (January), Maximum =
-07 (July) \\
-AverageMonthlySmois30 & Unitless (measured as a percent) & Numeric &
-Site 1: minimum = 0.1521, mean = 0.2804, maximum = 0.3556, Site 2:
-minimum = 0.1046, mean = 0.2543, maximum = 0.3421, Site 3: minimum =
-0.114, mean = 0.2729, maximum = 0.5753, Site 4: minimum = 0.1383, mean =
-0.3156, maximum = 0.4922 & \\
-YearMonth & Date in format YYYY-MM-DD & & Character & Minimum =
-2000-01-21, Maximum = 2013-07-19 \\
-\bottomrule()
-\end{longtable}
-
-Processed Rain Gauge/Precipitation Data Variable \textbar{} Description
-\textbar{} Units \textbar{} Class \textbar{} Stats
+\emph{Processed Rain Gauge/Precipitation Data}. Variable \textbar{}
+Description \textbar{} Units \textbar{} Class \textbar{} Stats
+\textbar--------:\textbar:----------:\textbar------:\textbar:-----:\textbar:-----:\textbar{}
+\textbar Year \textbar{} Calendar year \textbar{} \textbar{} Integer
+\textbar{} Minimum = 2000, Maximum = 2013\textbar{} \textbar Month
+\textbar{} Calendar Month \textbar{} \textbar{} Integer \textbar{}
+Minimum = 01 (January), Maximum = 07 (August)\textbar{}
+\textbar AverageMonthlyPrecip \textbar{} Average Monthly Precipitation
+\textbar{} Inches \textbar{} Numeric \textbar{} RG5: minimum = 0.1443,
+mean = 0.6387, maximum = 2.422, RG6: minimum = 0.1033, mean = 0.552,
+maximum = 1.4345, RG31: minimum = 0.1978, mean = 0.7141, maximum =
+2.6956 \textbar{} \textbar YearMonth \textbar{} Date in format
+YYYY-MM-DD \textbar{} \textbar{} Character \textbar{} Minimum =
+2000-01-21, Maximum = 2013-07-19\textbar{}
 
 \newpage
 
