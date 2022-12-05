@@ -35,15 +35,15 @@ library(dplyr)
 library(lubridate)
 library(tidyverse)
 library(cowplot)
-install.packages("ggplot2")
+#install.packages("ggplot2")
 library(ggplot2)
-install.packages("ggpubr")
+#install.packages("ggpubr")
 library(ggpubr)
 library(Kendall)
 
 #Setting the ggplot theme
 Project_theme <-
-  theme_classic(base_size = 14) +
+  theme_light(base_size = 14) +
   theme(axis.text = element_text(color = "dark gray"), 
   legend.position = "top")
 theme_set(Project_theme)
@@ -83,26 +83,28 @@ site4_soil_precip$YearMonth <- as.Date(site4_soil_precip$YearMonth, format = '%Y
 ```
 
 # Rationale and Research Questions
-\
+
 The Coweeta Basin Long Term Ecological Research (LTER) site is deemed one of the oldest continuous environmental studies in North America. It is managed by the USDA Forest Service in collaboration with the University of Georgia. This site is located in the southern portion of the Appalachian Mountains and is primarily composed of deciduous forest. We decided to use this site for our research project because it provides a unique setting to explore the relationships between variables such as soil moisture, precipitation, and elevation over time.  The goal of this analysis was to use skills that we have learned throughout the semester to generate and answer a specific research question. This investigation was intended to analyze temporal trends in soil moisture throughout the Coweeta Basin, and we used soil moisture data from four sites (at four different elevations) to explore our research questions. We also explored the relationship between precipitation and soil moisture over time given that soil moisture is likely to be affected in some way by precipitation. The analysis is based on data collected between the years 2000 and 2013.  The four sites (used for soil moisture data collection) are located at four different elevations, allowing us to infer the relationship between soil moisture and elevation based on the results of the analysis. The research sites are located at the following elevations: 
-\
-   * Site 1: 817.17 meters
-   * Site 2: 1380.44 meters
-   * Site 3: 1214.93 meters
-   * Site 4: 735.47 meters
-\
+
+- Site 1: 817.17 meters
+- Site 2: 1380.44 meters
+- Site 3: 1214.93 meters
+- Site 4: 735.47 meters
+
 The Coweeta LTER laboratory collects precipitation data from a total of eight rain gauges throughout the Coweeta Basin, so we used the geographic coordinates of the rain gauges and compared them to the geographic coordinates of the four research sites to determine which rain gauge was located closest to each site. The precipitation data from Rain Gauge 6 (RG06) was used for Sites 1 and 4, data from Rain Gauge 31 (RG31) was used for Site 2, and data from Rain Gauge 5 (RG05) was used for Site 3. All of the sites are within 0.5 miles of their paired rain gauge. 
-\
-Our main research question was the following: *Has soil moisture in the upper 30 cm (of soil) increased or decreased in Coweeta Basin from 2000 to 2013 in each of the four research sites?*
-\
-Other questions that were explored include: 
-  *Which sites experienced the greatest change in soil moisture over time?*
-  *What is the impact of elevation on soil moisture?*
-  *Is there a relationship between soil moisture and precipitation that can be observed at these four study sites?*
-\
+
+Our main research question: *Has soil moisture in the upper 30 cm (of soil) increased or decreased in Coweeta Basin from 2000 to 2013 in each of the four research sites?*
+
+Other questions that were explored include:
+
+- *Which sites experienced the greatest change in soil moisture over time?*
+- *What is the impact of elevation on soil moisture?*
+- *Is there a relationship between soil moisture and precipitation that can be observed at these four study sites?*
+
 **Null Hypothesis A**: There was no change in soil moisture in the upper 30 cm from 2000 to 2013.
 **Alternative Hypothesis A**: There was a change in soil moisture in the upper 30 cm from 2000 to 2013.
-\
+
+
 **Null Hypothesis B**: There is no relationship between soil moisture and precipitation at the four study sites. 
 **Alternative Hypothesis B**: There is a relationship between soil moisture and precipitation at the four study sites. 
 
@@ -115,19 +117,24 @@ library(knitr)
 
 # Dataset Information
 **Data Description**
-Soil moisture datasets were collected from the EDI Data Portal for Coweeta LTER [this is a link.](https://portal.edirepository.org/nis/home.jsp). Coweeta LTER (248) was selected as the LTER Site and "Continuously measured forest soil moisture at four sites in the Coweeta Basin"" was selected as the dataset of interest. The data were accessed 11/21/22.  The following selections were downloaded:   
-    1. 1040_2000_2014  
-    2. 1040.kml (a Google Earth file showing the soil moisture site locations)  
-Precipitation data was collected from the US Forest Service Southern Research Station [this is a link.](https://www.srs.fs.usda.gov/coweeta/tools-and-data/). Daily precipitation data from recording rain gages (RRG) at Coweeta Hydrologic Lab, North Carolina was selected under Coweeta Datasets on the USFS Research Data Archive [this is a link.](https://www.fs.usda.gov/rds/archive/Catalog/RDS-2017-0031). Data were accessed 11/30/22.
+
+Soil moisture datasets were collected from the EDI Data Portal for Coweeta LTER [here](https://portal.edirepository.org/nis/home.jsp). Coweeta LTER (248) was selected as the LTER Site and "Continuously measured forest soil moisture at four sites in the Coweeta Basin" was selected as the dataset of interest. The data were accessed 11/21/22.  The following selections were downloaded:
+
+- 1040_2000_2014
+- 1040.kml (a Google Earth file showing the soil moisture site locations)
+
+Precipitation data was collected from the US Forest Service Southern Research Station [here](https://www.srs.fs.usda.gov/coweeta/tools-and-data/). Daily precipitation data from recording rain gages (RRG) at Coweeta Hydrologic Lab, North Carolina was selected under Coweeta Datasets on the USFS Research Data Archive [here](https://www.fs.usda.gov/rds/archive/Catalog/RDS-2017-0031). Data were accessed 11/30/22.
 
 We generated four new datasets combining the monthly average precipitation with monthly average 30 cm soil moisture at the 4 sites monitored at the Coweeta LTER. 
 
-**Data Wrangling** 
+**Data Wrangling**
+
 The initial datasets required a significant amount of wrangling before they could be used for analysis. The raw soil moisture data had 21 variables/columns, so the first step was to select the columns of interest (site, Year, YearDay, smois30). A new ‘Date’ column was created (format = "%Y-%j") and the data was filtered to exclude the smois30 values less than 0 and greater than 1 (since soil moisture is expressed as percent water content). All NAs were omitted from the data and it was then split into 4 separate dataframes (one per site). The smois30 (cm) values were averaged per month for each site prior to analysis. 
 
 The raw precipitation datasets (for the three rain gauges) had 5 variables (YEAR, MONTH, DAY, RRG"gauge ID number"). A new ‘Date’ column was created (format = "%Y-%m-%d"), and the data was wrangled to only include the same years that are represented by the soil moisture data (2000-2013). All NAs were omitted from the data. The final step was to average the rain gauge data by month (to align with the soil moisture monthly averages).
 
-**Data Structure** 
+**Data Structure**
+
 *Processed Soil Moisture Data* 
 |Variable | Description | Units | Class | Stats| 
 |--------:|:----------:|------:|:-----:|:-----:|
@@ -135,7 +142,6 @@ The raw precipitation datasets (for the three rain gauges) had 5 variables (YEAR
 |Month| Calendar Month | | Integer | Minimum = 01 (January), Maximum = 07 (July)|
 |AverageMonthlySmois30| Average monthly 30 cm soil moisture as percent water content |  Unitless (measured as a percent) | Numeric | Site 1: minimum = 0.1521, mean = 0.2804, maximum = 0.3556, Site 2: minimum = 0.1046, mean = 0.2543, maximum = 0.3421, Site 3: minimum = 0.114, mean = 0.2729, maximum = 0.5753, Site 4: minimum = 0.1383, mean = 0.3156, maximum = 0.4922 |
 |YearMonth| Date in format YYYY-MM-DD | | Character | Minimum = 2000-01-21, Maximum = 2013-07-19|
-
 
 *Processed Rain Gauge/Precipitation Data*
 |Variable | Description | Units | Class | Stats
@@ -145,32 +151,234 @@ The raw precipitation datasets (for the three rain gauges) had 5 variables (YEAR
 |AverageMonthlyPrecip| Average Monthly Precipitation | Inches | Numeric | RG5: minimum = 0.1443, mean = 0.6387, maximum = 2.422, RG6: minimum = 0.1033, mean = 0.552, maximum = 1.4345, RG31: minimum = 0.1978, mean = 0.7141, maximum = 2.6956 |
 |YearMonth| Date in format YYYY-MM-DD | | Character | Minimum = 2000-01-21, Maximum = 2013-07-19|
 
-
-
-
 \newpage
 
 # Exploratory Analysis 
+```{r Average Monthly Soil Moisture Plots, echo = FALSE, fig.height = 4}
+#Plotting the monthly averages of soil moisture to get a sense of trends over time
 
+site1_plot <- 
+  ggplot(site1, aes(x = YearMonth, y = AverageMonthlySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm, se = FALSE)+
+  labs(x = "Year", y = "Average Monthly Soil Moisture (%)", title = "Site 1") +
+  stat_regline_equation(label.y = 0.37)
+print(site1_plot)
 
+site2_plot <- 
+  ggplot(site2, aes(x = YearMonth, y = AverageMonthlySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm, se = FALSE)+
+  labs(x = "Year", y = "Average Monthly Soil Moisture (%)", title = "Site 2") +
+  stat_regline_equation(label.y = 0.36)
+print(site2_plot)
+
+site3_plot <- 
+  ggplot(site3, aes(x = YearMonth, y = AverageMonthlySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm, se = FALSE)+
+  labs(x = "Year", y = "Average Monthly Soil Moisture (%)", title = "Site 3") +
+  stat_regline_equation(label.y = 0.52)
+print(site3_plot)
+
+site4_plot <- 
+  ggplot(site4, aes(x = YearMonth, y = AverageMonthlySmois30)) +
+  geom_line() +
+  geom_smooth(method = lm, se = FALSE)+
+  labs(x = "Year", y = "Average Monthly Soil Moisture (%)", title = "Site 4") +
+  stat_regline_equation(label.y = 0.48)
+print(site4_plot)
+
+```
+
+```{r Average Monthly Soil Moisture Cowplot, echo = FALSE, fig.height = 7, fig.width = 8}
+#Creating a cowplot to show all four sites at once
+allsiteplots <- plot_grid(site1_plot, site2_plot, site3_plot, site4_plot)
+print(allsiteplots)
+```
+
+```{r Average Monthly Precipitation Plots, echo = FALSE, fig.height = 4}
+#Plotting average monthly precipitation at the three rain gauges closest to our sites to look at trends over time
+
+RG5_Plot <-
+  ggplot(RG5_MonthlyAvg, aes(x = YearMonth, y = AverageMonthlyPrecip)) +
+  geom_line()+
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = 'Year', y = 'Average Monthly Precipitation (in.)', title = 'Rain Gauge 5') +
+  stat_regline_equation(label.y = 2.4)
+print(RG5_Plot)
+
+RG6_Plot <-
+  ggplot(RG6_MonthlyAvg, aes(x = YearMonth, y = AverageMonthlyPrecip)) +
+  geom_line()+
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = 'Year', y = 'Average Monthly Precipitation (in.)', title = 'Rain Gauge 6') +
+  stat_regline_equation(label.y = 1.5)
+print(RG6_Plot)
+
+RG31_Plot <-
+  ggplot(RG31_MonthlyAvg, aes(x = YearMonth, y = AverageMonthlyPrecip)) +
+  geom_line()+
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = 'Year', y = 'Average Monthly Precipitation (in.)', title = 'Rain Gauge 31') +
+  stat_regline_equation(label.y = 2.8)
+print(RG31_Plot)
+
+```
+
+```{r Average Monthly Precipitation Cowplot, echo = FALSE, fig.height = 7, fig.width = 8}
+#Creating a cowplot to show all three rain gauges at once
+allprecipplots <- plot_grid(RG5_Plot, RG6_Plot, RG31_Plot)
+print(allprecipplots)
+
+```
+
+```{r Average Monthly Soil Moisture and Precipitation Plots, echo = FALSE, fig.height = 4}
+#Plotting the relationship between average monthly precipitation and average monthly soil moisture
+
+Site1_soil_precip_plot <- 
+  ggplot(site1_soil_precip, aes(x = AverageMonthlyPrecip, y = AverageMonthlySmois30)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 1') +
+  stat_regline_equation(label.y = 0.37)
+print(Site1_soil_precip_plot)
+
+Site2_soil_precip_plot <- 
+  ggplot(site2_soil_precip, aes(x = AverageMonthlyPrecip, y = AverageMonthlySmois30)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 2') +
+  stat_regline_equation(label.y = 0.36)
+print(Site2_soil_precip_plot)
+
+Site3_soil_precip_plot <- 
+  ggplot(site3_soil_precip, aes(x = AverageMonthlyPrecip, y = AverageMonthlySmois30)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 3') +
+  stat_regline_equation(label.y = 0.46)
+print(Site3_soil_precip_plot)
+
+Site4_soil_precip_plot <- 
+  ggplot(site4_soil_precip, aes(x = AverageMonthlyPrecip, y = AverageMonthlySmois30)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 4') +
+  stat_regline_equation(label.y = 0.48)
+print(Site4_soil_precip_plot)
+
+```
+
+```{rAverage Monthly Soil Moisture and Precipitation Cowplot, echo = FALSE, fig.height = 7, fig.width = 8}
+#Creating a cowplot to show all four sites at once
+all_soil_precip_plots <- plot_grid(Site1_soil_precip_plot, Site2_soil_precip_plot, Site3_soil_precip_plot, Site4_soil_precip_plot)
+print(all_soil_precip_plots)
+```
 
 \newpage
 
 # Analysis
 
+## Question 1: Has soil moisture in the upper 30 centimeters of soil increased or decreased in Coweeta Basin from 2000 to 2013 at each of the four research sites?
 
+## Question 2: Which sites experienced the greatest change in soil moisture over time?
 
-## Question 1: <insert specific question here and add additional subsections for additional questions below, if needed>
+## Question 3: What is the impact of elevation on soil moisture?
 
-## Question 2: 
+In order to analyze potential changes in soil moisture in the upper 30 cm in Coweeta Basin from 2000 to 2013 at each of the four research sites, we completed a time series analysis (TSA) of monthly soil moisture for each site. TSA is used to track a response variable over time to understand whether an increasing or decreasing trend exists across a given time period. Our time series model tracked time in months as the explanatory variable and soil moisture expressed as percent water content as the response variable. TSA can be broken down into the following four components: (1) seasonal component, (2) trend component, (3) error or random component, and (4) cyclical component. For the purpose of our analysis, we focused on the seasonal and trend components in order to interpret general tendencies and repeating cycles, i.e. seasonality. After decomposing and plotting the time series, we compared the length of the gray bars to the right of each plot that explain the relative scale of each component. A longer bar corresponds to smaller variability of that component in the dataset whereas a smaller bar corresponds to larger variability of that component in the dataset. As a result, the trend component explained most of the variability in the dataset of sites 3 and 4 and the seasonality component explained most of the variability in the dataset of sites 1 and 2.
 
+```{r TSA, echo = FALSE, fig.height = 4}
+#Creating a time series for average monthly soil moisture at each site
+site1_ts <- ts(site1$AverageMonthlySmois30, start = c(2000, 1), frequency = 12)
+site2_ts <- ts(site2$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
+site3_ts <- ts(site3$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
+site4_ts <- ts(site4$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
 
+#Decomposing the time series
+site1_decomposed <- stl(site1_ts, s.window = "periodic")
+site2_decomposed <- stl(site2_ts, s.window = "periodic")
+site3_decomposed <- stl(site3_ts, s.window = "periodic")
+site4_decomposed <- stl(site4_ts, s.window = "periodic")
 
+#Plotting decomposed time series
+plot(site1_decomposed)
+plot(site2_decomposed)
+plot(site3_decomposed)
+plot(site4_decomposed)
+
+```
+
+We also conducted a Seasonal Mann-Kendall trend analysis of monthly soil moisture for each research site in order to identify seasonal trends in the data. The Seasonal Mann-Kendall trend analysis is a type of monotonic trend analysis test that is non-parametric and can be used on seasonal data that exhibits a repeating pattern at regular intervals over time. A monotonic trend is defined as a gradual change over time that is uniform in direction. The results of the Seasonal Mann-Kendall are as follows:
+
+- *Site 1*: p-value = 0.80898
+- *Site 2*: p-value = 0.35739
+- *Site 3*: p-value = 3.2565e-12
+- *Site 4*: p-value = 1.0157e-5
+
+A p-value less than 0.05 means we must reject the null hypothesis that states the data is stationary and conclude that there is a statistically significant trend in average monthly soil moisture. A p-value greater than 0.05 means we fail to reject the null hypothesis that states the data is stationary and conclude there is not a statistically significant trend in average monthly soil moisture. In reference to the p-values above, sites 1 and 2 have a p-value greater than 0.05 which is not statistically significant. However, sites 3 and 4 have a p-value less than 0.05 which means there is a statistically significant trend at these sites.
+
+```{r Seasonal Mann-Kendall, eval = FALSE}
+#Running the Seasonal Mann-Kendall trend analysis of average monthly soil moisture
+site1_trend <- Kendall::SeasonalMannKendall(site1_ts)
+summary(site1_trend)
+
+site2_trend <- Kendall::SeasonalMannKendall(site2_ts)
+summary(site2_trend)
+
+site3_trend <- Kendall::SeasonalMannKendall(site3_ts)
+summary(site3_trend)
+
+site4_trend <- Kendall::SeasonalMannKendall(site4_ts)
+summary(site4_trend)
+
+```
+
+## Question 4: Is there a relationship between soil moisture and precipitation that can be observed at these four research sites?
+
+Lastly, we utilized a simple linear regression to determine the strength of the statistical relationship between monthly precipitation and soil moisture. Regression is the fitting of a line to a set of data points and a simple linear regression explains the linear relationship between two variables. The two outputs of the linear model that we chose to focus on were the p-value and multiple R-squared, or coefficient of determination, which is a measure of the percentage of variability in the values of average monthly precipitation (response variable) that is explained by average monthly soil moisture (explanatory variable) and ranges from 0 to 1. The results of the simple linear regression are as follows:
+
+- *Site 1*:
+  + p-value = 0.0003247
+  + Multiple R-squared = 0.08024
+
+- *Site 2*:
+  + p-value = 0.127
+  + Multiple R-squared = 0.0161
+
+- *Site 3*:
+  + p-value = 0.9118
+  + Multiple R-squared = 7.783e-5
+
+- *Site 4*:
+  + p-value = 0.00392
+  + Multiple R-squared = 0.05413
+
+A p-value less than 0.05 means we must reject the null hypothesis that assumes there is no relationship or correlation between average monthly soil moisture and precipitation and conclude there is a statistically significant relationship between the two variables. A p-value greater than 0.05 means we fail to reject the null hypothesis and conclude there is not a statistically significant relationship between the two variables. In reference to the p-values above, sites 1 and 4 have a significant relationship between average monthly soil moisture and precipitation while sites 2 and 3 do not have a significant relationship between the two variables. Additionally, site 1 had the highest R-squared value of 0.08024 which indicates that approximately 8.02% of the variability in average monthly soil moisture is explained by average monthly precipitation, followed by site 4, site 2, and site 3 in decreasing value. Reviewing the slopes of the linear model for each site also emphasizes the strongest relationship between soil moisture and precipitation at sites 1 and 4 with soil moisture expected to increase approximately 4.79% for every 1 inch increase in precipitation at site 1 and approximately 5.11% for every 1 inch increase in precipitation at site 4.
+
+```{r Linear Regression, eval = FALSE}
+#Running a linear model to determine the strength of the statistical relationship between precipitation and soil moisture
+lm_site1 <- lm(data = site1_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
+summary(lm_site1)
+
+lm_site2 <- lm(data = site2_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
+summary(lm_site2)
+
+lm_site3 <- lm(data = site3_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
+summary(lm_site3)
+
+lm_site4 <- lm(data = site4_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
+summary(lm_site4)
+
+```
 
 \newpage
 
 # Summary and Conclusions
 
+In analyzing the results of these statistical tests, we are able to draw conclusions on soil moisture trends and determine correlation between soil moisture and precipitation from 2000 to 2013 in Coweeta Basin. Our main research question focused on identifying an increasing or decreasing trend in soil moisture in the upper 30 cm at each of the four research sites from 2000 to 2013. The results of the time series analysis and Seasonal Mann-Kendall test indicate that there is a statistically significant trend at sites 3 and 4, with the trend component explaining much of the variability in the dataset of sites 3 and 4 and the seasonality component explaining much of the variability in the dataset of sites 1 and 2. Viewing the plot of average monthly soil moisture over time also provides insight on these trends. Sites 1, 2, and 3 have a decreasing trend in average monthly soil moisture as indicated by a negative slope whereas site 4 has an increasing trend in average monthly soil moisture as indicated by the positive slope. In comparing these trends to determine which sites experienced the greatest change in soil moisture over time, the results of the Seasonal Mann-Kendall test conclude that sites 3 and 4 have the strongest trend in average monthly soil moisture. However, the directionality of these trends differ with a decreasing trend at site 3 and an increasing trend at site 4.
+
+Additional questions that we explored include the impact of elevation on soil moisture as well as the relationship between soil moisture and precipitation at each of the four research sites. Sites 2 and 3 had the highest elevations at approximately 1380 meters and 1215 meters, respectively. Sites 1 and 4 had the lowest elevations at approximately 817 meters and 735 meters, respectively. The results of the Seasonal Mann-Kendall test emphasize a significant trend present at site 4 which is the lowest elevation of all four sites. While an increasing trend of average monthly soil moisture exists at this site, the test also determines that there is not a significant trend at sites 1 or 2. As a result, we are unable to definitively conclude the impact of elevation on soil moisture. In order to address the relationship between soil moisture and precipitation, the results of the linear regression indicated that sites 1 and 4 have a statistically significant relationship between average monthly soil moisture and precipitation. Site 1 had the strongest relationship between the two variables as indicated by the highest R-squared value while site 3 had the weakest relationship as indicated by the smallest R-squared value. In reviewing these conclusions, we do acknowledge that the location of rain gauges and soil moisture sites paired in this study may be a possible limitation or shortcoming. Although the pairing of soil moisture sites and rain gauge stations was based on closest proximity via geographic coordinates, there is uncertainty of local topography in these regions that may lead to slight distortions in the analysis of the relationship between average monthly soil moisture and precipitation.
 
 \newpage
 

@@ -26,12 +26,6 @@ getwd()
 library(dplyr)
 library(lubridate)
 library(tidyverse)
-library(cowplot)
-install.packages("ggplot2")
-library(ggplot2)
-install.packages("ggpubr")
-library(ggpubr)
-library(Kendall)
 
 #Reading in dataframes
 Coweeta <- read.csv("./Data/Raw/1040_Hourly_CR10_1_2080.csv")
@@ -41,7 +35,7 @@ RG31 <- read.csv('./Data/Raw/RG31_daily_1958_2021.csv')
 
 #Setting the ggplot theme
 Project_theme <-
-  theme_classic(base_size = 14) +
+  theme_light(base_size = 14) +
   theme(axis.text = element_text(color = "dark gray"), 
   legend.position = "top")
 theme_set(Project_theme)
@@ -88,8 +82,6 @@ class(Coweeta_wrangled2$YearDay)
 class(Coweeta_wrangled2$smois30)
 class(Coweeta_wrangled2$Date)
 
-summary(Coweeta_wrangled2$Year)
-
 ```
 
 ```{r}
@@ -97,10 +89,10 @@ summary(Coweeta_wrangled2$Year)
 Coweeta_wrangled3 <- Coweeta_wrangled2 %>% 
   filter(smois30 >= 0 & smois30 <= 1)
 
-#Checking for na's
+#Checking for NA's
 sum(is.na(Coweeta_wrangled3))
 
-#Deleting 2 na's
+#Deleting 2 NA's
 Coweeta_wrangled3 <- Coweeta_wrangled3 %>% 
   na.omit()
 sum(is.na(Coweeta_wrangled3))
@@ -227,54 +219,49 @@ site4SoilPrecip_wrangled <- site4SoilPrecip %>%
 ```{r}
 #Exporting the wrangled dataframes into the 'Processed' data folder
 
-#Site 1
+#Site 1 monthly average soil moisture
 write.csv(site1_MonthAvg, file = "./Data/Processed/coweeta_site1_processed.csv", row.names = FALSE)
 
-#Site 2
+#Site 2 monthly average soil moisture
 write.csv(site2_MonthAvg, file = "./Data/Processed/coweeta_site2_processed.csv", row.names = FALSE)
 
-#Site 3
+#Site 3 monthly average soil moisture
 write.csv(site3_MonthAvg, file = "./Data/Processed/coweeta_site3_processed.csv", row.names = FALSE)
 
-#Site 4
+#Site 4 monthly average soil moisture
 write.csv(site4_MonthAvg, file = "./Data/Processed/coweeta_site4_processed.csv", row.names = FALSE)
 
-#Coweeta_wrangled3
+#Coweeta wrangled dataset for daily soil moisture at each research site
 write.csv(Coweeta_wrangled3, file = "./Data/Processed/Coweeta_wrangled3_processed.csv", row.names = FALSE)
 
-#RG5
+#RG5 rain gauge data
 write.csv(RG5wrangled, file = "./Data/Processed/RG5wrangled_processed.csv", row.names = FALSE)
 
-#RG6
+#RG6 rain gauge data
 write.csv(RG6wrangled, file = "./Data/Processed/RG6wrangled_processed.csv", row.names = FALSE)
 
-#RG31
+#RG31 rain gauge data
 write.csv(RG31wrangled, file = "./Data/Processed/RG31wrangled_processed.csv", row.names = FALSE)
 
-#RG5 Monthly Average
+#RG5 monthly average precipitation
 write.csv(RG5_MonthAvg, file = "./Data/Processed/RG5_Monthly_processed.csv", row.names = FALSE)
 
-#RG6 Monthly Average
+#RG6 monthly average precipitation
 write.csv(RG6_MonthAvg, file = "./Data/Processed/RG6_Monthly_processed.csv", row.names = FALSE)
 
-#RG31 Monthly Average
+#RG31 monthly average precipitation
 write.csv(RG31_MonthAvg, file = "./Data/Processed/RG31_Monthly_processed.csv", row.names = FALSE)
 
-#Site 1 soil & precip
+#Site 1 monthly average soil moisture & precipitation
 write.csv(site1SoilPrecip_wrangled, file = "./Data/Processed/site1_soil_precip_processed.csv", row.names = FALSE)
 
-#Site 2 soil & precip
+#Site 2 monthly average soil moisture & precipitation
 write.csv(site2SoilPrecip_wrangled, file = "./Data/Processed/site2_soil_precip_processed.csv", row.names = FALSE)
 
-#Site 3 soil & precip
+#Site 3 monthly average soil moisture & precipitation
 write.csv(site3SoilPrecip_wrangled, file = "./Data/Processed/site3_soil_precip_processed.csv", row.names = FALSE)
 
-#Site 4 soil & precip
+#Site 4 monthly average soil moisture & precipitation
 write.csv(site4SoilPrecip_wrangled, file = "./Data/Processed/site4_soil_precip_processed.csv", row.names = FALSE)
 
 ```
-
-```{r}
-
-```
-

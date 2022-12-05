@@ -27,14 +27,14 @@ library(dplyr)
 library(lubridate)
 library(tidyverse)
 library(cowplot)
-install.packages("ggplot2")
+#install.packages("ggplot2")
 library(ggplot2)
-install.packages("ggpubr")
+#install.packages("ggpubr")
 library(ggpubr)
 
 #Setting the ggplot theme
 Project_theme <-
-  theme_classic(base_size = 14) +
+  theme_light(base_size = 14) +
   theme(axis.text = element_text(color = "dark gray"), 
   legend.position = "top")
 theme_set(Project_theme)
@@ -207,4 +207,3 @@ all_soil_precip_plots <- plot_grid(Site1_soil_precip_plot, Site2_soil_precip_plo
 print(all_soil_precip_plots)
 
 ```
-

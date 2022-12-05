@@ -27,15 +27,15 @@ library(dplyr)
 library(lubridate)
 library(tidyverse)
 library(cowplot)
-install.packages("ggplot2")
+#install.packages("ggplot2")
 library(ggplot2)
-install.packages("ggpubr")
+#install.packages("ggpubr")
 library(ggpubr)
 library(Kendall)
 
 #Setting the ggplot theme
 Project_theme <-
-  theme_classic(base_size = 14) +
+  theme_light(base_size = 14) +
   theme(axis.text = element_text(color = "dark gray"), 
   legend.position = "top")
 theme_set(Project_theme)
@@ -120,7 +120,5 @@ summary(lm_site3)
 
 lm_site4 <- lm(data = site4_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
 summary(lm_site4)
-
-```
 
 ```
