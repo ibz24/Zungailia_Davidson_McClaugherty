@@ -6,7 +6,7 @@ output:
     number_sections: yes
 geometry: margin=2.54cm
 title: "Analyzing Soil Moisture & Precipitation Trends in Coweeta Basin LTER Site"
-subtitle: "Web address for GitHub repository"
+subtitle: "https://github.com/ibz24/Zungailia_Davidson_McClaugherty"
 author: "Kelly Davidson, Megan McClaugherty, & Isabel Zungailia"
 fontsize: 12pt
 mainfont: Times New Roman
@@ -40,6 +40,7 @@ library(ggplot2)
 #install.packages("ggpubr")
 library(ggpubr)
 library(Kendall)
+library(knitr)
 
 #Setting the ggplot theme
 Project_theme <-
@@ -107,23 +108,21 @@ Other questions that were explored include:
 - *Is there a relationship between soil moisture and precipitation that can be observed at these four study sites?*
 
 **Null Hypothesis A**: There was no change in soil moisture in the upper 30 cm from 2000 to 2013 at each of the four research sites.
+
 **Alternative Hypothesis A**: There was a change in soil moisture in the upper 30 cm from 2000 to 2013 at each of the four research sites.
 
 
-**Null Hypothesis B**: There is no relationship between soil moisture and precipitation at each of the four research sites. 
+**Null Hypothesis B**: There is no relationship between soil moisture and precipitation at each of the four research sites.
+
 **Alternative Hypothesis B**: There is a relationship between soil moisture and precipitation at each of the four research sites. 
 
 ![Soil moisture research sites and rain gauge locations within Coweeta Basin, North Carolina.](../Data/precipandsmois.png)
-
-
-```{r}
-library(knitr)
-```
 
 \newpage
 
 # Dataset Information
 **Data Description**
+
 
 Soil moisture datasets were collected from the EDI Data Portal for Coweeta LTER [here](https://portal.edirepository.org/nis/home.jsp). Coweeta LTER (248) was selected as the LTER Site and "Continuously measured forest soil moisture at four sites in the Coweeta Basin" was identified as the dataset of interest. The data was accessed on 11/21/22.  The following datasets were downloaded:
 
@@ -142,35 +141,38 @@ The initial datasets required a significant amount of wrangling before they coul
 The raw precipitation datasets for the three rain gauges had 5 variables (YEAR, MONTH, DAY, RRG*gauge ID number*). A new ‘Date’ column was created (format = "%Y-%m-%d"), and the data was wrangled to only include the years 2000 to 2013 that we had  soil moisture data for. All NAs were omitted from the data. The final step was to average the rain gauge data by month in order to mirror average monthly soil moisture. 
 
 
+\newpage
+
 **Data Structure**
 
-*Processed Soil Moisture Data* 
-|Variable       | Description   | Units | Class      | Stats                         | 
-|---------------|---------------|------ |------------|-------------------------------|
-|Year           | Calendar year |       |Integer     | Minimum = 2000, Maximum = 2013|
-|---------------|---------------|-------|------------|-------------------------------|
-|Month          |Calendar Month |       |Integer     |Minimum = 01 (January),        | 
-|               |               |       |            |Maximum = 07 (July)            |
-|---------------|---------------|-------|------------|-------------------------------|
-AverageMonthlySmois30| Average monthly 30 cm soil moisture as percent water content |  Unitless (measured as a percent) | Numeric | Site 1: minimum = 0.1521, mean = 0.2804, maximum = 0.3556, Site 2: minimum = 0.1046, mean = 0.2543, maximum = 0.3421, Site 3: minimum = 0.114, mean = 0.2729, maximum = 0.5753, Site 4: minimum = 0.1383, mean = 0.3156, maximum = 0.4922 |
-|YearMonth| Date in format YYYY-MM-DD | | Character | Minimum = 2000-01-21, Maximum = 2013-07-19|
 
-![Processed soil moisture data.](../Data/SoilMoistureTable.png)
+|Variable|Description|Units|Class|Stats| 
+|:---:|:-----:|:---:|:---:|:-------------|
+|Year|Calendar Year|-|Integer|Minimum = 2000, Maximum = 2013|
+|Month|Calendar Month|-|Integer|Minimum = 01 (January), Maximum = 07 (July)|
+|AverageMonthly Smois30|Average monthly 30 cm soil moisture as percent water content|Unitless (measured as a percent)|Numeric|Site 1: minimum = 0.1521, mean = 0.2804, maximum = 0.3556, Site 2: minimum = 0.1046, mean = 0.2543, maximum = 0.3421, Site 3: minimum = 0.114, mean = 0.2729, maximum = 0.5753, Site 4: minimum = 0.1383, mean = 0.3156, maximum = 0.4922|
+|YearMonth|Date in format YYYY-MM-DD|-|Character|Minimum = 2000-01-21, Maximum = 2013-07-19|
 
-*Processed Rain Gauge/Precipitation Data*
-|Variable | Description | Units | Class | Stats
-|-------:|:----------:|------:|:-----:|:-----:|
-|Year| Calendar year | | Integer | Minimum = 2000, Maximum = 2013|
-|Month| Calendar Month | | Integer | Minimum = 01 (January), Maximum = 07 (August)|
-|AverageMonthlyPrecip| Average Monthly Precipitation | Inches | Numeric | RG5: minimum = 0.1443, mean = 0.6387, maximum = 2.422, RG6: minimum = 0.1033, mean = 0.552, maximum = 1.4345, RG31: minimum = 0.1978, mean = 0.7141, maximum = 2.6956 |
-|YearMonth| Date in format YYYY-MM-DD | | Character | Minimum = 2000-01-21, Maximum = 2013-07-19|
-
-![Processed rain gauge/precipitation data.](../Data/PrecipitationTable.png)
+Table: Processed soil moisture data
 
 \newpage
 
-# Exploratory Analysis 
-```{r Average Monthly Soil Moisture Plots, echo = FALSE, fig.height = 4}
+
+|Variable|Description|Units|Class|Stats|
+|:---:|:-----:|:---:|:---:|:-------------|
+|Year|Calendar year|-|Integer|Minimum = 2000, Maximum = 2013|
+|Month|Calendar Month|-|Integer|Minimum = 01 (January), Maximum = 07 (August)|
+|AverageMonthly Precip|Average Monthly Precipitation|Inches|Numeric|RG5: minimum = 0.1443, mean = 0.6387, maximum = 2.422, RG6: minimum = 0.1033, mean = 0.552, maximum = 1.4345, RG31: minimum = 0.1978, mean = 0.7141, maximum = 2.6956|
+|YearMonth|Date in format YYYY-MM-DD|-|Character|Minimum = 2000-01-21, Maximum = 2013-07-19|
+
+Table: Processed Rain Gauge/Precipitation Data
+
+\newpage
+
+# Exploratory Analysis
+
+
+```{r Average Monthly Soil Moisture plots, include = FALSE, message=FALSE}
 #Plotting the monthly averages of soil moisture to get a sense of trends over time
 
 site1_plot <- 
@@ -179,7 +181,6 @@ site1_plot <-
   geom_smooth(method = lm, se = FALSE)+
   labs(x = "Year", y = "Average Monthly Soil Moisture (%)", title = "Site 1") +
   stat_regline_equation(label.y = 0.37)
-print(site1_plot)
 
 site2_plot <- 
   ggplot(site2, aes(x = YearMonth, y = AverageMonthlySmois30)) +
@@ -187,7 +188,6 @@ site2_plot <-
   geom_smooth(method = lm, se = FALSE)+
   labs(x = "Year", y = "Average Monthly Soil Moisture (%)", title = "Site 2") +
   stat_regline_equation(label.y = 0.36)
-print(site2_plot)
 
 site3_plot <- 
   ggplot(site3, aes(x = YearMonth, y = AverageMonthlySmois30)) +
@@ -195,7 +195,6 @@ site3_plot <-
   geom_smooth(method = lm, se = FALSE)+
   labs(x = "Year", y = "Average Monthly Soil Moisture (%)", title = "Site 3") +
   stat_regline_equation(label.y = 0.52)
-print(site3_plot)
 
 site4_plot <- 
   ggplot(site4, aes(x = YearMonth, y = AverageMonthlySmois30)) +
@@ -203,17 +202,17 @@ site4_plot <-
   geom_smooth(method = lm, se = FALSE)+
   labs(x = "Year", y = "Average Monthly Soil Moisture (%)", title = "Site 4") +
   stat_regline_equation(label.y = 0.48)
-print(site4_plot)
 
 ```
 
-```{r Average Monthly Soil Moisture Cowplot, echo = FALSE, fig.height = 7, fig.width = 8}
-#Creating a cowplot to show all four sites at once
+
+```{r Average Monthly Soil Moisture Cowplot, echo = FALSE, fig.height = 7, fig.width = 8, fig.cap = "Average Monthly Soil Moisture", message=FALSE}
+#Cowplot to show all four sites at once
 allsiteplots <- plot_grid(site1_plot, site2_plot, site3_plot, site4_plot)
 print(allsiteplots)
 ```
 
-```{r Average Monthly Precipitation Plots, echo = FALSE, fig.height = 4}
+```{r Average Monthly Precipitation Plots, include = FALSE, message=FALSE}
 #Plotting average monthly precipitation at the three rain gauges closest to our sites to look at trends over time
 
 RG5_Plot <-
@@ -222,7 +221,6 @@ RG5_Plot <-
   geom_smooth(method = lm, se = FALSE) +
   labs(x = 'Year', y = 'Average Monthly Precipitation (in.)', title = 'Rain Gauge 5') +
   stat_regline_equation(label.y = 2.4)
-print(RG5_Plot)
 
 RG6_Plot <-
   ggplot(RG6_MonthlyAvg, aes(x = YearMonth, y = AverageMonthlyPrecip)) +
@@ -230,7 +228,6 @@ RG6_Plot <-
   geom_smooth(method = lm, se = FALSE) +
   labs(x = 'Year', y = 'Average Monthly Precipitation (in.)', title = 'Rain Gauge 6') +
   stat_regline_equation(label.y = 1.5)
-print(RG6_Plot)
 
 RG31_Plot <-
   ggplot(RG31_MonthlyAvg, aes(x = YearMonth, y = AverageMonthlyPrecip)) +
@@ -238,18 +235,17 @@ RG31_Plot <-
   geom_smooth(method = lm, se = FALSE) +
   labs(x = 'Year', y = 'Average Monthly Precipitation (in.)', title = 'Rain Gauge 31') +
   stat_regline_equation(label.y = 2.8)
-print(RG31_Plot)
 
 ```
 
-```{r Average Monthly Precipitation Cowplot, echo = FALSE, fig.height = 7, fig.width = 8}
+```{r Average Monthly Precipitation Cowplot, echo = FALSE, fig.height = 7, fig.width = 8, fig.cap = "Average Monthly Precipitation", message=FALSE}
 #Creating a cowplot to show all three rain gauges at once
 allprecipplots <- plot_grid(RG5_Plot, RG6_Plot, RG31_Plot)
 print(allprecipplots)
 
 ```
 
-```{r Average Monthly Soil Moisture and Precipitation Plots, echo = FALSE, fig.height = 4}
+```{r Average Monthly Soil Moisture and Precipitation Plots, echo = FALSE, message=FALSE}
 #Plotting the relationship between average monthly precipitation and average monthly soil moisture
 
 Site1_soil_precip_plot <- 
@@ -258,7 +254,6 @@ Site1_soil_precip_plot <-
   geom_smooth(method = lm, se = FALSE) +
   labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 1') +
   stat_regline_equation(label.y = 0.37)
-print(Site1_soil_precip_plot)
 
 Site2_soil_precip_plot <- 
   ggplot(site2_soil_precip, aes(x = AverageMonthlyPrecip, y = AverageMonthlySmois30)) +
@@ -266,7 +261,6 @@ Site2_soil_precip_plot <-
   geom_smooth(method = lm, se = FALSE) +
   labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 2') +
   stat_regline_equation(label.y = 0.36)
-print(Site2_soil_precip_plot)
 
 Site3_soil_precip_plot <- 
   ggplot(site3_soil_precip, aes(x = AverageMonthlyPrecip, y = AverageMonthlySmois30)) +
@@ -274,7 +268,6 @@ Site3_soil_precip_plot <-
   geom_smooth(method = lm, se = FALSE) +
   labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 3') +
   stat_regline_equation(label.y = 0.46)
-print(Site3_soil_precip_plot)
 
 Site4_soil_precip_plot <- 
   ggplot(site4_soil_precip, aes(x = AverageMonthlyPrecip, y = AverageMonthlySmois30)) +
@@ -282,11 +275,10 @@ Site4_soil_precip_plot <-
   geom_smooth(method = lm, se = FALSE) +
   labs(x = 'Average Monthly Precipitation (in.)', y = 'Average Monthly Soil Moisture (%)', title = 'Site 4') +
   stat_regline_equation(label.y = 0.48)
-print(Site4_soil_precip_plot)
 
 ```
 
-```{rAverage Monthly Soil Moisture and Precipitation Cowplot, echo = FALSE, fig.height = 7, fig.width = 8}
+```{r Average Monthly Soil Moisture and Precipitation Cowplot, echo = FALSE, fig.height = 7, fig.width = 8, message=FALSE, fig.cap = "Average monthly soil moisture and precipitation"}
 #Creating a cowplot to show all four sites at once
 all_soil_precip_plots <- plot_grid(Site1_soil_precip_plot, Site2_soil_precip_plot, Site3_soil_precip_plot, Site4_soil_precip_plot)
 print(all_soil_precip_plots)
@@ -399,4 +391,5 @@ Additional questions that we explored include the impact of elevation on soil mo
 \newpage
 
 # References
-<add references here if relevant, otherwise delete this section> 
+
+SRS Science Communications. “Forest Watershed Science Coweeta Hydrologic Laboratory.” USDA - U.S. Forest Service - Southern Research Station, https://www.srs.fs.usda.gov/coweeta/. 
