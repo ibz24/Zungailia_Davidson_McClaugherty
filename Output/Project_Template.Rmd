@@ -116,6 +116,13 @@ Other questions that were explored include:
 
 **Alternative Hypothesis B**: There is a relationship between soil moisture and precipitation at each of the four research sites. 
 
+
+
+
+
+
+Figure 1 below shows the soil moisture research sites in red and rain gauge locations in green within Coweeta Basin, North Carolina.
+
 ![Soil moisture research sites and rain gauge locations within Coweeta Basin, North Carolina.](../Data/precipandsmois.png)
 
 \newpage
@@ -153,7 +160,7 @@ The raw precipitation datasets for the three rain gauges had 5 variables (YEAR, 
 |AverageMonthly Smois30|Average monthly 30 cm soil moisture as percent water content|Unitless (measured as a percent)|Numeric|Site 1: minimum = 0.1521, mean = 0.2804, maximum = 0.3556, Site 2: minimum = 0.1046, mean = 0.2543, maximum = 0.3421, Site 3: minimum = 0.114, mean = 0.2729, maximum = 0.5753, Site 4: minimum = 0.1383, mean = 0.3156, maximum = 0.4922|
 |YearMonth|Date in format YYYY-MM-DD|-|Character|Minimum = 2000-01-21, Maximum = 2013-07-19|
 
-Table: Processed soil moisture data
+Table: Processed Soil Moisture Data
 
 \newpage
 
@@ -206,7 +213,7 @@ site4_plot <-
 ```
 
 
-```{r Average Monthly Soil Moisture Cowplot, echo = FALSE, fig.height = 7, fig.width = 8, fig.cap = "Average Monthly Soil Moisture", message=FALSE}
+```{r Average Monthly Soil Moisture Cowplot, echo = FALSE, fig.height = 7, fig.width = 8, fig.cap = "Average monthly soil moisture expressed as percent water content from 2000 to 2013 at each of the four research sites.", message=FALSE}
 #Cowplot to show all four sites at once
 allsiteplots <- plot_grid(site1_plot, site2_plot, site3_plot, site4_plot)
 print(allsiteplots)
@@ -238,14 +245,14 @@ RG31_Plot <-
 
 ```
 
-```{r Average Monthly Precipitation Cowplot, echo = FALSE, fig.height = 7, fig.width = 8, fig.cap = "Average Monthly Precipitation", message=FALSE}
+```{r Average Monthly Precipitation Cowplot, echo = FALSE, fig.height = 7, fig.width = 8, fig.cap = "Average monthly precipitation in inches from 2000 to 2013 at each of the three rain gauges.", message=FALSE}
 #Creating a cowplot to show all three rain gauges at once
 allprecipplots <- plot_grid(RG5_Plot, RG6_Plot, RG31_Plot)
 print(allprecipplots)
 
 ```
 
-```{r Average Monthly Soil Moisture and Precipitation Plots, echo = FALSE, message=FALSE}
+```{r Average Monthly Soil Moisture and Precipitation Plots, include = FALSE, message=FALSE}
 #Plotting the relationship between average monthly precipitation and average monthly soil moisture
 
 Site1_soil_precip_plot <- 
@@ -278,7 +285,7 @@ Site4_soil_precip_plot <-
 
 ```
 
-```{r Average Monthly Soil Moisture and Precipitation Cowplot, echo = FALSE, fig.height = 7, fig.width = 8, message=FALSE, fig.cap = "Average monthly soil moisture and precipitation"}
+```{r Average Monthly Soil Moisture and Precipitation Cowplot, echo = FALSE, fig.height = 7, fig.width = 8, message=FALSE, fig.cap = "Average monthly soil moisture and precipitation values from 2000 to 2013 at each of the four research sites"}
 #Creating a cowplot to show all four sites at once
 all_soil_precip_plots <- plot_grid(Site1_soil_precip_plot, Site2_soil_precip_plot, Site3_soil_precip_plot, Site4_soil_precip_plot)
 print(all_soil_precip_plots)
@@ -296,7 +303,7 @@ print(all_soil_precip_plots)
 
 In order to analyze potential changes in soil moisture in the upper 30 cm in Coweeta Basin from 2000 to 2013 at each of the four research sites, we completed a time series analysis (TSA) of monthly soil moisture for each site. TSA is used to track a response variable over time to understand whether an increasing or decreasing trend exists across a given time period. Our time series model tracked time in months as the explanatory variable and soil moisture expressed as percent water content as the response variable. TSA can be broken down into the following four components: (1) seasonal component, (2) trend component, (3) error or random component, and (4) cyclical component. For the purpose of our analysis, we focused on the seasonal and trend components in order to interpret general tendencies and repeating cycles, i.e. seasonality. After decomposing and plotting the time series, we compared the length of the gray bars to the right of each plot that explain the relative scale of each component. A longer bar corresponds to smaller variability of that component in the dataset whereas a smaller bar corresponds to larger variability of that component in the dataset. As a result, the trend component explained most of the variability in the dataset of sites 3 and 4 and the seasonality component explained most of the variability in the dataset of sites 1 and 2.
 
-```{r TSA, echo = FALSE, fig.height = 4}
+```{r TSA, echo = FALSE, fig.height = 4, message = FALSE}
 #Creating a time series for average monthly soil moisture at each site
 site1_ts <- ts(site1$AverageMonthlySmois30, start = c(2000, 1), frequency = 12)
 site2_ts <- ts(site2$AverageMonthlySmois30, start = c(2000,1), frequency = 12)
@@ -326,7 +333,7 @@ We also conducted a Seasonal Mann-Kendall trend analysis of monthly soil moistur
 
 A p-value less than 0.05 means we must reject the null hypothesis that states the data is stationary and conclude that there is a statistically significant trend in average monthly soil moisture. A p-value greater than 0.05 means we fail to reject the null hypothesis that states the data is stationary and conclude there is not a statistically significant trend in average monthly soil moisture. In reference to the p-values above, sites 1 and 2 have a p-value greater than 0.05 which is not statistically significant. However, sites 3 and 4 have a p-value less than 0.05 which means there is a statistically significant trend at these sites.
 
-```{r Seasonal Mann-Kendall, eval = FALSE}
+```{r Seasonal Mann-Kendall, include = FALSE}
 #Running the Seasonal Mann-Kendall trend analysis of average monthly soil moisture
 site1_trend <- Kendall::SeasonalMannKendall(site1_ts)
 summary(site1_trend)
@@ -364,7 +371,7 @@ Lastly, we utilized a simple linear regression to determine the strength of the 
 
 A p-value less than 0.05 means we must reject the null hypothesis that assumes there is no relationship or correlation between average monthly soil moisture and precipitation and conclude there is a statistically significant relationship between the two variables. A p-value greater than 0.05 means we fail to reject the null hypothesis and conclude there is not a statistically significant relationship between the two variables. In reference to the p-values above, sites 1 and 4 have a significant relationship between average monthly soil moisture and precipitation while sites 2 and 3 do not have a significant relationship between the two variables. Additionally, site 1 had the highest R-squared value of 0.08024 which indicates that approximately 8.02% of the variability in average monthly soil moisture is explained by average monthly precipitation, followed by site 4, site 2, and site 3 in decreasing value. Reviewing the slopes of the linear model for each site also emphasizes the strongest relationship between soil moisture and precipitation at sites 1 and 4 with soil moisture expected to increase approximately 4.79% for every 1 inch increase in precipitation at site 1 and approximately 5.11% for every 1 inch increase in precipitation at site 4.
 
-```{r Linear Regression, eval = FALSE}
+```{r Linear Regression, include = FALSE}
 #Running a linear model to determine the strength of the statistical relationship between precipitation and soil moisture
 lm_site1 <- lm(data = site1_soil_precip, formula = AverageMonthlySmois30 ~ AverageMonthlyPrecip)
 summary(lm_site1)

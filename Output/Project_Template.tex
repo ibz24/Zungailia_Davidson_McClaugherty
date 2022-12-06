@@ -36,46 +36,6 @@
 \makeatother
 \usepackage{xcolor}
 \usepackage[margin=2.54cm]{geometry}
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{248,248,248}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{#1}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -215,6 +175,9 @@ moisture and precipitation at each of the four research sites.
 \textbf{Alternative Hypothesis B}: There is a relationship between soil
 moisture and precipitation at each of the four research sites.
 
+Figure 1 below shows the soil moisture research sites in red and rain
+gauge locations in green within Coweeta Basin, North Carolina.
+
 \begin{figure}
 \centering
 \includegraphics{../Data/precipandsmois.png}
@@ -288,7 +251,7 @@ gauge data by month in order to mirror average monthly soil moisture.
   >{\centering\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1389}}
   >{\centering\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1389}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.3889}}@{}}
-\caption{Processed soil moisture data}\tabularnewline
+\caption{Processed Soil Moisture Data}\tabularnewline
 \toprule()
 \begin{minipage}[b]{\linewidth}\centering
 Variable
@@ -388,19 +351,22 @@ YearMonth & Date in format YYYY-MM-DD & - & Character & Minimum =
 \begin{figure}
 \centering
 \includegraphics{Project_Template_files/figure-latex/Average Monthly Soil Moisture Cowplot-1.pdf}
-\caption{Average Monthly Soil Moisture}
+\caption{Average monthly soil moisture expressed as percent water
+content from 2000 to 2013 at each of the four research sites.}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics{Project_Template_files/figure-latex/Average Monthly Precipitation Cowplot-1.pdf}
-\caption{Average Monthly Precipitation}
+\caption{Average monthly precipitation in inches from 2000 to 2013 at
+each of the three rain gauges.}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics{Project_Template_files/figure-latex/Average Monthly Soil Moisture and Precipitation Cowplot-1.pdf}
-\caption{Average monthly soil moisture and precipitation}
+\caption{Average monthly soil moisture and precipitation values from
+2000 to 2013 at each of the four research sites}
 \end{figure}
 
 \newpage
@@ -482,23 +448,6 @@ statistically significant. However, sites 3 and 4 have a p-value less
 than 0.05 which means there is a statistically significant trend at
 these sites.
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\#Running the Seasonal Mann{-}Kendall trend analysis of average monthly soil moisture}
-\NormalTok{site1\_trend }\OtherTok{\textless{}{-}}\NormalTok{ Kendall}\SpecialCharTok{::}\FunctionTok{SeasonalMannKendall}\NormalTok{(site1\_ts)}
-\FunctionTok{summary}\NormalTok{(site1\_trend)}
-
-\NormalTok{site2\_trend }\OtherTok{\textless{}{-}}\NormalTok{ Kendall}\SpecialCharTok{::}\FunctionTok{SeasonalMannKendall}\NormalTok{(site2\_ts)}
-\FunctionTok{summary}\NormalTok{(site2\_trend)}
-
-\NormalTok{site3\_trend }\OtherTok{\textless{}{-}}\NormalTok{ Kendall}\SpecialCharTok{::}\FunctionTok{SeasonalMannKendall}\NormalTok{(site3\_ts)}
-\FunctionTok{summary}\NormalTok{(site3\_trend)}
-
-\NormalTok{site4\_trend }\OtherTok{\textless{}{-}}\NormalTok{ Kendall}\SpecialCharTok{::}\FunctionTok{SeasonalMannKendall}\NormalTok{(site4\_ts)}
-\FunctionTok{summary}\NormalTok{(site4\_trend)}
-\end{Highlighting}
-\end{Shaded}
-
 \hypertarget{question-4-is-there-a-relationship-between-soil-moisture-and-precipitation-that-can-be-observed-at-these-four-research-sites}{%
 \subsection{Question 4: Is there a relationship between soil moisture
 and precipitation that can be observed at these four research
@@ -579,23 +528,6 @@ precipitation at sites 1 and 4 with soil moisture expected to increase
 approximately 4.79\% for every 1 inch increase in precipitation at site
 1 and approximately 5.11\% for every 1 inch increase in precipitation at
 site 4.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\#Running a linear model to determine the strength of the statistical relationship between precipitation and soil moisture}
-\NormalTok{lm\_site1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\AttributeTok{data =}\NormalTok{ site1\_soil\_precip, }\AttributeTok{formula =}\NormalTok{ AverageMonthlySmois30 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ AverageMonthlyPrecip)}
-\FunctionTok{summary}\NormalTok{(lm\_site1)}
-
-\NormalTok{lm\_site2 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\AttributeTok{data =}\NormalTok{ site2\_soil\_precip, }\AttributeTok{formula =}\NormalTok{ AverageMonthlySmois30 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ AverageMonthlyPrecip)}
-\FunctionTok{summary}\NormalTok{(lm\_site2)}
-
-\NormalTok{lm\_site3 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\AttributeTok{data =}\NormalTok{ site3\_soil\_precip, }\AttributeTok{formula =}\NormalTok{ AverageMonthlySmois30 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ AverageMonthlyPrecip)}
-\FunctionTok{summary}\NormalTok{(lm\_site3)}
-
-\NormalTok{lm\_site4 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\AttributeTok{data =}\NormalTok{ site4\_soil\_precip, }\AttributeTok{formula =}\NormalTok{ AverageMonthlySmois30 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ AverageMonthlyPrecip)}
-\FunctionTok{summary}\NormalTok{(lm\_site4)}
-\end{Highlighting}
-\end{Shaded}
 
 \newpage
 
