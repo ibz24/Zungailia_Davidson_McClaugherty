@@ -140,7 +140,7 @@ We generated four new datasets combining the monthly average precipitation with 
 The initial datasets required a significant amount of wrangling before they could be used for analysis. The raw soil moisture data had 21 variables/columns, so the first step was to select the columns of interest (site, Year, YearDay, smois30). A new ‘Date’ column was created (format = "%Y-%j") and the data was filtered to exclude the smois30 values less than 0 and greater than 1 since soil moisture was expressed as percent water content. All NAs were omitted from the data and it was then split into 4 separate dataframes, one for each research site. The smois30 (cm) values were averaged per month for each site prior to analysis. 
 
 
-The raw precipitation datasets for the three rain gauges had 5 variables (YEAR, MONTH, DAY, RRG*gauge ID number*). A new ‘Date’ column was created (format = "%Y-%m-%d"), and the data was wrangled to only include the years 2000 to 2013 that we had  soil moisture data for. All NAs were omitted from the data. The final step was to average the rain gauge data by month in order to mirror average monthly soil moisture. 
+The raw precipitation datasets for the three rain gauges had 5 variables (YEAR, MONTH, DAY, RRG [*gauge ID number*]). A new ‘Date’ column was created (format = "%Y-%m-%d"), and the data was wrangled to only include the years 2000 to 2013 that we had  soil moisture data for. All NAs were omitted from the data. The final step was to average the rain gauge data by month in order to mirror average monthly soil moisture. 
 
 
 \newpage
