@@ -143,7 +143,9 @@ determine which rain gauge was located closest to each site. The
 precipitation data from Rain Gauge 6 (RG06) was used for Sites 1 and 4,
 data from Rain Gauge 31 (RG31) was used for Site 2, and data from Rain
 Gauge 5 (RG05) was used for Site 3. All of the sites are within 0.8 km
-of their paired rain gauge.
+of their paired rain gauge. Figure 1 below shows the soil moisture
+research sites in red and rain gauge locations in green within Coweeta
+Basin, North Carolina.
 
 Our main research question: \emph{Has soil moisture in the upper 30 cm
 (of soil) increased or decreased in Coweeta Basin from 2000 to 2013 at
@@ -174,9 +176,6 @@ moisture and precipitation at each of the four research sites.
 
 \textbf{Alternative Hypothesis B}: There is a relationship between soil
 moisture and precipitation at each of the four research sites.
-
-Figure 1 below shows the soil moisture research sites in red and rain
-gauge locations in green within Coweeta Basin, North Carolina.
 
 \begin{figure}
 \centering
@@ -348,12 +347,28 @@ YearMonth & Date in format YYYY-MM-DD & - & Character & Minimum =
 \hypertarget{exploratory-analysis}{%
 \section{Exploratory Analysis}\label{exploratory-analysis}}
 
+Figure 2 shows the trends in average monthly soil moisture from the
+years 2000 to 2013 at all 4 monitoring sites in the Coweeta Basin. Sites
+1 and 2 show a very slight decrease in soil moisture over time. Site 3
+shows a more significant decrease in soil moisture over time, while site
+4 is the only site that shows an increasing trend in soil moisture from
+2000 to 2013.
+
 \begin{figure}
 \centering
 \includegraphics{Project_Template_files/figure-latex/Average Monthly Soil Moisture Cowplot-1.pdf}
 \caption{Average monthly soil moisture expressed as percent water
 content from 2000 to 2013 at each of the four research sites.}
 \end{figure}
+
+\newpage
+
+Figure 3 shows the trends in average monthly precipitation at the three
+rain gages closest to our sites in the Coweeta Basin. Rain Gauges 5, 6,
+and 31 all show a very slight increase in precipitation (inches)
+throughout the 2000 to 2013 time period. Rain Gauge 31 had the greatest
+increase in average monthly precipitation, as interpreted by the slope
+of its trend line.
 
 \begin{figure}
 \centering
@@ -362,11 +377,20 @@ content from 2000 to 2013 at each of the four research sites.}
 each of the three rain gauges.}
 \end{figure}
 
+\newpage
+
+Figure 4 shows the relationship between average monthly soil moisture
+and average monthly precipitation in the Coweeta Basin from 2000 to
+2013. The slopes of the trend lines suggest a positive relationship at
+all 4 sites, with Sites 1, 2, and 4 appearing to have the strongest
+relationship between average monthly soil moisture and average monthly
+precipitation.
+
 \begin{figure}
 \centering
 \includegraphics{Project_Template_files/figure-latex/Average Monthly Soil Moisture and Precipitation Cowplot-1.pdf}
 \caption{Average monthly soil moisture and precipitation values from
-2000 to 2013 at each of the four research sites}
+2000 to 2013 at each of the four research sites.}
 \end{figure}
 
 \newpage
@@ -432,9 +456,9 @@ are as follows:
 \item
   \emph{Site 2}: p-value = 0.35739
 \item
-  \emph{Site 3}: p-value = 3.2565e-12
+  \emph{Site 3}: p-value = 3.2565 x 10\textsuperscript{12}
 \item
-  \emph{Site 4}: p-value = 1.0157e-5
+  \emph{Site 4}: p-value = 1.0157 x 10\textsuperscript{-5}
 \end{itemize}
 
 A p-value less than 0.05 means we must reject the null hypothesis that
@@ -446,7 +470,9 @@ trend in average monthly soil moisture. In reference to the p-values
 above, sites 1 and 2 have a p-value greater than 0.05 which is not
 statistically significant. However, sites 3 and 4 have a p-value less
 than 0.05 which means there is a statistically significant trend at
-these sites.
+these sites. These trends can also be seen in Figure 2 above which
+illustrates steeper slopes of average monthly soil moisture over time at
+sites 3 and 4.
 
 \hypertarget{question-4-is-there-a-relationship-between-soil-moisture-and-precipitation-that-can-be-observed-at-these-four-research-sites}{%
 \subsection{Question 4: Is there a relationship between soil moisture
@@ -495,7 +521,7 @@ follows:
   \item
     p-value = 0.9118
   \item
-    Multiple R-squared = 7.783e-5
+    Multiple R-squared = 7.783 x 10\textsuperscript{-5}
   \end{itemize}
 \item
   \emph{Site 4}:
@@ -518,16 +544,18 @@ is not a statistically significant relationship between the two
 variables. In reference to the p-values above, sites 1 and 4 have a
 significant relationship between average monthly soil moisture and
 precipitation while sites 2 and 3 do not have a significant relationship
-between the two variables. Additionally, site 1 had the highest
-R-squared value of 0.08024 which indicates that approximately 8.02\% of
-the variability in average monthly soil moisture is explained by average
-monthly precipitation, followed by site 4, site 2, and site 3 in
-decreasing value. Reviewing the slopes of the linear model for each site
-also emphasizes the strongest relationship between soil moisture and
-precipitation at sites 1 and 4 with soil moisture expected to increase
-approximately 4.79\% for every 1 inch increase in precipitation at site
-1 and approximately 5.11\% for every 1 inch increase in precipitation at
-site 4.
+between the two variables. This can also be seen in Figure 4 above which
+illustrates a steeper slope and therefore stronger relationship between
+average monthly soil moisture and precipitation at sites 1 and 4.
+Additionally, site 1 had the highest R-squared value of 0.08024 which
+indicates that approximately 8.02\% of the variability in average
+monthly soil moisture is explained by average monthly precipitation,
+followed by site 4, site 2, and site 3 in decreasing value. Reviewing
+the slopes of the linear model for each site also emphasizes the
+strongest relationship between soil moisture and precipitation at sites
+1 and 4 with soil moisture expected to increase approximately 4.79\% for
+every 1 inch increase in precipitation at site 1 and approximately
+5.11\% for every 1 inch increase in precipitation at site 4.
 
 \newpage
 
@@ -587,8 +615,13 @@ between average monthly soil moisture and precipitation.
 \hypertarget{references}{%
 \section{References}\label{references}}
 
+EDI Data Portal. ``Continuously measured forest soil moisture at four
+sites in the Coweeta Basin.'' Coweeta Long Term Ecological Research
+Site,
+\url{https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-cwt.1040.19}
+
 SRS Science Communications. ``Forest Watershed Science Coweeta
 Hydrologic Laboratory.'' USDA - U.S. Forest Service - Southern Research
-Station, \url{https://www.srs.fs.usda.gov/coweeta/}.
+Station, \url{https://www.srs.fs.usda.gov/coweeta/}
 
 \end{document}
